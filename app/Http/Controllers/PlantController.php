@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Plant\StorePlantRequest;
 use App\Models\Plant;
 use Illuminate\Http\Request;
 
@@ -34,9 +35,16 @@ class PlantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePlantRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $plant = Plant::create($validated);
+
+        return response()->json([
+            'message' => 'Pianta creata con successo',
+            'data' => $plant
+        ], 200);
     }
 
     /**
