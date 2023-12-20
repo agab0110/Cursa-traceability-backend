@@ -11,6 +11,7 @@ class PlantController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -32,7 +33,7 @@ class PlantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Plant\StorePlantRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StorePlantRequest $request)
@@ -50,7 +51,8 @@ class PlantController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Illuminate\Http\Request $request
+     * @param  App\Models\Plant $plant
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Plant $plant)
