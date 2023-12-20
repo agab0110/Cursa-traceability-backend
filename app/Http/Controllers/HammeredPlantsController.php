@@ -47,7 +47,18 @@ class HammeredPlantsController extends Controller
      */
     public function show($id)
     {
-        //
+        $plant = Plant::find($id);
+
+        if (!$plant) {
+            return response()->json([
+                'message' => 'Albero non trovato'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Albero trovato',
+            'data' => $plant
+        ], 200);
     }
 
     /**
