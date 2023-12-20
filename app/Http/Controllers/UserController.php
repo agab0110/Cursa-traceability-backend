@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\UpdatetUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function update(UpdatetUserRequest $request, User $user) {
+    public function update(UpdateUserRequest $request, User $user) {
         $validated = $request->validated();
 
         $user->update($validated);
