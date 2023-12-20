@@ -11,6 +11,7 @@ class HammeredPlantsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -65,7 +66,7 @@ class HammeredPlantsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
