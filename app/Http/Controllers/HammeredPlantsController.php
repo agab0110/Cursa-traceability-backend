@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plant;
 use Illuminate\Http\Request;
 
 class HammeredPlantsController extends Controller
@@ -11,9 +12,20 @@ class HammeredPlantsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $plants = Plant::where('hammered', $request->query('hammered'))->get();
+
+        if (!$plants) {
+            return response()->json([
+                'message' => 'Alberi non trovati',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Alberi trovati',
+            'data' => $plants
+        ], 200);
     }
 
     /**
