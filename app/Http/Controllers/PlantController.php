@@ -53,9 +53,18 @@ class PlantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, Plant $plant)
     {
-        //
+        if (!$plant) {
+            return response()->json([
+                'message' => 'Pianta non trovata'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Pianta trovata',
+            'data' => $plant
+        ], 200);
     }
 
     /**
