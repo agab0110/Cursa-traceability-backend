@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest;
 use App\Models\Plant;
 use Illuminate\Http\Request;
 
@@ -68,9 +69,24 @@ class HammeredPlantsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateHammeredPlantRequest $request, $id)
     {
-        //
+        $plant = Plant::find($id);
+
+        if (!$plant) {
+            return response()->json([
+                'message' => 'Albero non trovato',
+            ], 404);
+        }
+
+        $validated = $request->validated();
+
+        $plant->update($validated);
+
+        return response()->json([
+            'message' => 'Albero aggiornato con successo',
+            'data' => $plant,
+        ], 200);
     }
 
     /**
