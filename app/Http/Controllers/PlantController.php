@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plant;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
@@ -11,9 +12,20 @@ class PlantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $plants = Plant::where('hammered', $request->query('hammered'))->get();
+
+        if (!$plants) {
+            return response()->json([
+                'message' => 'Piante non trovate',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Piante trovate',
+            'data' => $plants
+        ], 200);
     }
 
     /**
