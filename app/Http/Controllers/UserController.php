@@ -18,4 +18,12 @@ class UserController extends Controller
             'data' => $user,
         ], 200);
     }
+
+    public function logout(Request $request) {
+        $request->user()->token()->revoke();
+
+         return response()->json([
+             'message' => 'Logout effettuato con successo'
+         ], 200);
+     }
 }
