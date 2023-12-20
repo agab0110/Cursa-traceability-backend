@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -24,5 +26,29 @@ class AuthController extends Controller
             'access_token' => $user->createToken('api_token')->plainTextToken,
             'token_type' => 'Bearer'
         ]);
+    }
+
+    public function register(RegisterRequest $request) {
+        $validated = $request->validated();
+
+        $temporaryPassword = Str::random(8);
+
+        $user = new User();
+        $user->name = $request->input("name");
+        $user->surname = $request->input("surname");
+        $user->birth_date = $request->input("birth_date");
+        $user->cf = $request->input("cf");
+        $user->email = $request->input("email");
+        $user->role = $request->input("role");
+        $user->password = $temporaryPassword;
+
+        $user->save();
+
+        return response()->json([
+            'data' => $user,
+            'psw' => $temporaryPassword,
+            'access_token' => $user->createToken('api_token')->plainTextToken,
+            'token_type' => 'Bearer'
+        ], 200);
     }
 }
