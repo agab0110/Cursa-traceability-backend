@@ -40,7 +40,7 @@ class AuthController extends Controller
         $user->cf = $request->input("cf");
         $user->email = $request->input("email");
         $user->role = $request->input("role");
-        $user->password = bcrypt($temporaryPassword);
+        $user->password = $temporaryPassword;
 
         $user->save();
 
