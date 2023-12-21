@@ -15,8 +15,14 @@ class ForestController extends Controller
     {
         $forests = Forest::all();
 
+        if (!$forests) {
+            return response()->json([
+                'message' => 'Boschi non trovati',
+            ], 404);
+        }
+
         return response()->json([
-            'message' => 'Pianta creata con successo',
+            'message' => 'Boschi trovati',
             'data' => $forests
         ], 200);
     }
@@ -31,7 +37,7 @@ class ForestController extends Controller
         $forest = Forest::create($validated);
 
         return response()->json([
-            'message' => 'Pianta creata con successo',
+            'message' => 'Bosco creato con successo',
             'data' => $forest
         ], 200);
     }
