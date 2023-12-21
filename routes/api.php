@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ForestController;
 use App\Http\Controllers\HammeredPlantsController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\UserController;
@@ -34,3 +35,4 @@ Route::prefix('auth')->group(function () {
 
 Route::apiResource('plants', PlantController::class);
 Route::apiResource('hammered-plants', HammeredPlantsController::class);
+Route::apiResource('forests', ForestController::class);
