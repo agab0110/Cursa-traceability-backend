@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->double('lat');
             $table->double('lng');
-            $table->string('woods');
             $table->integer('particle')->nullable();
             $table->string('woody_species');
             $table->double('diameter');

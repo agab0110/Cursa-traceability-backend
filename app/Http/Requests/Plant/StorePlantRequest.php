@@ -26,7 +26,6 @@ class StorePlantRequest extends FormRequest
         return [
             'lat' => 'sometimes|required',
             'lng' => 'sometimes|required',
-            'woods' => 'required|string|max:255',
             'particle' => 'sometimes|nullable|numeric',
             'woody_species' => 'required|string|max:255',
             'diameter' => 'required|numeric',
@@ -35,7 +34,8 @@ class StorePlantRequest extends FormRequest
             'propagation' => 'required|string|max:255',
             'georeferenzial_date' => 'required',
             'notes' => 'nullable|sometimes|string|max:255',
-            'hammered' => 'sometimes|required|boolean'
+            'hammered' => 'sometimes|required|boolean',
+            'forest_id' => 'required'
         ];
     }
 }

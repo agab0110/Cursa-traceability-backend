@@ -13,7 +13,6 @@ class Plant extends Model
     protected $fillable = [     // TODO: aggiungere tag NFC
         'lat',
         'lng',
-        'woods',
         'particle',
         'woody_species',
         'diameter',
@@ -22,7 +21,8 @@ class Plant extends Model
         'propagation',
         'georeferenzial_date',
         'notes',
-        'hammered'
+        'hammered',
+        'forest_id'
     ];
 
     protected $hidden = [
