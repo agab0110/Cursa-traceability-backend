@@ -45,9 +45,18 @@ class ForestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, Forest $forest)
     {
-        //
+        if (!$forest) {
+            return response()->json([
+                'message' => 'Bosco non trovato'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Bosco trovato',
+            'data' => $forest
+        ], 200);
     }
 
     /**
