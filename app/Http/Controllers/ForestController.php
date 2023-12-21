@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Forest\StoreForestRequest;
+use App\Models\Forest;
 use Illuminate\Http\Request;
 
 class ForestController extends Controller
@@ -17,9 +19,16 @@ class ForestController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreForestRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $forest = Forest::create($validated);
+
+        return response()->json([
+            'message' => 'Pianta creata con successo',
+            'data' => $forest
+        ], 200);
     }
 
     /**
