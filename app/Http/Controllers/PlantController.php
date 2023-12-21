@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Plant\StorePlantRequest;
+use App\Models\Forest;
 use App\Models\Plant;
 use Illuminate\Http\Request;
 
@@ -40,7 +41,12 @@ class PlantController extends Controller
     {
         $validated = $request->validated();
 
+        $forest = Forest::find($request['forest_id']);
+
         $plant = Plant::create($validated);
+
+        $plant->forest()->associate($forest);
+        $plant->save();
 
         return response()->json([
             'message' => 'Pianta creata con successo',
