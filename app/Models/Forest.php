@@ -16,6 +16,11 @@ class Forest extends Model
         'region'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function plants(): HasMany {
         return $this->hasMany(Plant::class);
     }
