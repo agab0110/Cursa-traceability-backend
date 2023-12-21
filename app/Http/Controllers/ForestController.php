@@ -13,7 +13,12 @@ class ForestController extends Controller
      */
     public function index()
     {
-        //
+        $forests = Forest::all();
+
+        return response()->json([
+            'message' => 'Pianta creata con successo',
+            'data' => $forests
+        ], 200);
     }
 
     /**
