@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Forest extends Model
 {
@@ -14,4 +15,8 @@ class Forest extends Model
         'city',
         'region'
     ];
+
+    public function plants(): HasMany {
+        return $this->hasMany(Plant::class);
+    }
 }
