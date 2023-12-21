@@ -31,7 +31,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request) {
         $validated = $request->validated();
 
-        $temporaryPassword = Str::random(8);
+        $temporaryPassword = 'password';
 
         $user = new User();
         $user->name = $request->input("name");
@@ -40,7 +40,7 @@ class AuthController extends Controller
         $user->cf = $request->input("cf");
         $user->email = $request->input("email");
         $user->role = $request->input("role");
-        $user->password = $temporaryPassword;
+        $user->password = bcrypt($temporaryPassword);
 
         $user->save();
 
