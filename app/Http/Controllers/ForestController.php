@@ -13,7 +13,7 @@ class ForestController extends Controller
      */
     public function index()
     {
-        $forests = Forest::all();
+        $forests = Forest::paginate(15);
 
         if (!$forests) {
             return response()->json([
