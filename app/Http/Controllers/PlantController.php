@@ -17,7 +17,7 @@ class PlantController extends Controller
      */
     public function index(Request $request)
     {
-        $plants = Plant::where('hammered', $request->query('hammered'))->get();
+        $plants = Plant::where('hammered', $request->query('hammered'))->paginate(12);
 
         if (!$plants) {
             return response()->json([
