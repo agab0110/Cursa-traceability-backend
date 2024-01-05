@@ -35,7 +35,7 @@ class StorePlantRequest extends FormRequest
             'georeferenzial_date' => 'required',
             'notes' => 'nullable|sometimes|string|max:255',
             'hammered' => 'sometimes|required|boolean',
-            'forest_id' => 'required'
+            'forest_id' => 'required|numeric'
         ];
     }
 }
