@@ -97,4 +97,19 @@ class PlantController extends Controller
     {
         //
     }
+
+    public function getPlantByForestId(Request $request) {      // manca la paginazione
+        $plants = Plant::where('forest_id', $request->query('forest_id'))->get();
+
+        if (!$plants) {
+            return response()->json([
+                'message' => 'Piante non trovate',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Piante trovate',
+            'data' => $plants
+        ], 200);
+    }
 }
