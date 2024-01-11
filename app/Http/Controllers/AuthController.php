@@ -6,7 +6,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -49,6 +49,14 @@ class AuthController extends Controller
             'psw' => $temporaryPassword,
             'access_token' => $user->createToken('api_token')->plainTextToken,
             'token_type' => 'Bearer'
+        ], 200);
+    }
+
+    public function logout(Request $request) {
+        Auth::logout();
+
+        return response()->json([
+            'message' => 'Logout effettuato con successo'
         ], 200);
     }
 }
