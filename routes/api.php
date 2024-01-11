@@ -36,3 +36,4 @@ Route::prefix('auth')->group(function () {
 Route::apiResource('plants', PlantController::class);
 Route::apiResource('hammered-plants', HammeredPlantsController::class);
 Route::apiResource('forests', ForestController::class);
+Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
