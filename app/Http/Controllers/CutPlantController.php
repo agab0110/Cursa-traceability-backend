@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Cut\UpdateCutPlantRequest;
+use App\Models\Plant;
 use Illuminate\Http\Request;
 
 class CutPlantController extends Controller
@@ -33,9 +35,24 @@ class CutPlantController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCutPlantRequest $request, $id)
     {
-        //
+        $plant = Plant::find($id);
+
+        if (!$plant) {
+            return response()->json([
+                'message' => 'Albero non trovato',
+            ], 404);
+        }
+
+        $validated = $request->validated();
+
+        $plant->update($validated);
+
+        return response()->json([
+            'message' => 'Albero aggiornato con successo',
+            'data' => $plant,
+        ], 200);
     }
 
     /**
