@@ -34,8 +34,9 @@ Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
 });
 
+// queste vanno inserite nel middlware auth:sancutm
 Route::apiResource('plants', PlantController::class);
 Route::apiResource('hammered-plants', HammeredPlantsController::class);
-Route::apiResource('cut-plant', CutPlantController::class);
+Route::apiResource('cut-plants', CutPlantController::class);
 Route::apiResource('forests', ForestController::class);
 Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
