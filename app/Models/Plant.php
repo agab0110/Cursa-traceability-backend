@@ -22,6 +22,8 @@ class Plant extends Model
         'georeferenzial_date',
         'notes',
         'hammered',
+        'cutting',
+        'cutted',
         'forest_id'
     ];
 
@@ -32,7 +34,9 @@ class Plant extends Model
 
     protected $casts = [
         'georeferenzial_date' => 'datetime',
-        'hammered' => 'boolean'
+        'hammered' => 'boolean',
+        'cutting' => 'boolean',
+        'cutted' => 'boolean',
     ];
 
     public function forest(): BelongsTo {
