@@ -101,8 +101,18 @@ class PlantController extends Controller
         //
     }
 
+    /**
+     * Get a list of elements from storage given a forest id
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function getPlantByForestId(Request $request) {      // manca la paginazione
-        $plants = Plant::where('forest_id', $request->query('forest_id'))->where('hammered', $request->query('hammered'))->get();
+        $plants = Plant::where('forest_id', $request->query('forest_id'))
+                        ->where('hammered', $request->query('hammered'))
+                        ->where('cutting', 0)
+                        ->where('cutted', 0)
+                        ->get();
 
         if (!$plants) {
             return response()->json([
