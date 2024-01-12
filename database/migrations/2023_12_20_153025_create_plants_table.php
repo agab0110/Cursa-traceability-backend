@@ -26,6 +26,8 @@ return new class extends Migration
             $table->date('georeferenzial_date');
             $table->string('notes')->nullable();
             $table->boolean('hammered')->default(false);
+            $table->boolean('cutting')->default(false);
+            $table->boolean('cutted')->default(false);
             $table->foreignId('forest_id')->constrained()->nullable()->cascadeOnDelete();
             $table->timestamps();
         });
