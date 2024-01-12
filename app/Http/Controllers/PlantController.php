@@ -99,7 +99,7 @@ class PlantController extends Controller
     }
 
     public function getPlantByForestId(Request $request) {      // manca la paginazione
-        $plants = Plant::where('forest_id', $request->query('forest_id'))->get();
+        $plants = Plant::where('forest_id', $request->query('forest_id'))->where('hammered', $request->query('hammered'))->get();
 
         if (!$plants) {
             return response()->json([
