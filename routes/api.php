@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CutPlantController;
 use App\Http\Controllers\ForestController;
 use App\Http\Controllers\HammeredPlantsController;
 use App\Http\Controllers\PlantController;
@@ -35,5 +36,6 @@ Route::prefix('auth')->group(function () {
 
 Route::apiResource('plants', PlantController::class);
 Route::apiResource('hammered-plants', HammeredPlantsController::class);
+Route::apiResource('cut-plant', CutPlantController::class);
 Route::apiResource('forests', ForestController::class);
 Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
