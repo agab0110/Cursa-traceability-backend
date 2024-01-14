@@ -29,7 +29,6 @@ return new class extends Migration
             $table->boolean('cutting')->default(false);
             $table->boolean('cutted')->default(false);
             $table->foreignId('forest_id')->constrained()->nullable()->cascadeOnDelete();
-            $table->foreignId('lot_id')->constrained()->nullable();
             $table->timestamps();
         });
     }
