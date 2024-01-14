@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Log extends Model
 {
     protected $fillable = [
-        'plant_id',
+        'lot_id',
         'lenght',
         'median',
         'cut_date'
