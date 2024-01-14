@@ -43,4 +43,6 @@ Route::apiResource('cut-plants', CutPlantController::class);
 Route::apiResource('forests', ForestController::class);
 Route::apiResource('lots', LotController::class);
 Route::apiResource('logs', LogController::class);
+Route::get('cutting-lots', [LotController::class, 'getCuttingFilteredList']);
+Route::get('cutted-lots', [LotController::class, 'getCuttedFilteredList']);
 Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
