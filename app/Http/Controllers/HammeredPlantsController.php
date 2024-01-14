@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HammeredPlant\StoreHammeredPlantRequest;
 use App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest;
+use App\Models\Forest;
 use App\Models\Plant;
 use Illuminate\Http\Request;
 
@@ -39,9 +41,21 @@ class HammeredPlantsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreHammeredPlantRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $forest = Forest::find($request['forest_id']);
+
+        $plant = Plant::create($validated);
+
+        $plant->forest()->associate($forest);
+        $plant->save();
+
+        return response()->json([
+            'message' => 'Pianta creata con successo',
+            'data' => $plant
+        ], 200);
     }
 
     /**
