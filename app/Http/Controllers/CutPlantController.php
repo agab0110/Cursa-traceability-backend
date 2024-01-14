@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Cut\UpdateCutPlantRequest;
+use App\Models\Lot;
 use App\Models\Plant;
 use Illuminate\Http\Request;
 
@@ -48,6 +49,14 @@ class CutPlantController extends Controller
         $validated = $request->validated();
 
         $plant->update($validated);
+
+        if ($request['cutting'] == true && $request['cutted'] == false) {
+            $lot = Lot::create([
+                'plant_id' => $plant->id,
+            ]);
+            
+            $lot->save();
+        }
 
         return response()->json([
             'message' => 'Albero aggiornato con successo',
