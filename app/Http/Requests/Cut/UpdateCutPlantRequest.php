@@ -24,6 +24,7 @@ class UpdateCutPlantRequest extends FormRequest
         return [
             'cutting' => 'sometimes|required|boolean',
             'cutted' => 'sometimes|required|boolean',
+            'cutting_date' => 'sometimes',
         ];
     }
 }
