@@ -24,7 +24,8 @@ class Plant extends Model
         'hammered',
         'cutting',
         'cutted',
-        'forest_id'
+        'forest_id',
+        'lot_id'
     ];
 
     protected $hidden = [
@@ -42,4 +43,10 @@ class Plant extends Model
     public function forest(): BelongsTo {
         return $this->belongsTo(Forest::class);
     }
+
+    public function lot(): BelongsTo {
+        return $this->belongsTo(Lot::class);
+    }
 }
+
+// TODO: Provare a fare un filto per bosco sui lotti
