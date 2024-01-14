@@ -61,9 +61,16 @@ class LogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateLogRequest $request, Log $log)
     {
-        //
+        $validated = $request->validated();
+
+        $log->update($validated);
+
+        return response()->json([
+            'message' => 'Toppo aggiornato con successo',
+            'data' => $log
+        ], 200);
     }
 
     /**
