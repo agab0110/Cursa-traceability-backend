@@ -32,7 +32,7 @@ class StorePlantRequest extends FormRequest
             'height' => 'sometimes|nullable|numeric',
             'cultivar' => 'sometimes|nullable|string|max:255',
             'propagation' => 'required|string|max:255',
-            'hammered_date' => 'required',
+            'georeferenzial_date' => 'required',
             'notes' => 'nullable|sometimes|string|max:255',
             'hammered' => 'sometimes|required|boolean',
             'forest_id' => 'required|numeric'
