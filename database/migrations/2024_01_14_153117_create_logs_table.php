@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lot_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('lot_id')->constrained()->nullable()->cascadeOnDelete();
             $table->double('lenght');
             $table->double('median');
             $table->date('cut_date');
