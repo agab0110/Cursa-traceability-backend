@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Plant extends Model
 {
@@ -52,6 +53,10 @@ class Plant extends Model
 
     public function lot(): BelongsTo {
         return $this->belongsTo(Lot::class);
+    }
+
+    public function logs(): HasMany {
+        return $this->hasMany(Log::class);
     }
 }
 
