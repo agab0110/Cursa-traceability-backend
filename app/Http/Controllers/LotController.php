@@ -12,13 +12,18 @@ class LotController extends Controller
      */
     public function index(Request $request)
     {
-        $lots = Lot::all()->paginate(13);
+        $lots = Lot::paginate(13);
 
         if (!$lots) {
             return response()->json([
                 'message' => 'Lotti non trovati',
             ], 404);
         }
+
+        return response()->json([
+            'message' => 'Lotti trovati',
+            'data' => $lots
+        ], 200);
     }
 
     /**
