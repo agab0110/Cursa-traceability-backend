@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Log\StoreLogRequest;
 use App\Http\Requests\Log\UpdateLogRequest;
 use App\Models\Log;
-use App\Models\Plant;
+use App\Models\Lot;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
@@ -15,7 +15,7 @@ class LogController extends Controller
      */
     public function index(Request $request)
     {
-        $logs = Log::where('plant_id', $request->query('plant_id'))
+        $logs = Log::where('lot_id', $request->query('lot_id'))
                         ->paginate(13);
 
         if (!$logs) {
@@ -37,11 +37,11 @@ class LogController extends Controller
     {
         $validated = $request->validated();
 
-        $plant = Plant::find($request['plant_id']);
+        $lot = Lot::find($request['lot_id']);
 
         $log = Log::create($validated);
 
-        $log->plant()->associate($plant);
+        $log->plant()->associate($lot);
         $log->save();
 
         return response()->json([
