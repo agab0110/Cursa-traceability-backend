@@ -24,9 +24,10 @@ class UpdateHammeredPlantRequest extends FormRequest
     public function rules()
     {
         return [
-            'hammered' => 'sometimes|required|boolean',
-            'diameter' => 'sometimes|required|numeric',
-            'height' => 'sometimes|nullable|required|numeric',
+            'hammered_date' => 'required',
+            'hammered' => 'sometimes|boolean',
+            'diameter' => 'sometimes|numeric',
+            'height' => 'sometimes|nullable|numeric',
         ];
     }
 }
