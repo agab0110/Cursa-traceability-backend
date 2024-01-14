@@ -38,6 +38,9 @@ class Plant extends Model
 
     protected $casts = [
         'georeferenzial_date' => 'datetime',
+        'hammered_date' => 'datetime',
+        'cutting_date' => 'datetime',
+        'cutted_date' => 'datetime',
         'hammered' => 'boolean',
         'cutting' => 'boolean',
         'cutted' => 'boolean',
