@@ -24,6 +24,9 @@ return new class extends Migration
             $table->string('cultivar')->nullable();
             $table->string('propagation')->nullable();
             $table->date('georeferenzial_date');
+            $table->date('hammered_date');
+            $table->date('cutting_date')->default(null);
+            $table->date('cutted_date')->default(null);
             $table->string('notes')->nullable();
             $table->boolean('hammered')->default(false);
             $table->boolean('cutting')->default(false);
