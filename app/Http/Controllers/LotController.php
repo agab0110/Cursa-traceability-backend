@@ -37,9 +37,20 @@ class LotController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $lot = Lot::find($id);
+
+        if (!$lot) {
+            return response()->json([
+                'message' => 'Lotto non trovato'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Lotto trovato',
+            'data' => $lot
+        ], 200);
     }
 
     /**
