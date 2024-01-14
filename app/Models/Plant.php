@@ -54,10 +54,6 @@ class Plant extends Model
     public function lot(): BelongsTo {
         return $this->belongsTo(Lot::class);
     }
-
-    public function logs(): HasMany {
-        return $this->hasMany(Log::class);
-    }
 }
 
 // TODO: Provare a fare un filto per bosco sui lotti
