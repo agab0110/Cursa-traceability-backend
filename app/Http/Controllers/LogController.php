@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
@@ -9,9 +10,21 @@ class LogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $logs = Log::where('plant_id', $request->query('plant_id'))
+                        ->paginate(13);
+
+        if (!$logs) {
+            return response()->json([
+                'message' => 'Toppi non trovati',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Toppi trovati',
+            'data' => $logs
+        ], 200);
     }
 
     /**
