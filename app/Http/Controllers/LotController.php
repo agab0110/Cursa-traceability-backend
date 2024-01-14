@@ -68,4 +68,41 @@ class LotController extends Controller
     {
         //
     }
+
+    public function getCuttingFilteredList(Request $request) {
+        $lots = Lot::join('plants', 'lots.plant_id', '=', 'plants.id')
+                ->where('plants.cutting', '=', 1)
+                ->where('plants.cutted', '=', 0)
+                ->select('lots.*')
+                ->get();
+
+        if (!$lots) {
+            return response()->json([
+                'message' => 'Lotti non trovati',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Lotti trovati',
+            'data' => $lots
+        ], 200);
+    }
+
+    public function getCuttedFilteredList() {
+        $lots = Lot::join('plants', 'lots.plant_id', '=', 'plants.id')
+                ->where('plants.cutted', '=', 1)
+                ->select('lots.*')
+                ->get();
+
+        if (!$lots) {
+            return response()->json([
+                'message' => 'Lotti non trovati',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Lotti trovati',
+            'data' => $lots
+        ], 200);
+    }
 }
