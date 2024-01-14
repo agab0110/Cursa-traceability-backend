@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Log\StoreLogRequest;
+use App\Http\Requests\Log\UpdateLogRequest;
 use App\Models\Log;
+use App\Models\Plant;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
@@ -30,9 +33,21 @@ class LogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreLogRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $plant = Plant::find($request['plant_id']);
+
+        $log = Log::create($validated);
+
+        $log->plant()->associate($plant);
+        $log->save();
+
+        return response()->json([
+            'message' => 'Toppo creato con successo',
+            'data' => $log
+        ], 200);
     }
 
     /**
