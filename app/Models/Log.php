@@ -24,7 +24,7 @@ class Log extends Model
         'cut_date' => 'datetime',
     ];
 
-    public function plant(): BelongsTo {
-        return $this->belongsTo(Plant::class);
+    public function lot(): BelongsTo {
+        return $this->belongsTo(Lot::class);
     }
 }
