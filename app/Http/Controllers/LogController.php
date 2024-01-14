@@ -37,12 +37,7 @@ class LogController extends Controller
     {
         $validated = $request->validated();
 
-        $lot = Lot::find($request['lot_id']);
-
         $log = Log::create($validated);
-
-        $log->plant()->associate($lot);
-        $log->save();
 
         return response()->json([
             'message' => 'Toppo creato con successo',
