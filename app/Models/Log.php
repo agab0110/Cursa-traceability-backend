@@ -9,6 +9,8 @@ class Log extends Model
 {
     protected $fillable = [
         'plant_id',
+        'lenght',
+        'median',
         'cut_date'
     ];
 

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('plant_id')->constrained()->cascadeOnDelete();
+            $table->double('lenght');
+            $table->double('median');
             $table->date('cut_date');
             $table->timestamps();
         });
