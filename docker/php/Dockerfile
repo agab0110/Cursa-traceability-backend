@@ -50,5 +50,3 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 WORKDIR /usr/src/app
 
 RUN chown -R www-data:www-data .
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
