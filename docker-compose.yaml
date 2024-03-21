@@ -1,29 +1,39 @@
-version: "3.8"
+version: "3.9"
 services:
+  #APP
   backend_app:
     container_name: backend_app
     build:
       context: .
       dockerfile: ./docker/php/Dockerfile
-    expose:
-      - 9000
+    ports:
+      - 8000:8000
     volumes:
       - .:/usr/src/app
       - ./public:/usr/src/app/public
+    environment:
+      - REDIS_HOST=redis
+      - DB_CONNECTION=mysql
+      - DB_HOST=backend_db
+      - DB_DATABASE=backend
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
     depends_on:
       - backend_db
+      - backend_redis
     networks:
       - app_network
-
+  #NGINX
   backend_nginx:
     container_name: backend_nginx
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
+    image: nginx:latest
+    #build:
+     # context: .
+      #dockerfile: ./docker/nginx/Dockerfile
     volumes:
       - ./public:/usr/src/app/public
     ports:
-      - 8000:80
+      - 8080:80
     depends_on:
       - backend_app
     environment:
@@ -31,23 +41,21 @@ services:
       NGINX_ROOT: /usr/src/app/public
     networks:
       - app_network
-
+  # DATABASE
   backend_db:
     container_name: backend_db
     image: mysql:8.0.20
-    restart: always
-    volumes:
-      - ./storage/db-data:/var/lib/mysql
     ports:
-      - 3308:3309
+      - 3306:3306
     environment:
       MYSQL_DATABASE: backend
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
     networks:
       - app_network
-
+    restart: always
+    #volumes:
+     # - ./storage/db-data:/var/lib/mysql
+  #REDIS
   backend_redis:
     container_name: backend_redis
     image: redis:latest
@@ -55,24 +63,25 @@ services:
       - 6379:6379
     networks:
       - app_network
-
+  #PHPMYADMIN
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:5
     container_name: phpmyadmin
-    restart: always
-    ports:
-      - "8070:80"
-    environment:
-      - PMA_ARBITRARY:1
-      - PMA_HOST:mysql
-      - PMA_PORT:'${FORWARD_DB_PORT:-3306}:3306'
-      - MYSQL_USERNAME:"${DB_USERNAME}"
-      - MYSQL_ROOT_PASSWORD:"${DB_PASSWORD}"
-
     depends_on:
       - backend_db
+    ports:
+      - 8090:80
+    environment:
+      PMA_HOST: backend_db
+      PMA_USER: root
+      PMA_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      APACHE_HTTP_PORT_NUMBER: 8090
+
     networks:
       - app_network
+    restart: always
+
 networks:
   app_network:
     driver: bridge
