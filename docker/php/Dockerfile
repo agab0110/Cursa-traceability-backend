@@ -43,9 +43,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*;
 
 COPY ./docker/php/laravel.ini /usr/local/etc/php/conf.d/laravel.ini
-COPY ./docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
-
-RUN chmod +x /usr/local/bin/entrypoint.sh
 
 WORKDIR /usr/src/app
 
