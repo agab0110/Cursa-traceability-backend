@@ -11,7 +11,6 @@ services:
     volumes:
       - .:/usr/src/app
       - ./public:/usr/src/app/public
-    #command: bash -c "php artisan migrate --force"
     environment:
       - REDIS_HOST=redis
       - DB_CONNECTION=mysql
