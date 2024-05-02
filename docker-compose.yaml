@@ -12,7 +12,7 @@ services:
       - .:/usr/src/app
       - ./public:/usr/src/app/public
     environment:
-      - REDIS_HOST=redis
+      - REDIS_HOST=backend_redis
       - DB_CONNECTION=mysql
       - DB_HOST=backend_db
       - DB_DATABASE=backend
@@ -28,17 +28,18 @@ services:
     container_name: backend_nginx
     image: nginx:latest
     #build:
-     # context: .
-      #dockerfile: ./docker/nginx/Dockerfile
+    #  context: .
+    #  dockerfile: ./docker/nginx/Dockerfile
     volumes:
       - ./public:/usr/src/app/public
     ports:
-      - 8080:80
+      - 8080:8080
     depends_on:
       - backend_app
     environment:
-      NGINX_FPM_HOST: backend_app
+      NGINX_FPM_HOST: localhost
       NGINX_ROOT: /usr/src/app/public
+      NGINX_FPM_PORT: 8080
     networks:
       - app_network
   # DATABASE
