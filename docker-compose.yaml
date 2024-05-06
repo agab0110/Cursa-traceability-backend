@@ -27,20 +27,15 @@ services:
   #NGINX
   backend_nginx:
     container_name: backend_nginx
-    image: nginx:1.26.0
-    #build:
-      #context: .
-      #dockerfile: ./docker/nginx/Dockerfile
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
     volumes:
       - ./public:/usr/src/app/public
     ports:
       - 8000:80
     depends_on:
       - backend_app
-    environment:
-      NGINX_FPM_HOST: localhost
-      NGINX_ROOT: /usr/src/app/public
-      NGINX_FPM_PORT: 9000
     networks:
       - app_network
   # DATABASE
