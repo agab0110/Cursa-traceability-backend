@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    /**
+     * Returns a json with the logged user and the access token
+     */
     public function login(LoginRequest $request) {
         $validated = $request->validated();
 
@@ -44,6 +47,9 @@ class AuthController extends Controller
 
         $user->save();
 
+        /**
+         * Return a json with the created user, the temporary password and the access token
+         */
         return response()->json([
             'data' => $user,
             'psw' => $temporaryPassword,
