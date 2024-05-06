@@ -49,6 +49,9 @@ class ForestController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * If no forest is found it returns a json with error message;
+     * else it returns a json with the forest found
      */
     public function show(Request $request, Forest $forest)
     {
