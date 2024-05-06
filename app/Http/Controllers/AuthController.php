@@ -11,7 +11,11 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
-     * Returns a json with the logged user and the access token
+     * Find a user in the database and attempt to login.
+     *
+     * @param Illuminate\Http\Request containing the user
+     * @return a json with the logged user and the access token if the user is found
+     * @return a json with a message error if no user is found
      */
     public function login(LoginRequest $request) {
         $validated = $request->validated();
@@ -32,7 +36,10 @@ class AuthController extends Controller
     }
 
     /**
-     * Returns a json with the created user, the temporary password and the access token
+     * Create a new user in the database
+     *
+     * @param Illuminate\Http\Request containing the user
+     * @return a json with the created user, the temporary password and the access token if the user is found
      */
     public function register(RegisterRequest $request) {
         $validated = $request->validated();
@@ -50,9 +57,6 @@ class AuthController extends Controller
 
         $user->save();
 
-        /**
-         * Return a json with the created user, the temporary password and the access token
-         */
         return response()->json([
             'data' => $user,
             'psw' => $temporaryPassword,
@@ -61,6 +65,12 @@ class AuthController extends Controller
         ], 200);
     }
 
+    /**
+     * Logout the current user
+     *
+     * @param Illuminate\Http\Request containing the user
+     * @return a json with a success message
+     */
     public function logout(Request $request) {
         Auth::logout();
 
