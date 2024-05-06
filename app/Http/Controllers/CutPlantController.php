@@ -35,6 +35,9 @@ class CutPlantController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * If the cutting flag is true then it create a new lot
+     * 
+     * Return a json with the updated plant
      */
     public function update(UpdateCutPlantRequest $request, $id)
     {
@@ -54,7 +57,7 @@ class CutPlantController extends Controller
             $lot = Lot::create([
                 'plant_id' => $plant->id,
             ]);
-            
+
             $lot->save();
         }
 
