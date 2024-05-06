@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:1.25.5
 
 ENV NGINX_ROOT /usr/src/app/public
 ENV NGINX_FPM_HOST localhost
