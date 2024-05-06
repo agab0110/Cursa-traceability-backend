@@ -27,7 +27,7 @@ services:
   #NGINX
   backend_nginx:
     container_name: backend_nginx
-    image: nginx:latest
+    image: nginx:1.26.0
     #build:
       #context: .
       #dockerfile: ./docker/nginx/Dockerfile
