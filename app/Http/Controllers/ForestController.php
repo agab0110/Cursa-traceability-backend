@@ -32,6 +32,8 @@ class ForestController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * Return a json with the new forest found
      */
     public function store(StoreForestRequest $request)
     {
