@@ -15,4 +15,6 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 80
 
+WORKDIR /usr/local/bin/
+
 ENTRYPOINT ["./entrypoint.sh"]
