@@ -29,20 +29,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::apiResource('plants', PlantController::class);
+    Route::apiResource('hammered-plants', HammeredPlantsController::class);
+    Route::apiResource('cut-plants', CutPlantController::class);
+    Route::apiResource('forests', ForestController::class);
+    Route::apiResource('lots', LotController::class);
+    Route::apiResource('logs', LogController::class);
+    Route::get('cutting-lots', [LotController::class, 'getCuttingFilteredList']);
+    Route::get('cutted-lots', [LotController::class, 'getCuttedFilteredList']);
+    Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
 });
 
 Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
 });
-
-// queste vanno inserite nel middlware auth:sancutm
-Route::apiResource('plants', PlantController::class);
-Route::apiResource('hammered-plants', HammeredPlantsController::class);
-Route::apiResource('cut-plants', CutPlantController::class);
-Route::apiResource('forests', ForestController::class);
-Route::apiResource('lots', LotController::class);
-Route::apiResource('logs', LogController::class);
-Route::get('cutting-lots', [LotController::class, 'getCuttingFilteredList']);
-Route::get('cutted-lots', [LotController::class, 'getCuttedFilteredList']);
-Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
