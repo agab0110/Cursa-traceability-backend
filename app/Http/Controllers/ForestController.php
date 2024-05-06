@@ -10,6 +10,9 @@ class ForestController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * if no forest is found it returns a json with error response;
+     * else it returns a json with the forest found.
      */
     public function index()
     {
