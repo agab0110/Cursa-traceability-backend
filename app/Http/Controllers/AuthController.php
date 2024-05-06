@@ -31,6 +31,9 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Returns a json with the created user, the temporary password and the access token
+     */
     public function register(RegisterRequest $request) {
         $validated = $request->validated();
 
