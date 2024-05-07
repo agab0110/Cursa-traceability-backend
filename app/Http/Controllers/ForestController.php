@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 class ForestController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show all the forests in the database using pagination
      *
-     * if no forest is found it returns a json with error response;
-     * else it returns a json with the forest found.
+     * @return a json with error response if no forest is found
+     * @return a json with the forest found.
      */
     public function index()
     {
@@ -31,9 +31,10 @@ class ForestController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created forest in storage.
      *
-     * Return a json with the new forest found
+     * @param App\Http\Requests\Forest\StoreForestRequest the new forest
+     * @return a json with the new forest created
      */
     public function store(StoreForestRequest $request)
     {
@@ -48,10 +49,12 @@ class ForestController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified forest requested.
      *
-     * If no forest is found it returns a json with error message;
-     * else it returns a json with the forest found
+     * @param Illuminate\Http\Request the request sent
+     * @param App\Models\Forest the forest id to be found
+     * @return a json with error message if no forest is found
+     * @return a json with the forest found
      */
     public function show(Request $request, Forest $forest)
     {
