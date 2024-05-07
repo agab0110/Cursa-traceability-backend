@@ -1,7 +1,7 @@
 FROM nginx:1.25.5
 
 ENV NGINX_ROOT /usr/src/app/public
-ENV NGINX_FPM_HOST localhost
+ENV NGINX_FPM_HOST backend_app
 ENV NGINX_FPM_PORT 9000
 
 RUN rm -f /etc/nginx/conf.d/default.conf

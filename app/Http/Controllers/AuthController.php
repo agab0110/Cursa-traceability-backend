@@ -46,6 +46,7 @@ class AuthController extends Controller
 
         return response()->json([
             'data' => $user,
+
             'psw' => $temporaryPassword,
             'access_token' => $user->createToken('api_token')->plainTextToken,
             'token_type' => 'Bearer'
