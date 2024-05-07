@@ -39,7 +39,7 @@ class CutPlantController extends Controller
      *
      * @param Illuminate\Http\Request containing the plant
      * @param id the id of the plant
-     * @return a json with the updated plant
+     * @return Illuminate\Http\Response json with the updated plant
      */
     public function update(UpdateCutPlantRequest $request, $id)
     {

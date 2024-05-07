@@ -14,8 +14,8 @@ class AuthController extends Controller
      * Find a user in the database and attempt to login.
      *
      * @param Illuminate\Http\Request containing the user
-     * @return a json with the logged user and the access token if the user is found
-     * @return a json with a message error if no user is found
+     * @return Illuminate\Http\Response json with the logged user and the access token if the user is found
+     * @return Illuminate\Http\Response json with a message error if no user is found
      */
     public function login(LoginRequest $request) {
         $validated = $request->validated();
@@ -39,7 +39,7 @@ class AuthController extends Controller
      * Create a new user in the database
      *
      * @param Illuminate\Http\Request containing the user
-     * @return a json with the created user, the temporary password and the access token if the user is found
+     * @return Illuminate\Http\Response json with the created user, the temporary password and the access token if the user is found
      */
     public function register(RegisterRequest $request) {
         $validated = $request->validated();
@@ -69,7 +69,7 @@ class AuthController extends Controller
      * Logout the current user
      *
      * @param Illuminate\Http\Request containing the user
-     * @return a json with a success message
+     * @return Illuminate\Http\Response json with a success message
      */
     public function logout(Request $request) {
         Auth::logout();

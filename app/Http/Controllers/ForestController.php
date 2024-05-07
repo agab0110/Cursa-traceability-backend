@@ -11,8 +11,8 @@ class ForestController extends Controller
     /**
      * Show all the forests in the database using pagination
      *
-     * @return a json with error response if no forest is found
-     * @return a json with the forest found.
+     * @return Illuminate\Http\Response json with error response if no forest is found
+     * @return Illuminate\Http\Response json with the forest found.
      */
     public function index()
     {
