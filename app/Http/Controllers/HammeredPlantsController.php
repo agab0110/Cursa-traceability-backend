@@ -85,7 +85,7 @@ class HammeredPlantsController extends Controller
     /**
      * Update the specified hammered plant in storage.
      *
-     * @param  App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest the request sent
+     * @param  App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest the changes to be made
      * @param  int  $id the id of the plant to update
      * @return Illuminate\Http\Response a json with an error message if the plant is not found
      * @return Illuminate\Http\Response a json with the updated plant

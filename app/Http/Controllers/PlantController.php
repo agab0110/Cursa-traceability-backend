@@ -10,10 +10,12 @@ use Illuminate\Http\Request;
 class PlantController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of plants using pagination.
+     * The plants are not hammered or cutted
      *
-     * @param  Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  Illuminate\Http\Request the request sent
+     * @return Illuminate\Http\Response a json with an error message if no plants are found
+     * @return Illuminate\Http\Response a json with a list of plants
      */
     public function index(Request $request)
     {
@@ -35,10 +37,11 @@ class PlantController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created plant in storage.
+     * It assoiate a plant with a forest
      *
-     * @param  \App\Http\Requests\Plant\StorePlantRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Plant\StorePlantRequest the plant to store
+     * @return \Illuminate\Http\Response a json with the created plant
      */
     public function store(StorePlantRequest $request)
     {
@@ -58,11 +61,12 @@ class PlantController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified plant.
      *
-     * @param  Illuminate\Http\Request $request
-     * @param  App\Models\Plant $plant
-     * @return \Illuminate\Http\Response
+     * @param  Illuminate\Http\Request the request found
+     * @param  App\Models\Plant $plant the id of the plant to show
+     * @return Illuminate\Http\Response a json with an error message if the plant is not found
+     * @return Illuminate\Http\Response a json with the plant found
      */
     public function show(Request $request, Plant $plant)
     {
@@ -104,8 +108,9 @@ class PlantController extends Controller
     /**
      * Get a list of elements from storage given a forest id
      *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request the forest id and hammered flag
+     * @return Illuminate\Http\Response a json with an error message if no plants are found
+     * @return Illuminate\Http\Response a json with a list of plants
      */
     public function getPlantByForestId(Request $request) {      // manca la paginazione
         $plants = Plant::where('forest_id', $request->query('forest_id'))

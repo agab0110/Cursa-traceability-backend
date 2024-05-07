@@ -37,8 +37,8 @@ class CutPlantController extends Controller
      * Update the specified resource in storage.
      * If the cutting flag is true then it create a new lot
      *
-     * @param Illuminate\Http\Request containing the plant
-     * @param id the id of the plant
+     * @param App\Http\Requests\Cut\UpdateCutPlantRequest the changes to be made
+     * @param int $id the id of the plant
      * @return Illuminate\Http\Response json with the updated plant
      */
     public function update(UpdateCutPlantRequest $request, $id)

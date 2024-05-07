@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 class LotController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the lots using pagination.
+     * @param Illuminate\Http\Request the request sent
+     * @return Illuminate\Http\Response a json with an error message if no lots are not found
+     * @return Illuminate\Http\Response a json with a list of found lots
      */
     public function index(Request $request)
     {
@@ -35,7 +38,10 @@ class LotController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified lot.
+     * @param int $id the id of the lot
+     * @return Illuminate\Http\Response a json with an error message if the lot is not found
+     * @return Illuminate\Http\Response a json with a list of found lot
      */
     public function show($id)
     {
@@ -69,6 +75,14 @@ class LotController extends Controller
         //
     }
 
+    /**
+     * Display a listing of filtred lots.
+     * The filter is used to find only lots with the cutting flag true
+     *
+     * @param Illuminate\Http\Request the request sent
+     * @return Illuminate\Http\Response a json with an error message if no lots are found
+     * @return Illuminate\Http\Response a json with a list of found lots
+     */
     public function getCuttingFilteredList(Request $request) {
         $lots = Lot::join('plants', 'lots.plant_id', '=', 'plants.id')
                 ->where('plants.cutting', '=', 1)
@@ -88,6 +102,14 @@ class LotController extends Controller
         ], 200);
     }
 
+    /**
+     * Display a listing of filtred lots.
+     * The filter is used to find only lots with the cutted flag true
+     *
+     * @param Illuminate\Http\Request the request sent
+     * @return Illuminate\Http\Response a json with an error message if no lots are found
+     * @return Illuminate\Http\Response a json with a list of found lots
+     */
     public function getCuttedFilteredList() {
         $lots = Lot::join('plants', 'lots.plant_id', '=', 'plants.id')
                 ->where('plants.cutted', '=', 1)

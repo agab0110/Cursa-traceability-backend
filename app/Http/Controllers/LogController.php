@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Log\StoreLogRequest;
 use App\Http\Requests\Log\UpdateLogRequest;
 use App\Models\Log;
-use App\Models\Lot;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the logs using pagination.
+     *
+     * @param Illuminate\Http\Request the request sent
+     * @return Illuminate\Http\Response a json with an error message if no logs are found
+     * @return Illuminate\Http\Response a json with a list of the found logs
      */
     public function index(Request $request)
     {
@@ -31,7 +34,9 @@ class LogController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created log in storage.
+     * @param App\Http\Requests\Log\StoreLogRequest the log to save
+     * @return Illuminate\Http\Response a json with the created log
      */
     public function store(StoreLogRequest $request)
     {
@@ -54,7 +59,10 @@ class LogController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified log in storage.
+     * @param App\Http\Requests\Log\UpdateLogRequest the changes to be made
+     * @param App\Models\Log the log to update
+     * @return Illuminate\Http\Response a json with the updated log
      */
     public function update(UpdateLogRequest $request, Log $log)
     {
