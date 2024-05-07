@@ -11,10 +11,11 @@ use Illuminate\Http\Request;
 class HammeredPlantsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of plants using pagination if the flags cutting and cutted are false.
      *
-     * @param  Illuminate\Http\Request
-     * @return \Illuminate\Http\Response
+     * @param  Illuminate\Http\Request the request sent
+     * @return Illuminate\Http\Response a json with an error message if no plants are found
+     * @return Illuminate\Http\Response a json with a list of plants
      */
     public function index(Request $request)
     {
@@ -36,10 +37,10 @@ class HammeredPlantsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created hammered plant in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\HammeredPlant\StoreHammeredPlantRequest the new plant
+     * @return Illuminate\Http\Response a json with the new plant created
      */
     public function store(StoreHammeredPlantRequest $request)
     {
@@ -59,10 +60,11 @@ class HammeredPlantsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified hammered plant.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $id the id of the plant
+     * @return Illuminate\Http\Response a json with an error message if the plant is not found
+     * @return Illuminate\Http\Response a json with the found plant
      */
     public function show($id)
     {
@@ -81,11 +83,12 @@ class HammeredPlantsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified hammered plant in storage.
      *
-     * @param  App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest the request sent
+     * @param  int  $id the id of the plant to update
+     * @return Illuminate\Http\Response a json with an error message if the plant is not found
+     * @return Illuminate\Http\Response a json with the updated plant
      */
     public function update(UpdateHammeredPlantRequest $request, $id)
     {
