@@ -10,16 +10,16 @@
 * [4 Useful commands](#4-useful-commands)
     * [4.1 How to Use Laravel Tinker](#41-how-to-use-laravel-tinker)
 
-## 1. General informations
+## 1 General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
 
-## 2. Technologies
+## 2 Technologies
 The technologies used for this project are:
 * PHP version: 8.1
 * Laravel version: 10.10
 * Docker version: 4.30.0
 
-## 3. Setups
+## 3 Setups
 
 ## 3.1 Setup php.ini
 The php.ini file is a special file for PHP. It is where you declare changes to your PHP settings. You can find it in your PHP directory<br>
