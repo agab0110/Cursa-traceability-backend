@@ -1,14 +1,14 @@
 # CURSA traceability backend
 
 ## Table of contents
-* [General info](#1-general-informations)
-* [Technologies](#2-technologies)
-* [Setups](#3-setups)
-* [Setup php.ini](#31-setup-phpini)
-* [Setup Laravel](#32-setup-laravel)
-* [Setup Docker](#33-setup-docker)
-* [Useful commands](#4-useful-commands)
-    * [How to Use Laravel Tinker](#41-how-to-use-laravel-tinker)
+* [1 General info](#1-general-informations)
+* [2 Technologies](#2-technologies)
+* [3 Setups](#3-setups)
+    * [3.1 Setup php.ini](#31-setup-phpini)
+    * [3.2 Setup Laravel](#32-setup-laravel)
+    * [3.3 Setup Docker](#33-setup-docker)
+* [4 Useful commands](#4-useful-commands)
+    * [4.1 How to Use Laravel Tinker](#41-how-to-use-laravel-tinker)
 
 ## 1. General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
