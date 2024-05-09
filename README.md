@@ -18,16 +18,20 @@ The technologies used for this project are:
 ## Setup Laravel
 After downloading the project you need to create the [.env file](#env-file)
 ```
-$ cp .env.example .env
+cp .env.example .env
 ```
 Then you need to generate the porject key
 ```
-$ php artisan key:generate
+php artisan key:generate
 ```
-Once you runned the prevoius commands you can run a migration.<br>
+After that you need to install the dependencies from the composer.json
+```
+composer install
+```
+Once you runned all the prevoius commands you can run a migration.<br>
 This will fill your database with all the necessary tables
 ```
-$ php artisan migrate
+php artisan migrate
 ```
 ## Setup Docker
 First thing to do is to download **Docker deskop**, you can download it from here: https://www.docker.com/products/docker-desktop/. <br>
