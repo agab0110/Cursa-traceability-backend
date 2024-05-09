@@ -52,22 +52,31 @@ First thing to do is to download **Docker deskop**, you can download it from her
 <br>
 If you already have Docker installed on you computer check if your version is the latest, if not then you need to upgrade it.
 
+Open Docker desktop for the next phase.
+
 After this you need to install a WSL. This will require the creation of an account with username and password.<br>
 Please **remember** the password because you will need it for the sudo command.
+In your Windows poweshell or CMD run
 ```
 wsl --install
 ```
-After the installation you need to add your WSL user to the Docker group
+After the installation you need to add your WSL user to the Docker group.<br>
+Open a WSL terminal and run
 ```
 sudo usermod -aG docker $USER
 ```
-To see if the operation was successful you can run
+To see if the operation was successful you can run from your WSL terminal
 ```
 groups
 ```
 And if you see **docker** in the output than you can continue<br>
 <br>
-You can also check the status of docker with
+Always remaining in the WSL terminal you can also check the status of docker with
 ```
 docker info
+```
+After all this you can create the Docker container.<br>
+Open a WSL terminal in your Laravel project and run
+```
+./vendor/bin/sail up
 ```
