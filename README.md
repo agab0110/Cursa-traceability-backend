@@ -3,11 +3,12 @@
 ## Table of contents
 * [General info](#1-general-informations)
 * [Technologies](#2-technologies)
-* [Setup php.ini](#3-setup-phpini)
-* [Setup Laravel](#4-setup-laravel)
-* [Setup Docker](#5-setup-docker)
-* [Useful commands](#6-useful-commands)
-    * [How to Use Laravel Tinker](#61-how-to-use-laravel-tinker)
+* [Setups](#3-setups)
+* [Setup php.ini](#31-setup-phpini)
+* [Setup Laravel](#32-setup-laravel)
+* [Setup Docker](#33-setup-docker)
+* [Useful commands](#4-useful-commands)
+    * [How to Use Laravel Tinker](#41-how-to-use-laravel-tinker)
 
 ## 1. General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
@@ -18,7 +19,9 @@ The technologies used for this project are:
 * Laravel version: 10.10
 * Docker version: 4.30.0
 
-## 3. Setup php.ini
+## 3. Setups
+
+## 3.1 Setup php.ini
 The php.ini file is a special file for PHP. It is where you declare changes to your PHP settings. You can find it in your PHP directory<br>
 Here we can find the extensions used by PHP, you should find them at line 915.<br>
 For our project we need the following extentions:
@@ -31,7 +34,7 @@ For our project we need the following extentions:
 
 If you have these extensions commented please remove the ; before them to activate them
 
-## 4. Setup Laravel
+## 3.2 Setup Laravel
 After downloading the project you need to create the .env file:
 ```
 cp .env.example .env
@@ -48,7 +51,7 @@ After that you need to install the dependencies from the composer.json:
 composer install
 ```
 
-## 5. Setup Docker
+## 3.3 Setup Docker
 First thing to do is to download **Docker deskop**, you can download it from here: https://www.docker.com/products/docker-desktop/. <br>
 <br>
 If you already have Docker installed on you computer check if your version is the latest, if not then you need to upgrade it.
@@ -86,7 +89,7 @@ Then you need to run migrations using:
 ./vendor/bin/sail artisan migrate
 ```
 
-## 6 Useful commands
+## 4 Useful commands
 To display the list of the possible creations:
 ```
 php artisan make -h
@@ -129,7 +132,7 @@ If you want to create a Model with the corrisponding Factory:
 php artisan make:model <model name> -f
 ```
 
-### 6.2 How to use Laravel Tinker
+### 4.1 How to use Laravel Tinker
 Laravel Tinker provides an interactive shell that allows developers to interact with their Laravel application using Laravel's Eloquent ORM (Object-Relational Mapping) and other components.
 
 To enter Laravel Tinker shell:
