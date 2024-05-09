@@ -50,10 +50,10 @@ php artisan migrate
 ## Setup Docker
 First thing to do is to download **Docker deskop**, you can download it from here: https://www.docker.com/products/docker-desktop/. <br>
 <br>
-If you already have Docker installed on you computer than check if your version is the latest, if not then you need to upgrade it.
+If you already have Docker installed on you computer check if your version is the latest, if not then you need to upgrade it.
 
 After this you need to install a WSL. This will require the creation of an account with username and password.<br>
-Please **remember** the password because you will need it.
+Please **remember** the password because you will need it for the sudo command.
 ```
 wsl --install
 ```
