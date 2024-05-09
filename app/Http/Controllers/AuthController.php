@@ -52,14 +52,13 @@ class AuthController extends Controller
         $user->birth_date = $request->input("birth_date");
         $user->cf = $request->input("cf");
         $user->email = $request->input("email");
-        $user->role = $request->input("role");
+        $user->role_id = $request->input("role_id");
         $user->password = $temporaryPassword;
 
         $user->save();
 
         return response()->json([
             'data' => $user,
-
             'psw' => $temporaryPassword,
             'access_token' => $user->createToken('api_token')->plainTextToken,
             'token_type' => 'Bearer'
