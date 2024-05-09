@@ -80,3 +80,7 @@ Open a WSL terminal in your Laravel project and run
 ```
 ./vendor/bin/sail up
 ```
+Then you need to migrate using
+```
+./vendor/bin/sail artisan migrate
+```
