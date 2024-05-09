@@ -17,7 +17,8 @@ The technologies used for this project are:
 * Docker version: 4.30.0
 
 ## Setup php.ini
-The php.ini file is a special file for PHP. It is where you declare changes to your PHP settings. Here we can find the extensions used by PHP.<br>
+The php.ini file is a special file for PHP. It is where you declare changes to your PHP settings.<br>
+Here we can find the extensions used by PHP.<br>
 For our project we need the following extentions:
 * curl
 * fileinfo
