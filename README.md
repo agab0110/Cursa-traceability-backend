@@ -119,6 +119,11 @@ To create a Factory
 ```
 php artisan make:factory <factory name>
 ```
+A Request is a PHP class that encapsulates an HTTP request, providing methods for accessing and validating the request data.<br>
+To create a request:
+```
+php artisan make:request <request name>
+```
 Usually each model corresponds to a migration, so we can create a model with -m flag to generate the corresponding migration:
 ```
 php artisan migrate make:model <model name> -m
