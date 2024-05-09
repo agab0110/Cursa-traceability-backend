@@ -31,52 +31,52 @@ For our project we need the following extentions:
 If you have these extensions commented please remove the ; before them to activate them
 
 ## Setup Laravel
-After downloading the project you need to create the .env file
+After downloading the project you need to create the .env file:
 ```
 cp .env.example .env
 ```
-Then you need to generate the project key
+Then you need to generate the project key:
 ```
 php artisan key:generate
 ```
 
 Open .env file and change *DB_HOST* to *mysql*
 
-After that you need to install the dependencies from the composer.json
+After that you need to install the dependencies from the composer.json:
 ```
 composer install
 ```
 
 ### Useful commands
-To display the list of the possible creations
+To display the list of the possible creations:
 ```
 php artisan make -h
 ```
 A Model is a PHP class which rappresent a database table.<br>
-To create a Model
+To create a Model:
 ```
 php artisan migrate make:model <model name>
 ```
 A Controller is a PHP class responsable for handling incoming requests, processing data and providing appropriate responses.<br>
-To create a Controller
+To create a Controller:
 ```
 php artisan migrate make:controller <controller name>
 ```
 A Migration is a PHP class used to manage changes to the structure of a database schema.<br>
-To create a Migration
+To create a Migration:
 ```
 php artisan migrate make:migration <migration name>
 ```
-To run a Migration
+To run a Migration:
 ```
 php artisan migrate
 ```
 
-Usually each model corresponds to a migration, so we can create a model with -m flag to generate the corresponding migration
+Usually each model corresponds to a migration, so we can create a model with -m flag to generate the corresponding migration:
 ```
 php artisan migrate make:model <model name> -m
 ```
-If you want to add a corresponding controller
+If you want to add a corresponding controller and migration:
 ```
 php artisan migrate make:model <model name> -mc
 ```
@@ -90,31 +90,31 @@ Open Docker desktop for the next phase.
 
 After this you need to install a WSL. This will require the creation of an account with username and password.<br>
 Please **remember** the password because you will need it for the sudo command.
-In your Windows poweshell or CMD run
+In your Windows poweshell or CMD run:
 ```
 wsl --install
 ```
 After the installation you need to add your WSL user to the Docker group.<br>
-Open a WSL terminal and run
+Open a WSL terminal and run:
 ```
 sudo usermod -aG docker $USER
 ```
-To see if the operation was successful you can run from your WSL terminal
+To see if the operation was successful you can run from your WSL terminal:
 ```
 groups
 ```
-And if you see **docker** in the output than you can continue<br>
+And if you see **docker** in the output than you can continue.<br>
 <br>
-Always remaining in the WSL terminal you can also check the status of docker with
+Always remaining in the WSL terminal you can also check the status of docker with:
 ```
 docker info
 ```
 After all this you can create the Docker container.<br>
-Open a WSL terminal in your Laravel project and run
+Open a WSL terminal in your Laravel project and run:
 ```
 ./vendor/bin/sail up
 ```
-Then you need to migrate using
+Then you need to run migrations using:
 ```
 ./vendor/bin/sail artisan migrate
 ```
