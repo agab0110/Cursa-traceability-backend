@@ -1,7 +1,7 @@
 # CURSA traceability backend
 
 ## Table of contents
-* [General info](#general-info)
+* [General info](#general-informations)
 * [Technologies](#technologies)
 * [Setup](#setup)
 
@@ -14,8 +14,8 @@ The technologies used for this project are:
 * Laravel version: 10.10
 * Docker version: 4.30.0
 
-## Setup
-After downloading the project you need to create the [.env file](#.env-file)
+## Setup Laravel
+After downloading the project you need to create the [.env file](#env-file)
 ```
 $ cp .env.example .env
 ```
@@ -43,4 +43,4 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## .env-file
+## env file
