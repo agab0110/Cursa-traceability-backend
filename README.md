@@ -7,6 +7,7 @@
     * [3.1 Setup php.ini](#31-setup-phpini)
     * [3.2 Setup Laravel](#32-setup-laravel)
     * [3.3 Setup Docker](#33-setup-docker)
+    * [3.4 Setup .env file](#34-env-file)
 * [4 Useful commands](#4-useful-commands)
     * [4.1 How to Use Laravel Tinker](#41-how-to-use-laravel-tinker)
 
@@ -35,7 +36,7 @@ For our project we need the following extentions:
 If you have these extensions commented please remove the ; before them to activate them
 
 ## 3.2 Setup Laravel
-After downloading the project you need to create the .env file:
+After downloading the project you need to create the [.env file](#34-env-file):
 ```
 cp .env.example .env
 ```
@@ -88,6 +89,19 @@ Then you need to run migrations using:
 ```
 ./vendor/bin/sail artisan migrate
 ```
+
+## 3.4 .env file
+The .env file is a configuration file that allows developers to define environment-specific configuration variables such as database credentials, API keys, and other settings without hardcoding them into the application code.
+
+
+The foundamental things we need are:
+* APP_KEY: generated when you create the project or setup an existing one
+* DB_CONNECTION: usually *mysql* but depends on the used database
+* DB_HOST: it is *localhost* on default
+* DB_PORT: the port to database connection  
+* DB_DATABASE: the database name
+* DB_USERNAME: the username used for the database connection
+* DB_PASSWORD: the password used for the database connection
 
 ## 4 Useful commands
 To display the list of the possible creations:
