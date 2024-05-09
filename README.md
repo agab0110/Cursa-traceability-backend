@@ -6,7 +6,7 @@
 * [Setup php.ini](#setup-phpini)
 * [Setup Laravel](#setup-laravel)
     * [Useful commands](#useful-commands)
-    * [To Use Laravel Tinker](#to-use-laravel-tinker)
+    * [How to Use Laravel Tinker](#how-to-use-laravel-tinker)
 * [Setup Docker](#setup-docker)
 
 ## General informations
@@ -91,10 +91,10 @@ If you want to create a Model with the corrisponding Factory:
 php artisan make:model <model name> -f
 ```
 
-#### To use Laravel Tinker
+### How to use Laravel Tinker
 Laravel Tinker provides an interactive shell that allows developers to interact with their Laravel application using Laravel's Eloquent ORM (Object-Relational Mapping) and other components.
 
-To use Laravel Tinker:
+To enter Laravel Tinker shell:
 ```
 php artisan tinker
 ```
