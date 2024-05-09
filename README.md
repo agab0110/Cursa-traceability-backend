@@ -34,7 +34,7 @@ After downloading the project you need to create the [.env file](#env-file)
 ```
 cp .env.example .env
 ```
-Then you need to generate the porject key
+Then you need to generate the project key
 ```
 php artisan key:generate
 ```
