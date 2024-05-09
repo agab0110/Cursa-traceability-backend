@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:1.25.5
 
 ENV NGINX_ROOT /usr/src/app/public
 ENV NGINX_FPM_HOST localhost
@@ -15,4 +15,6 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["entrypoint.sh"]
+WORKDIR /usr/local/bin/
+
+ENTRYPOINT ["./entrypoint.sh"]
