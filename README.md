@@ -15,13 +15,18 @@ The technologies used for this project are:
 * Docker version: 4.30.0
 
 ## Setup
-After downloading the project you need to create the .env file
+After downloading the project you need to create the [.env file](#.env-file)
 ```
 $ cp .env.example .env
 ```
 Then you need to generate the porject key
 ```
 $ php artisan key:generate
+```
+Once you runned the prevoius commands you can run a migration.
+This will fill your database with all the necessary tables
+```
+$ php artisan migrate
 ```
 
 ## About Laravel
@@ -37,3 +42,5 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
+
+## .env-file
