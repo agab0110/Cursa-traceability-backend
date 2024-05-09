@@ -1,66 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CURSA traceability backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Table of contents
+* [1 General info](#1-general-informations)
+* [2 Technologies](#2-technologies)
+* [3 Setups](#3-setups)
+    * [3.1 Setup php.ini](#31-setup-phpini)
+    * [3.2 Setup Laravel](#32-setup-laravel)
+    * [3.3 Setup Docker](#33-setup-docker)
+    * [3.4 Setup .env file](#34-env-file)
+* [4 Useful commands](#4-useful-commands)
+    * [4.1 How to Use Laravel Tinker](#41-how-to-use-laravel-tinker)
 
-## About Laravel
+## 1 General informations
+This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 2 Technologies
+The technologies used for this project are:
+* PHP version: 8.1
+* Laravel version: 10.10
+* Docker version: 4.30.0
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 3 Setups
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 3.1 Setup php.ini
+The php.ini file is a special file for PHP. It is where you declare changes to your PHP settings. You can find it in your PHP directory<br>
+Here we can find the extensions used by PHP, you should find them at line 915.<br>
+For our project we need the following extentions:
+* curl
+* fileinfo
+* mbstring
+* openssl
+* pdo_mysql
+* sodium
 
-## Learning Laravel
+If you have these extensions commented please remove the ; before them to activate them
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 3.2 Setup Laravel
+After downloading the project you need to create the [.env file](#34-env-file):
+```
+cp .env.example .env
+```
+Then you need to generate the project key:
+```
+php artisan key:generate
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Open .env file and change *DB_HOST* to *mysql*
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+After that you need to install the dependencies from the composer.json:
+```
+composer install
+```
 
-## Laravel Sponsors
+## 3.3 Setup Docker
+First thing to do is to download **Docker deskop**, you can download it from here: https://www.docker.com/products/docker-desktop/. <br>
+<br>
+If you already have Docker installed on you computer check if your version is the latest, if not then you need to upgrade it.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Open Docker desktop for the next phase.
 
-### Premium Partners
+After this you need to install a WSL. This will require the creation of an account with username and password.<br>
+Please **remember** the password because you will need it for the sudo command.
+In your Windows poweshell or CMD run:
+```
+wsl --install
+```
+After the installation you need to add your WSL user to the Docker group.<br>
+Open a WSL terminal and run:
+```
+sudo usermod -aG docker $USER
+```
+To see if the operation was successful you can run from your WSL terminal:
+```
+groups
+```
+And if you see **docker** in the output than you can continue.<br>
+<br>
+Always remaining in the WSL terminal you can also check the status of docker with:
+```
+docker info
+```
+After all this you can create the Docker container.<br>
+Open a WSL terminal in your Laravel project and run:
+```
+./vendor/bin/sail up
+```
+Then you need to run migrations using:
+```
+./vendor/bin/sail artisan migrate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## 3.4 .env file
+The .env file is a configuration file that allows developers to define environment-specific configuration variables such as database credentials, API keys, and other settings without hardcoding them into the application code.<br>
+It is created when creating a new Laravel project or when you [setup](#32-setup-laravel) an existing one.
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The foundamental things we need are:
+* APP_KEY: generated when you create the project or setup an existing one
+* DB_CONNECTION: usually *mysql* but depends on the used database
+* DB_HOST: it is *localhost* on default
+* DB_PORT: the port to database connection  
+* DB_DATABASE: the database name
+* DB_USERNAME: the username used for the database connection
+* DB_PASSWORD: the password used for the database connection
 
-## Code of Conduct
+## 4 Useful commands
+To display the list of the possible creations:
+```
+php artisan make -h
+```
+A Model is a PHP class which rappresent a database table.<br>
+To create a Model:
+```
+php artisan migrate make:model <model name>
+```
+A Controller is a PHP class responsable for handling incoming requests, processing data and providing appropriate responses.<br>
+To create a Controller:
+```
+php artisan migrate make:controller <controller name>
+```
+A Migration is a PHP class used to manage changes to the structure of a database schema.<br>
+To create a Migration:
+```
+php artisan migrate make:migration <migration name>
+```
+To run a Migration:
+```
+php artisan migrate
+```
+A Factory is a PHP class that is used to create fake data or Model instance for use in testing.<br>
+Those classes are used with [Laravel Tinker Shell](#41-how-to-use-laravel-tinker).<br>
+To create a Factory
+```
+php artisan make:factory <factory name>
+```
+A Request is a PHP class that encapsulates an HTTP request, providing methods for accessing and validating the request data.<br>
+To create a request:
+```
+php artisan make:request <request name>
+```
+Usually each model corresponds to a migration, so we can create a model with -m flag to generate the corresponding migration:
+```
+php artisan migrate make:model <model name> -m
+```
+If you want to add a corresponding controller and migration:
+```
+php artisan migrate make:model <model name> -mc
+```
+If you want to create a Model with the corrisponding Factory:
+```
+php artisan make:model <model name> -f
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4.1 How to use Laravel Tinker
+Laravel Tinker provides an interactive shell that allows developers to interact with their Laravel application using Laravel's Eloquent ORM (Object-Relational Mapping) and other components.
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+To enter Laravel Tinker shell:
+```
+php artisan tinker
+```
+To create a Model instance:
+```
+$user = User::Factory()->create();
+```
+To create more than one Model instance:
+```
+$user = User::Factory()->count(number)->create();
+```
