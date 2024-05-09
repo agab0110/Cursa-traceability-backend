@@ -139,3 +139,11 @@ To enter Laravel Tinker shell:
 ```
 php artisan tinker
 ```
+To create a Model instance:
+```
+$user = User::Factory()->create();
+```
+To create more than one Model instance:
+```
+$user = User::Factory()->count(number)->create();
+```
