@@ -9,16 +9,16 @@
     * [How to Use Laravel Tinker](#how-to-use-laravel-tinker)
 * [Setup Docker](#setup-docker)
 
-## General informations
+## 1. General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
 
-## Technologies
+## 2. Technologies
 The technologies used for this project are:
 * PHP version: 8.1
 * Laravel version: 10.10
 * Docker version: 4.30.0
 
-## Setup php.ini
+## 3. Setup php.ini
 The php.ini file is a special file for PHP. It is where you declare changes to your PHP settings. You can find it in your PHP directory<br>
 Here we can find the extensions used by PHP, you should find them at line 915.<br>
 For our project we need the following extentions:
@@ -31,7 +31,7 @@ For our project we need the following extentions:
 
 If you have these extensions commented please remove the ; before them to activate them
 
-## Setup Laravel
+## 4. Setup Laravel
 After downloading the project you need to create the .env file:
 ```
 cp .env.example .env
@@ -48,7 +48,7 @@ After that you need to install the dependencies from the composer.json:
 composer install
 ```
 
-### Useful commands
+### 4.1 Useful commands
 To display the list of the possible creations:
 ```
 php artisan make -h
@@ -91,7 +91,7 @@ If you want to create a Model with the corrisponding Factory:
 php artisan make:model <model name> -f
 ```
 
-### How to use Laravel Tinker
+### 4.2 How to use Laravel Tinker
 Laravel Tinker provides an interactive shell that allows developers to interact with their Laravel application using Laravel's Eloquent ORM (Object-Relational Mapping) and other components.
 
 To enter Laravel Tinker shell:
@@ -99,7 +99,7 @@ To enter Laravel Tinker shell:
 php artisan tinker
 ```
 
-## Setup Docker
+## 5. Setup Docker
 First thing to do is to download **Docker deskop**, you can download it from here: https://www.docker.com/products/docker-desktop/. <br>
 <br>
 If you already have Docker installed on you computer check if your version is the latest, if not then you need to upgrade it.
