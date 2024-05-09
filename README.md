@@ -71,7 +71,12 @@ To run a Migration:
 ```
 php artisan migrate
 ```
-
+A Factory is a PHP class that is used to create fake data or Model instance for use in testing.<br>
+Those classes are used with **Laravel Tinker Shell**.<br>
+To create a Factory
+```
+php artisan make:factory <factory name>
+```
 Usually each model corresponds to a migration, so we can create a model with -m flag to generate the corresponding migration:
 ```
 php artisan migrate make:model <model name> -m
@@ -79,6 +84,10 @@ php artisan migrate make:model <model name> -m
 If you want to add a corresponding controller and migration:
 ```
 php artisan migrate make:model <model name> -mc
+```
+If you want to create a Model with the corrisponding Factory:
+```
+php artisan make:model <model name> -f
 ```
 
 ## Setup Docker
