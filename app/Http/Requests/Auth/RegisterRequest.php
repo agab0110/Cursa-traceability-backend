@@ -29,7 +29,7 @@ class RegisterRequest extends FormRequest
             'surname' => 'required|string|max:255',
             'birth_date' => 'required',
             'email' => 'required',
-            'role' => 'required',
+            'role' => 'required|integer',
         ];
     }
 }
