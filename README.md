@@ -61,5 +61,14 @@ After the installation you need to add your WSL user to the Docker group
 ```
 sudo usermod -aG docker $USER
 ```
-
+To see if the operation was successful you can run
+```
+groups
+```
+And if you see **docker** in the output than you can continue<br>
+<br>
+You can also check the status of docker with
+```
+docker info
+```
 ## env file
