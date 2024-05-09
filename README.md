@@ -1,12 +1,12 @@
 # CURSA traceability backend
 
 ## Table of contents
-* [General info](#general-informations)
-* [Technologies](#technologies)
-* [Setup php.ini](#setup-phpini)
-* [Setup Laravel](#setup-laravel)
-    * [Useful commands](#useful-commands)
-    * [How to Use Laravel Tinker](#how-to-use-laravel-tinker)
+* [General info](#1-general-informations)
+* [Technologies](#2-technologies)
+* [Setup php.ini](#3-setup-phpini)
+* [Setup Laravel](#4-setup-laravel)
+    * [Useful commands](#41-useful-commands)
+    * [How to Use Laravel Tinker](#42-how-to-use-laravel-tinker)
 * [Setup Docker](#setup-docker)
 
 ## 1. General informations
