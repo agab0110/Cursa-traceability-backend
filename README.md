@@ -6,6 +6,7 @@
 * [Setup php.ini](#setup-phpini)
 * [Setup Laravel](#setup-laravel)
     * [Useful commands](#useful-commands)
+    * [To Use Laravel Tinker](#to-use-laravel-tinker)
 * [Setup Docker](#setup-docker)
 
 ## General informations
@@ -72,7 +73,7 @@ To run a Migration:
 php artisan migrate
 ```
 A Factory is a PHP class that is used to create fake data or Model instance for use in testing.<br>
-Those classes are used with **Laravel Tinker Shell**.<br>
+Those classes are used with **[Laravel Tinker Shell](#to-use-laravel-tinker)**.<br>
 To create a Factory
 ```
 php artisan make:factory <factory name>
@@ -88,6 +89,14 @@ php artisan migrate make:model <model name> -mc
 If you want to create a Model with the corrisponding Factory:
 ```
 php artisan make:model <model name> -f
+```
+
+#### To use Laravel Tinker
+Laravel Tinker provides an interactive shell that allows developers to interact with their Laravel application using Laravel's Eloquent ORM (Object-Relational Mapping) and other components.
+
+To use Laravel Tinker:
+```
+php artisan tinker
 ```
 
 ## Setup Docker
