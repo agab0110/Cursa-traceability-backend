@@ -30,7 +30,7 @@ For our project we need the following extentions:
 If you have these extensions commented please remove the ; before them to activate them
 
 ## Setup Laravel
-After downloading the project you need to create the [.env file](#env-file)
+After downloading the project you need to create the .env file
 ```
 cp .env.example .env
 ```
@@ -71,4 +71,3 @@ You can also check the status of docker with
 ```
 docker info
 ```
-## env file
