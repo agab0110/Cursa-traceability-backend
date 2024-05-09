@@ -3,7 +3,7 @@
 ## Table of contents
 * [General info](#general-informations)
 * [Technologies](#technologies)
-* [Setup](#setup)
+* [Setup](#setup-laravel)
 
 ## General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
