@@ -5,6 +5,7 @@
 * [Technologies](#technologies)
 * [Setup php.ini](#setup-phpini)
 * [Setup Laravel](#setup-laravel)
+    * [Useful commands](#useful-commands)
 * [Setup Docker](#setup-docker)
 
 ## General informations
@@ -38,6 +39,9 @@ Then you need to generate the project key
 ```
 php artisan key:generate
 ```
+
+Open .env file and change *DB_HOST* to *mysql*
+
 After that you need to install the dependencies from the composer.json
 ```
 composer install
@@ -47,6 +51,9 @@ This will fill your database with all the necessary tables
 ```
 php artisan migrate
 ```
+
+### Useful commands
+
 ## Setup Docker
 First thing to do is to download **Docker deskop**, you can download it from here: https://www.docker.com/products/docker-desktop/. <br>
 <br>
