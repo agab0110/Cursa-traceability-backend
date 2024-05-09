@@ -3,6 +3,7 @@
 ## Table of contents
 * [General info](#general-informations)
 * [Technologies](#technologies)
+* [Setup php.ini](#setup-phpini)
 * [Setup Laravel](#setup-laravel)
 * [Setup Docker](#setup-docker)
 
@@ -14,6 +15,18 @@ The technologies used for this project are:
 * PHP version: 8.1
 * Laravel version: 10.10
 * Docker version: 4.30.0
+
+## Setup php.ini
+The php.ini file is a special file for PHP. It is where you declare changes to your PHP settings. Here we can find the extensions used by PHP.<br>
+For our project we need the following extentions:
+* curl
+* fileinfo
+* mbstring
+* openssl
+* pdo_mysql
+* sodium
+
+If you have these extensions commented please remove the ; before them to activate them
 
 ## Setup Laravel
 After downloading the project you need to create the [.env file](#env-file)
