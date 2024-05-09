@@ -5,9 +5,9 @@
 * [Technologies](#2-technologies)
 * [Setup php.ini](#3-setup-phpini)
 * [Setup Laravel](#4-setup-laravel)
-    * [Useful commands](#41-useful-commands)
-    * [How to Use Laravel Tinker](#42-how-to-use-laravel-tinker)
-* [Setup Docker](#setup-docker)
+* [Useful commands](#5-useful-commands)
+    * [How to Use Laravel Tinker](#51-how-to-use-laravel-tinker)
+* [Setup Docker](#6-setup-docker)
 
 ## 1. General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
@@ -48,7 +48,7 @@ After that you need to install the dependencies from the composer.json:
 composer install
 ```
 
-### 4.1 Useful commands
+## 5.1 Useful commands
 To display the list of the possible creations:
 ```
 php artisan make -h
