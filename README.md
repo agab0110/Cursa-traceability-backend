@@ -3,7 +3,8 @@
 ## Table of contents
 * [General info](#general-informations)
 * [Technologies](#technologies)
-* [Setup](#setup-laravel)
+* [Setup Laravel](#setup-laravel)
+* [Setup Docker](#setup-docker)
 
 ## General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
@@ -27,6 +28,18 @@ Once you runned the prevoius commands you can run a migration.<br>
 This will fill your database with all the necessary tables
 ```
 $ php artisan migrate
+```
+## Setup Docker
+First thing to do is to download **Docker deskop**, you can download it from here: https://www.docker.com/products/docker-desktop/. <br>
+If you already have Docker installed on you computer than check if your version is the latest, if is not then you need to upgrade it.
+
+After this you need to install a WSL with ubuntu distrot
+```
+$ wsl --install
+```
+After the installation you need to add your WSL user to the Docker group
+```
+$ sudo usermod -aG docker $USER
 ```
 
 ## env file
