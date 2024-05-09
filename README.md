@@ -23,7 +23,7 @@ Then you need to generate the porject key
 ```
 $ php artisan key:generate
 ```
-Once you runned the prevoius commands you can run a migration.
+Once you runned the prevoius commands you can run a migration.<br>
 This will fill your database with all the necessary tables
 ```
 $ php artisan migrate
