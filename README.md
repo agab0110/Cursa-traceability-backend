@@ -15,6 +15,12 @@ The technologies used for this project are:
 * Docker version: 4.30.0
 
 ## Setup
+```
+After downloading the project you need to create the .env file
+$ cp .env.example .env
+Then you need to generate the porject key
+$ php artisan key:generate
+```
 
 ## About Laravel
 
