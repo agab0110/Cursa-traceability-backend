@@ -114,7 +114,7 @@ To run a Migration:
 php artisan migrate
 ```
 A Factory is a PHP class that is used to create fake data or Model instance for use in testing.<br>
-Those classes are used with [Laravel Tinker Shell](#to-use-laravel-tinker).<br>
+Those classes are used with [Laravel Tinker Shell](#41-how-to-use-laravel-tinker).<br>
 To create a Factory
 ```
 php artisan make:factory <factory name>
