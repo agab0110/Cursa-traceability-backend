@@ -5,9 +5,9 @@
 * [Technologies](#2-technologies)
 * [Setup php.ini](#3-setup-phpini)
 * [Setup Laravel](#4-setup-laravel)
-* [Useful commands](#5-useful-commands)
-    * [How to Use Laravel Tinker](#51-how-to-use-laravel-tinker)
-* [Setup Docker](#6-setup-docker)
+* [Setup Docker](#5-setup-docker)
+* [Useful commands](#6-useful-commands)
+    * [How to Use Laravel Tinker](#61-how-to-use-laravel-tinker)
 
 ## 1. General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
@@ -48,7 +48,45 @@ After that you need to install the dependencies from the composer.json:
 composer install
 ```
 
-## 5.1 Useful commands
+## 5. Setup Docker
+First thing to do is to download **Docker deskop**, you can download it from here: https://www.docker.com/products/docker-desktop/. <br>
+<br>
+If you already have Docker installed on you computer check if your version is the latest, if not then you need to upgrade it.
+
+Open Docker desktop for the next phase.
+
+After this you need to install a WSL. This will require the creation of an account with username and password.<br>
+Please **remember** the password because you will need it for the sudo command.
+In your Windows poweshell or CMD run:
+```
+wsl --install
+```
+After the installation you need to add your WSL user to the Docker group.<br>
+Open a WSL terminal and run:
+```
+sudo usermod -aG docker $USER
+```
+To see if the operation was successful you can run from your WSL terminal:
+```
+groups
+```
+And if you see **docker** in the output than you can continue.<br>
+<br>
+Always remaining in the WSL terminal you can also check the status of docker with:
+```
+docker info
+```
+After all this you can create the Docker container.<br>
+Open a WSL terminal in your Laravel project and run:
+```
+./vendor/bin/sail up
+```
+Then you need to run migrations using:
+```
+./vendor/bin/sail artisan migrate
+```
+
+## 6 Useful commands
 To display the list of the possible creations:
 ```
 php artisan make -h
@@ -91,48 +129,10 @@ If you want to create a Model with the corrisponding Factory:
 php artisan make:model <model name> -f
 ```
 
-### 4.2 How to use Laravel Tinker
+### 6.2 How to use Laravel Tinker
 Laravel Tinker provides an interactive shell that allows developers to interact with their Laravel application using Laravel's Eloquent ORM (Object-Relational Mapping) and other components.
 
 To enter Laravel Tinker shell:
 ```
 php artisan tinker
-```
-
-## 5. Setup Docker
-First thing to do is to download **Docker deskop**, you can download it from here: https://www.docker.com/products/docker-desktop/. <br>
-<br>
-If you already have Docker installed on you computer check if your version is the latest, if not then you need to upgrade it.
-
-Open Docker desktop for the next phase.
-
-After this you need to install a WSL. This will require the creation of an account with username and password.<br>
-Please **remember** the password because you will need it for the sudo command.
-In your Windows poweshell or CMD run:
-```
-wsl --install
-```
-After the installation you need to add your WSL user to the Docker group.<br>
-Open a WSL terminal and run:
-```
-sudo usermod -aG docker $USER
-```
-To see if the operation was successful you can run from your WSL terminal:
-```
-groups
-```
-And if you see **docker** in the output than you can continue.<br>
-<br>
-Always remaining in the WSL terminal you can also check the status of docker with:
-```
-docker info
-```
-After all this you can create the Docker container.<br>
-Open a WSL terminal in your Laravel project and run:
-```
-./vendor/bin/sail up
-```
-Then you need to run migrations using:
-```
-./vendor/bin/sail artisan migrate
 ```
