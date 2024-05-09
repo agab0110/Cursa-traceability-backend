@@ -41,11 +41,11 @@ If you already have Docker installed on you computer than check if your version 
 After this you need to install a WSL. This will require the creation of an account with username and password.<br>
 Please **remember** the password because you will need it.
 ```
-$ wsl --install
+wsl --install
 ```
 After the installation you need to add your WSL user to the Docker group
 ```
-$ sudo usermod -aG docker $USER
+sudo usermod -aG docker $USER
 ```
 
 ## env file
