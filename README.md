@@ -139,6 +139,16 @@ To create a request:
 ```
 php artisan make:request <request name>
 ```
+A seeder is a PHP class that can be used to insert some data into the database.<br>
+A seeder works for **one and only one** class.<br>
+To create a seeder:
+```
+php artisan make:seeder <seeder name>
+```
+To use the seeder:
+```
+php artisan db:seed --class=<Seeder Class Name>  
+```
 Usually each model corresponds to a migration, so we can create a model with -m flag to generate the corresponding migration:
 ```
 php artisan migrate make:model <model name> -m
