@@ -98,7 +98,7 @@ It is created when creating a new Laravel project or when you [setup](#32-setup-
 The foundamental things we need are:
 * APP_KEY: generated when you create the project or setup an existing one
 * DB_CONNECTION: usually *mysql* but depends on the used database
-* DB_HOST: it is *localhost* on default
+* DB_HOST: it is *localhost* on default, when you dockerize the project this must been changed to the database container name
 * DB_PORT: the port to database connection  
 * DB_DATABASE: the database name
 * DB_USERNAME: the username used for the database connection
