@@ -68,6 +68,8 @@ class AuthController extends Controller
             'created_at' => Carbon::now()
         ]);
 
+        Mail::to($user->email)->send(new PasswordSetupMail($token));
+
         return response()->json([
             'data' => $user,
 
