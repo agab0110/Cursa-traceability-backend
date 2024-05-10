@@ -111,8 +111,7 @@ The foundamental things we need are:
 * MAIL_FROM_ADDRESS: the address shown when emails arrive
 * MAIL_FROM_NAME: the name shown when emails arrive
 
-**NOTICE**
-The setup for the emails usually comes from your email host
+**NOTICE**: The setup for the emails usually comes from your email host
 
 ## 4 Useful commands
 To display the list of the possible creations:
