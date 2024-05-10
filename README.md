@@ -103,6 +103,16 @@ The foundamental things we need are:
 * DB_DATABASE: the database name
 * DB_USERNAME: the username used for the database connection
 * DB_PASSWORD: the password used for the database connection
+* MAIL_MAILER: the type of server used to send emails (default smtp)
+* MAIL_HOST: the host used to send emails
+* MAIL_PORT: the port used to send emails
+* MAIL_USERNAME: the username of your mail host
+* MAIL_PASSWORD: the password of your mail host
+* MAIL_FROM_ADDRESS: the address shown when emails arrive
+* MAIL_FROM_NAME: the name shown when emails arrive
+
+**NOTICE**
+The setup for the emails usually comes from your email host
 
 ## 4 Useful commands
 To display the list of the possible creations:
