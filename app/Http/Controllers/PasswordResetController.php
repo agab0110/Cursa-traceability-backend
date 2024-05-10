@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ResetPassword\ResetPasswordRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,11 +26,8 @@ class PasswordResetController extends Controller
      * @return Illuminate\Http\Response a json with an error message if the user is not found
      * @return Illuminate\Http\Response a json with a success message if the user is found and the password is succesfully updated
      */
-    public function update(Request $request) {
-        $request->validate([
-            'token' => 'required|string',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+    public function update(ResetPasswordRequest $request) {
+        $validated = $request->validated();
 
         $passwordReset = DB::table('password_resets')->where('token', $request->token)->first();
 
