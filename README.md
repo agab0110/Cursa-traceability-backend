@@ -108,7 +108,7 @@ The foundamental things we need are:
 * MAIL_PORT: the port used to send emails
 * MAIL_USERNAME: the username of your mail host
 * MAIL_PASSWORD: the password of your mail host
-* MAIL_FROM_ADDRESS: the address shown when emails arrive
+* MAIL_FROM_ADDRESS: the email address shown when emails arrive
 * MAIL_FROM_NAME: the name shown when emails arrive
 
 **NOTICE**: The setup for the emails usually comes from your email host
