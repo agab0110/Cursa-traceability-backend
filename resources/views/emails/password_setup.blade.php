@@ -9,7 +9,7 @@
 <body>
     <p>Hello,</p>
     <p>Please click the following link to set up your password:</p>
-    <a href="{{ url('password/setup/'.$token) }}">Set Up Password</a>
+    <a href="{{ route('password.setup') }}?token={{ $token }}">Set Up Password</a>
     <p>If you didn't request this, you can ignore this email.</p>
 </body>
 </html>
