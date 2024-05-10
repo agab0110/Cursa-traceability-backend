@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\PasswordSetupMail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -56,6 +60,15 @@ class AuthController extends Controller
         $user->password = $temporaryPassword;
 
         $user->save();
+
+        $token = $user->createToken('password_reset_token')->plainTextToken;
+        DB::table('password_resets')->insert([
+            'email' => $user->email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+
+        Mail::to($user->email)->send(new PasswordSetupMail($token));
 
         return response()->json([
             'data' => $user,
