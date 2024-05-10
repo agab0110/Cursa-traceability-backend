@@ -7,6 +7,7 @@ use App\Http\Controllers\HammeredPlantsController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\LotController;
 use App\Http\Controllers\PlantController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::apiResource('roles', RoleController::class);
     Route::apiResource('plants', PlantController::class);
     Route::apiResource('hammered-plants', HammeredPlantsController::class);
     Route::apiResource('cut-plants', CutPlantController::class);
