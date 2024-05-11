@@ -66,7 +66,8 @@ class AuthController extends Controller
         DB::table('password_resets')->insert([
             'email' => $user->email,
             'token' => $token,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
+            'expires_at' => Carbon::now()->addSeconds(10)
         ]);
 
         Mail::to($user->email)->send(new PasswordSetupMail($token));
