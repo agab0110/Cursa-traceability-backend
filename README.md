@@ -89,6 +89,10 @@ Then you need to run migrations using:
 ```
 ./vendor/bin/sail artisan migrate
 ```
+Lastly you need to use the RolesSeeder class to send data into your database:
+```
+./vendor/bin/sail artisan db:seed --class=RolesSeeder
+```
 
 ## 3.4 .env file
 The .env file is a configuration file that allows developers to define environment-specific configuration variables such as database credentials, API keys, and other settings without hardcoding them into the application code.<br>
