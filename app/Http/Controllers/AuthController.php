@@ -67,7 +67,7 @@ class AuthController extends Controller
             'email' => $user->email,
             'token' => $token,
             'created_at' => Carbon::now(),
-            'expires_at' => Carbon::now()->addSeconds(10)
+            'expires_at' => Carbon::now()->addHour()
         ]);
 
         Mail::to($user->email)->send(new PasswordSetupMail($token));
