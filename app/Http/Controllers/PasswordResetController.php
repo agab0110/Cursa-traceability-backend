@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class PasswordResetController extends Controller
 {
@@ -30,7 +31,7 @@ class PasswordResetController extends Controller
      * @return Illuminate\Http\Response a json with a success message if the user is found
      */
     public function resetPassword(Request $request) {
-        $user = User::where('email', $request->email);
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
             return response()->json([
@@ -38,7 +39,7 @@ class PasswordResetController extends Controller
             ], 404);
         }
 
-        $token = $user->createToken('password_reset_token')->plainTextToken;
+        $token = Str::random(60);
         DB::table('password_resets')->insert([
             'email' => $user->email,
             'token' => $token,
