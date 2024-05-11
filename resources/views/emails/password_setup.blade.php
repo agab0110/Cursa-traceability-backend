@@ -9,6 +9,10 @@
     </head>
     <body>
         <div class="container">
+            <div class="image">
+                <img src="{{ asset('icon/CURSA.png') }}" width="150" height="150">
+            </div>
+            
             <p>Gentile utente,</p>
             <p>Si prega di cliccare sul seguente link per inserire una nuova password per il vostro account:</p>
             <p>
