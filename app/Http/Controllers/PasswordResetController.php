@@ -66,13 +66,13 @@ class PasswordResetController extends Controller
         $passwordReset = DB::table('password_resets')->where('token', $request->token)->first();
 
         if (!$passwordReset) {
-            return response()->json(['error' => 'Invalid token'], 400);
+            return response()->json(['error' => 'Token non valido'], 400);
         }
 
         $user = User::where('email', $passwordReset->email)->first();
 
         if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
+            return response()->json(['error' => 'Utente non trovato'], 404);
         }
 
         // Update user's password
@@ -82,6 +82,6 @@ class PasswordResetController extends Controller
         // Delete the token from password resets table
         DB::table('password_resets')->where('email', $user->email)->delete();
 
-        return response()->json(['message' => 'Password updated successfully'], 200);
+        return response()->json(['message' => 'La passoword è stata aggiornata con successo'], 200);
     }
 }
