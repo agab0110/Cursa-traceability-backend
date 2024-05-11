@@ -20,7 +20,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 80%;
-    height: 80%;
+    height: 90%;
   }
 
   .form-group {
@@ -56,5 +56,5 @@ body {
     cursor: pointer;
     margin-top: 5vh;
   }
-  
+
 
