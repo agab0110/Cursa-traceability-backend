@@ -25,6 +25,7 @@ body {
 
   .form-group {
     margin-bottom: 20px;
+    font-size: 18px;
   }
 
   .form-group label {
@@ -47,6 +48,7 @@ body {
   .btn {
     display: block;
     margin: 0 auto;
+    font-size: 18px;
     width: 50%;
     padding: 10px;
     background-color: #308F0E;
