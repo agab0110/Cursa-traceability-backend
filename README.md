@@ -89,9 +89,13 @@ Then you need to run migrations using:
 ```
 ./vendor/bin/sail artisan migrate
 ```
-Lastly you need to use the RolesSeeder class to send data into your database:
+After that you need to use the RolesSeeder class to send data into your database:
 ```
 ./vendor/bin/sail artisan db:seed --class=RolesSeeder
+```
+Lastly you need to run the schedule process
+```
+./vendor/bin/sail artisan schedule:run
 ```
 
 ## 3.4 .env file
