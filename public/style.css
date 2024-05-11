@@ -1,11 +1,12 @@
 .image {
     text-align: center;
-    margin-bottom: 5vh;
+    margin-bottom: 7vh;
+    margin-top: 3vh;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #ececec;
+    background-color: #949494;
     margin: 0;
     padding: 0;
     display: flex;
@@ -15,7 +16,7 @@ body {
   }
 
   .container {
-    background-color: #949494;
+    background-color: #ececec;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
