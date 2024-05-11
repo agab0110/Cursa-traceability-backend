@@ -6,6 +6,7 @@ use App\Http\Controllers\ForestController;
 use App\Http\Controllers\HammeredPlantsController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\LotController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -45,4 +46,5 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
+    Route::post('reset-password', [PasswordResetController::class, 'resetPassword']);
 });
