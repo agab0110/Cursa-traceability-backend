@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ResetPassword\ResetPasswordRequest;
+use App\Models\PasswordSetupMail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class PasswordResetController extends Controller
 {
@@ -17,6 +20,36 @@ class PasswordResetController extends Controller
     public function showPasswordSetupForm(Request $request) {
         $token = $request->query('token');
         return view('password_reset', ['token' => $token]);
+    }
+
+    /**
+     * This function finds a user from its email, generate new token for password reset and send an email with password reset form
+     *
+     * @param Illuminate\Http\Request the request with the user's email
+     * @return Illuminate\Http\Response a json with an error message if the user is not found
+     * @return Illuminate\Http\Response a json with a success message if the user is found
+     */
+    public function resetPassword(Request $request) {
+        $user = User::where('email', $request->email);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Utente non trovato'
+            ], 404);
+        }
+
+        $token = $user->createToken('password_reset_token')->plainTextToken;
+        DB::table('password_resets')->insert([
+            'email' => $user->email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+
+        Mail::to($user->email)->send(new PasswordSetupMail($token));
+
+        return response()->json([
+            'message' => 'È stata inviata una mail con un link per il reset della password'
+        ], 200);
     }
 
     /**
