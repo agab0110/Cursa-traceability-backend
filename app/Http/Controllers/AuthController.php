@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -61,7 +62,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        $token = $user->createToken('password_reset_token')->plainTextToken;
+        $token = Str::random(60);
         DB::table('password_resets')->insert([
             'email' => $user->email,
             'token' => $token,
