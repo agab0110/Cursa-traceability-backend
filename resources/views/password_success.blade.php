@@ -4,9 +4,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Password Success</title>
-        <link rel="stylesheet" href="{{ asset('style.css') }}">
+        <link rel="stylesheet" href="{{ asset('mailstyle.css') }}">
     </head>
     <body>
-
+        <div class="container">
+            <div class="image">
+                <img src="{{ asset('icon/CURSA.png') }}" width="150" height="150">
+            </div>
+            <p>La password è stata aggiornata con successo</p>
+        </div>
     </body>
 </html>
