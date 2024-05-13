@@ -20,7 +20,7 @@ class PasswordResetController extends Controller
      */
     public function showPasswordSetupForm(Request $request) {
         $token = $request->query('token');
-        return view('password_reset', ['token' => $token]);
+        return view('password.password_reset', ['token' => $token]);
     }
 
     /**
@@ -83,6 +83,7 @@ class PasswordResetController extends Controller
         // Delete the token from password resets table
         DB::table('password_resets')->where('email', $user->email)->delete();
 
-        return response()->json(['message' => 'La passoword è stata aggiornata con successo'], 200);
+        //return response()->json(['message' => 'La passoword è stata aggiornata con successo'], 200);
+        return view('password.password_success');
     }
 }
