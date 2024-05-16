@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Transport extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'plate',
+        'driver',
+        'lot_id',
+        'shipping',
+        'shipping_date',
+        'shipped',
+        'shipped_date'
+    ];
+
 }
