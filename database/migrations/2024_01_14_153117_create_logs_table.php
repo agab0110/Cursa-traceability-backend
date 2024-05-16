@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('logs', function (Blueprint $table) {
-            $table->id();
+            $table->integer('number');
             $table->foreignId('lot_id')->constrained()->nullable()->cascadeOnDelete();
             $table->double('lenght');
             $table->double('median');
             $table->date('cut_date');
             $table->timestamps();
+
+            $table->primary(['number', 'plant_id']);
         });
     }
 
