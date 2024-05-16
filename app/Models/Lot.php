@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -26,5 +27,9 @@ class Lot extends Model
 
     public function logs(): HasMany {
         return $this->hasMany(Log::class, 'lot_id');
+    }
+
+    public function transport(): BelongsTo {
+        return $this->belongsTo(Transport::class);
     }
 }
