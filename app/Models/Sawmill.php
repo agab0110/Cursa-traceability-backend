@@ -22,4 +22,8 @@ class Sawmill extends Model
     public function transports(): HasMany {
         return $this->hasMany(Transport::class);
     }
+
+    public function products(): HasMany {
+        return $this->hasMany(Product::class);
+    }
 }
