@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('cut_date');
             $table->timestamps();
 
-            $table->primary(['number', 'plant_id']);
+            $table->primary(['number', 'lot_id']);
         });
     }
 
