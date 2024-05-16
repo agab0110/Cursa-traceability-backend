@@ -10,6 +10,16 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'sawmill_id'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function sawmill(): BelongsTo {
         return $this->belongsTo(Sawmill::class);
     }
