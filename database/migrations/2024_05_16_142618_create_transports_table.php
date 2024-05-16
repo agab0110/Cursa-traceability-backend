@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transports', function (Blueprint $table) {
-            $table->string('plate')->primary();
+            $table->id();
+            $table->string('plate');
             $table->string('driver');
             $table->foreignId('lot_id')->constrained();
             $table->boolean('shipping');
