@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('plate');
             $table->string('driver');
+            $table->string('company');
             $table->foreignId('lot_id')->constrained();
             $table->boolean('shipping');
             $table->date('shipping_date');
