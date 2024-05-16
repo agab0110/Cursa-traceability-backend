@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('sawmill_id')->constrained();
             $table->integer('log_number');
-            $table->integer('lot_id');
+            $table->foreignId('lot_id')->constrained();
             $table->foreign(['log_number', 'lot_id'])
                     ->references(['number', 'lot_id'])
                     ->on('logs')
