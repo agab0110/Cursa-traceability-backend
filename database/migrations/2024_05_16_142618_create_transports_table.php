@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('lot_id')->constrained();
             $table->boolean('shipping');
             $table->date('shipping_date');
-            $table->boolean('shipped');
-            $table->date('shipped_date');
+            $table->boolean('shipped')->default(false);
+            $table->date('shipped_date')->nullable();
             $table->timestamps();
         });
     }
