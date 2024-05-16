@@ -15,6 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('sawmill_id')->constrained();
+            $table->integer('log_number');
+            $table->integer('lot_id');
+            $table->foreign(['log_number', 'lot_id'])
+                    ->references(['number', 'lot_id'])
+                    ->on('logs')
+                    ->onDelete('cascade');
             $table->timestamps();
         });
     }
