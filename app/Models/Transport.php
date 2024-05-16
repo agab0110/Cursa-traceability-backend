@@ -19,4 +19,8 @@ class Transport extends Model
         'shipped_date'
     ];
 
+    protected $casts = [
+        'shipping_date' => 'datetime',
+        'shipped_date' => 'datetime'
+    ];
 }
