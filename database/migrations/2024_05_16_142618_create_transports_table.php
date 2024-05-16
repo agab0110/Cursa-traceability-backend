@@ -12,10 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transports', function (Blueprint $table) {
-            $table->id();
+            $table->string('plate')->primary();
+            $table->string('driver');
+            $table->foreignId('lot_id')->constrained();
+            $table->boolean('shipping');
+            $table->date('shipping_date');
+            $table->boolean('shipped');
+            $table->date('shipped_date');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
