@@ -22,6 +22,7 @@ class UpdateLogRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'number' => 'sometimes|numeric',
             'lenght' => 'sometimes|numeric',
             'median' => 'sometimes|numeric'
         ];
