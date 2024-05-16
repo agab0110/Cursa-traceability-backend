@@ -12,6 +12,7 @@ class Transport extends Model
     protected $fillable = [
         'plate',
         'driver',
+        'company',
         'lot_id',
         'shipping',
         'shipping_date',
