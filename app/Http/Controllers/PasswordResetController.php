@@ -66,7 +66,7 @@ class PasswordResetController extends Controller
         $passwordReset = DB::table('password_resets')->where('token', $validated['token'])->first();
 
         if (!$passwordReset) {
-            throw new PasswordException('Token non valido', 400);
+            throw new PasswordException('Token non valido', 401);
         }
 
         $user = User::where('email', $passwordReset->email)->first();
