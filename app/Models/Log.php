@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Thiagoprz\CompositeKey\HasCompositeKey;
 
 class Log extends Model
@@ -38,5 +39,9 @@ class Log extends Model
 
     public function lot(): BelongsTo {
         return $this->belongsTo(Lot::class);
+    }
+
+    public function log_sections(): HasMany {
+        return $this->hasMany(LogSection::class);
     }
 }
