@@ -28,9 +28,9 @@ class PasswordResetController extends Controller
     /**
      * This function finds a user from its email, generate new token for password reset and send an email with password reset form
      *
-     * @param Illuminate\Http\Request the request with the user's email
-     * @return Illuminate\Http\Response a json with an error message if the user is not found
-     * @return Illuminate\Http\Response a json with a success message if the user is found
+     * @param Illuminate\Http\Request $request the request with the user's email
+     * @return App\Http\Responses\PasswordResponse with a success message if the user is found
+     * @throws App\Exceptions\PasswordException with an error message if the user is not found
      */
     public function resetPassword(Request $request) {
         $user = User::where('email', $request->email)->first();
@@ -55,9 +55,10 @@ class PasswordResetController extends Controller
     /**
      * This function update the user's password
      *
-     * @param Illuminate\Http\Request the request containing the token and the new password
-     * @return Illuminate\Http\Response a json with an error message if the user is not found
-     * @return Illuminate\Http\Response a json with a success message if the user is found and the password is succesfully updated
+     * @param App\Http\Requests\ResetPassword\ResetPasswordRequest $request the request containing the token and the new password
+     * @return view
+     * @throws App\Exceptions\PasswordException with an error message if the token is not valid
+     * @throws App\Exceptions\PasswordException with an error message if the user is not found
      */
     public function update(ResetPasswordRequest $request) {
         $validated = $request->validated();
