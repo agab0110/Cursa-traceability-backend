@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('driver');
             $table->string('company');
             $table->foreignId('lot_id')->constrained();
-            $table->foreignId('pre_production_id')->constrained();
+            $table->foreignId('pre_production_id')->constrained()->nullable();
+            $table->foreignId('production_id')->constrained()->nullable();
             $table->boolean('shipping');
             $table->date('shipping_date');
             $table->boolean('shipped')->default(false);
