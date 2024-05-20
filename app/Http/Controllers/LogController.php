@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\Log\StoreLogRequest;
 use App\Http\Requests\Log\UpdateLogRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Log;
 use Illuminate\Http\Request;
 
@@ -22,15 +24,10 @@ class LogController extends Controller
                         ->paginate(13);
 
         if (!$logs) {
-            return response()->json([
-                'message' => 'Toppi non trovati',
-            ], 404);
+            throw new ApiException('Toppi non trovati', 404);
         }
 
-        return response()->json([
-            'message' => 'Toppi trovati',
-            'data' => $logs
-        ], 200);
+        return new ApiResponse('Toppi trovati', $logs, 200);
     }
 
     /**
@@ -44,10 +41,7 @@ class LogController extends Controller
 
         $log = Log::create($validated);
 
-        return response()->json([
-            'message' => 'Toppo creato con successo',
-            'data' => $log
-        ], 200);
+        return new ApiResponse('Toppo creato con successo', $log, 201);
     }
 
     /**
@@ -66,14 +60,15 @@ class LogController extends Controller
      */
     public function update(UpdateLogRequest $request, Log $log)
     {
+        if (!$log) {
+            throw new ApiException('Toppo non trovato', 404);
+        }
+        
         $validated = $request->validated();
 
         $log->update($validated);
 
-        return response()->json([
-            'message' => 'Toppo aggiornato con successo',
-            'data' => $log
-        ], 200);
+        return new ApiResponse('Toppo aggiornato con successo', $log, 201);
     }
 
     /**
