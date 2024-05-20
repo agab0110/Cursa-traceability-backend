@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\User;
 
 class UserController extends Controller
@@ -19,9 +20,6 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return response()->json([
-            'message' => 'Utente aggiornato con successo',
-            'data' => $user,
-        ], 200);
+        return new ApiResponse('Utente aggiornato con successo', $user, 201);
     }
 }
