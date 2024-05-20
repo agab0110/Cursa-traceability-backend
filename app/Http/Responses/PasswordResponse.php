@@ -4,7 +4,7 @@ namespace App\Http\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 
-class AuthResponse implements Responsable {
+class PasswordResponse implements Responsable {
     protected $message;
     protected $statusCode;
 
