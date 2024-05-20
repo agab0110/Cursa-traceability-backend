@@ -4,23 +4,26 @@ namespace App\Http\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 
+/**
+ * A custom response for authentication methods
+ */
 class AuthResponse implements Responsable {
     protected $message;
     protected $data;
     protected $token;
-    protected $statusCode;
+    protected $status;
 
     /**
      * @param string $message the message shown in the json
      * @param mixed $data the data returned
-     * @param string $token the user's token
-     * @param int $statusCode the status code of the response
+     * @param mixed $token the user's token
+     * @param int $status the status code of the response
      */
-    public function __construct($message, $data, $token, $statusCode) {
-        $this->$message = $message;
-        $this->$data = $data;
-        $this->$token = $token;
-        $this->$statusCode = $statusCode;
+    public function __construct($message, $data, $token, $status) {
+        $this->message = $message;
+        $this->data = $data;
+        $this->token = $token;
+        $this->status = $status;
     }
 
     public function toResponse($request) {
@@ -29,6 +32,6 @@ class AuthResponse implements Responsable {
             'data' => $this->data,
             'token' => $this->token,
             'token_type' => 'Bearer',
-        ], $this->statusCode);
+        ], $this->status);
     }
 }
