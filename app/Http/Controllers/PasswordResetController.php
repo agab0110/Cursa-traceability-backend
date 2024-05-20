@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\PasswordException;
 use App\Http\Requests\ResetPassword\ResetPasswordRequest;
+use App\Http\Responses\PasswordResponse;
 use App\Models\PasswordSetupMail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -34,9 +36,7 @@ class PasswordResetController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json([
-                'message' => 'Utente non trovato'
-            ], 404);
+            throw new PasswordException('Utente non trovato', 404);
         }
 
         $token = Str::random(60);
@@ -49,9 +49,7 @@ class PasswordResetController extends Controller
 
         Mail::to($user->email)->send(new PasswordSetupMail($token));
 
-        return response()->json([
-            'message' => 'È stata inviata una mail con un link per il reset della password'
-        ], 200);
+        return new PasswordResponse('È stata inviata una mail con un link per il reset delle passowrd', 200);
     }
 
     /**
@@ -67,13 +65,13 @@ class PasswordResetController extends Controller
         $passwordReset = DB::table('password_resets')->where('token', $request->token)->first();
 
         if (!$passwordReset) {
-            return response()->json(['error' => 'Token non valido'], 400);
+            throw new PasswordException('Token non valido', 400);
         }
 
         $user = User::where('email', $passwordReset->email)->first();
 
         if (!$user) {
-            return response()->json(['error' => 'Utente non trovato'], 404);
+            throw new PasswordException('Utente non trovato', 404);
         }
 
         // Update user's password
