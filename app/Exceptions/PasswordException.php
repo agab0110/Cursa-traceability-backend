@@ -19,7 +19,7 @@ class PasswordException extends Exception
     public function __construct($error, $statusCode)
     {
         parent::__construct($error);
-        $this->message = $error;
+        $this->error = $error;
         $this->statusCode = $statusCode;
     }
 

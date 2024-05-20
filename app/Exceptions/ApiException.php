@@ -9,25 +9,24 @@ use Exception;
  */
 class ApiException extends Exception
 {
-    protected $message;
+    protected $error;
     protected $statusCode;
 
     /**
      * @param string $message the message shown in the json
      * @param int $statusCode the status code of the response
      */
-    public function __construct($message, $statusCode)
+    public function __construct($error, $statusCode)
     {
-        parent::__construct($message);
-        $this->message = $message;
+        parent::__construct($error);
+        $this->error = $error;
         $this->statusCode = $statusCode;
     }
 
     public function render($request)
     {
         return response()->json([
-            'error' => true,
-            'message' => $this->message,
+            'message' => $this->error,
         ], $this->statusCode);
     }
 }
