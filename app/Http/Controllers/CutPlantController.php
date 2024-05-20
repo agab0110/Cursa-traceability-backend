@@ -56,7 +56,7 @@ class CutPlantController extends Controller
 
         $plant->update($validated);
 
-        if ($request['cutting'] == true && $request['cutted'] == false) {
+        if ($validated['cutting'] == true && $validated['cutted'] == false) {
             $lot = Lot::create([
                 'plant_id' => $plant->id,
             ]);
