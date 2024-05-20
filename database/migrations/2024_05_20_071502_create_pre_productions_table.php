@@ -11,16 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('pre_productions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('sawmill_id')->constrained();
-            $table->integer('log_number');
-            $table->foreignId('lot_id')->constrained();
-            $table->foreign(['log_number', 'lot_id'])
-                    ->references(['number', 'lot_id'])
-                    ->on('logs')
-                    ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('pre_productions');
     }
 };
