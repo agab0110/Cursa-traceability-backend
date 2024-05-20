@@ -11,9 +11,9 @@ class UserController extends Controller
     /**
      * Update the specified user in storage.
      *
-     * @param App\Http\Requests\User\UpdateUserRequest the changes to be made
-     * @param App\Models\User the user id
-     * @return Illuminate\Http\Response a json with the updated user
+     * @param App\Http\Requests\User\UpdateUserRequest $request the changes to be made
+     * @param App\Models\User $user the user id
+     * @return App\Http\Responses\ApiResponse with the updated user
      */
     public function update(UpdateUserRequest $request, User $user) {
         $validated = $request->validated();
