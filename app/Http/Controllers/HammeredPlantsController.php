@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\HammeredPlant\StoreHammeredPlantRequest;
 use App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Forest;
 use App\Models\Plant;
 use Illuminate\Http\Request;
@@ -25,15 +27,10 @@ class HammeredPlantsController extends Controller
                         ->paginate(13);
 
         if (!$plants) {
-            return response()->json([
-                'message' => 'Alberi non trovati',
-            ], 404);
+            throw new ApiException('Alberi non trovati', 404);
         }
 
-        return response()->json([
-            'message' => 'Alberi trovati',
-            'data' => $plants
-        ], 200);
+        return new ApiResponse('Alberi trovati', $plants, 200);
     }
 
     /**
@@ -46,17 +43,14 @@ class HammeredPlantsController extends Controller
     {
         $validated = $request->validated();
 
-        $forest = Forest::find($request['forest_id']);
+        $forest = Forest::find($validated['forest_id']);
 
         $plant = Plant::create($validated);
 
         $plant->forest()->associate($forest);
         $plant->save();
 
-        return response()->json([
-            'message' => 'Pianta creata con successo',
-            'data' => $plant
-        ], 200);
+        return new ApiResponse('Pianta creata con successso', $plant, 200);
     }
 
     /**
@@ -71,15 +65,10 @@ class HammeredPlantsController extends Controller
         $plant = Plant::find($id);
 
         if (!$plant) {
-            return response()->json([
-                'message' => 'Albero non trovato'
-            ], 404);
+            throw new ApiException('Albero non trovato', 404);
         }
 
-        return response()->json([
-            'message' => 'Albero trovato',
-            'data' => $plant
-        ], 200);
+        return new ApiResponse('Albero trovato', $plant, 200);
     }
 
     /**
@@ -95,19 +84,14 @@ class HammeredPlantsController extends Controller
         $plant = Plant::find($id);
 
         if (!$plant) {
-            return response()->json([
-                'message' => 'Albero non trovato',
-            ], 404);
+            throw new ApiException('Albero non trovato', 404);
         }
 
         $validated = $request->validated();
 
         $plant->update($validated);
 
-        return response()->json([
-            'message' => 'Albero aggiornato con successo',
-            'data' => $plant,
-        ], 200);
+        return new ApiResponse('Albero aggiornato con successo', $plant, 200);
     }
 
     /**
