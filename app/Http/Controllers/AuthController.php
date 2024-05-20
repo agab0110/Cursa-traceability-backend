@@ -20,7 +20,7 @@ class AuthController extends Controller
     /**
      * Find a user in the database and attempt to login.
      *
-     * @param App\Http\Requests\Auth\LoginRequest containing the user
+     * @param App\Http\Requests\Auth\LoginRequest $request containing the user
      * @return App\Http\Responses\AuthResponse with the logged user and the access token if the user is found
      * @throws App\Exceptions\ApiException with a message error if no user is found
      */
@@ -41,7 +41,7 @@ class AuthController extends Controller
     /**
      * Create a new user in the database
      *
-     * @param App\Http\Requests\Auth\RegisterRequest containing the user
+     * @param App\Http\Requests\Auth\RegisterRequest $request containing the user
      * @return App\Http\Responses\AuthResponse with a success message if the user is found
      */
     public function register(RegisterRequest $request) {
@@ -76,7 +76,7 @@ class AuthController extends Controller
     /**
      * Logout the current user
      *
-     * @param Illuminate\Http\Request containing the user
+     * @param Illuminate\Http\Request $request containing the user
      * @return App\Http\Responses\AuthResponse with a success message
      */
     public function logout(Request $request) {
