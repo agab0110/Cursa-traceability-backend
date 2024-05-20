@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\Forest\StoreForestRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Forest;
 use Illuminate\Http\Request;
 
@@ -19,15 +21,11 @@ class ForestController extends Controller
         $forests = Forest::paginate(15);
 
         if (!$forests) {
-            return response()->json([
-                'message' => 'Boschi non trovati',
-            ], 404);
+
+            throw new ApiException('Boschi non trovati', 404);
         }
 
-        return response()->json([
-            'message' => 'Boschi trovati',
-            'data' => $forests
-        ], 200);
+        return new ApiResponse('Boschi trovati', $forests, 200);
     }
 
     /**
@@ -42,10 +40,7 @@ class ForestController extends Controller
 
         $forest = Forest::create($validated);
 
-        return response()->json([
-            'message' => 'Bosco creato con successo',
-            'data' => $forest
-        ], 200);
+        return new ApiResponse('Bosco creato con successo', $forest, 200);
     }
 
     /**
@@ -59,15 +54,10 @@ class ForestController extends Controller
     public function show(Request $request, Forest $forest)
     {
         if (!$forest) {
-            return response()->json([
-                'message' => 'Bosco non trovato'
-            ], 404);
+            throw new ApiException('Bosco non trovato', 404);
         }
 
-        return response()->json([
-            'message' => 'Bosco trovato',
-            'data' => $forest
-        ], 200);
+        return new ApiResponse('Bosco trovato', $forest, 200);
     }
 
     /**
