@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\ApiResponse;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -33,10 +34,7 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
 
-        return response()->json([
-            'message' => 'Ruolo trovato',
-            'data' => $role->name
-        ], 200);
+        return new ApiResponse('Ruolo trovato', $role->name, 200);
     }
 
     /**
