@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pre_productions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('company_name');
             $table->timestamps();
         });
     }
