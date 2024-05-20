@@ -62,7 +62,7 @@ class PasswordResetController extends Controller
     public function update(ResetPasswordRequest $request) {
         $validated = $request->validated();
 
-        $passwordReset = DB::table('password_resets')->where('token', $request->token)->first();
+        $passwordReset = DB::table('password_resets')->where('token', $validated['token'])->first();
 
         if (!$passwordReset) {
             throw new PasswordException('Token non valido', 400);
@@ -75,7 +75,7 @@ class PasswordResetController extends Controller
         }
 
         // Update user's password
-        $user->password = bcrypt($request->password);
+        $user->password = bcrypt($validated['password']);
         $user->save();
 
         // Delete the token from password resets table
