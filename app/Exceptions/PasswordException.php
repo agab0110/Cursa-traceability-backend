@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 
+/**
+ * A custom exception for the passoword reset errors
+ */
 class PasswordException extends Exception
 {
     protected $error;

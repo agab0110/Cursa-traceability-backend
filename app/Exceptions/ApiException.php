@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 
+/**
+ * A custom exception for the API errors
+ */
 class ApiException extends Exception
 {
     protected $message;
