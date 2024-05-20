@@ -14,9 +14,9 @@ class LogController extends Controller
     /**
      * Display a listing of the logs using pagination.
      *
-     * @param Illuminate\Http\Request the request sent
-     * @return Illuminate\Http\Response a json with an error message if no logs are found
-     * @return Illuminate\Http\Response a json with a list of the found logs
+     * @param Illuminate\Http\Request $request the request sent
+     * @return App\Http\Responses\ApiResponse with a list of the found logs
+     * @throws App\Exceptions\ApiException with an error message if no logs are found
      */
     public function index(Request $request)
     {
@@ -32,8 +32,9 @@ class LogController extends Controller
 
     /**
      * Store a newly created log in storage.
-     * @param App\Http\Requests\Log\StoreLogRequest the log to save
-     * @return Illuminate\Http\Response a json with the created log
+     *
+     * @param App\Http\Requests\Log\StoreLogRequest $request the log to save
+     * @return App\Http\Responses\ApiResponse with the created log
      */
     public function store(StoreLogRequest $request)
     {
@@ -54,16 +55,18 @@ class LogController extends Controller
 
     /**
      * Update the specified log in storage.
-     * @param App\Http\Requests\Log\UpdateLogRequest the changes to be made
-     * @param App\Models\Log the log to update
-     * @return Illuminate\Http\Response a json with the updated log
+     *
+     * @param App\Http\Requests\Log\UpdateLogRequest $request the changes to be made
+     * @param App\Models\Log $log the log to update
+     * @return App\Http\Responses\ApiResponse with the updated log
+     * @throws App\Exceptions\ApiException with an error message if no log is found
      */
     public function update(UpdateLogRequest $request, Log $log)
     {
         if (!$log) {
             throw new ApiException('Toppo non trovato', 404);
         }
-        
+
         $validated = $request->validated();
 
         $log->update($validated);
