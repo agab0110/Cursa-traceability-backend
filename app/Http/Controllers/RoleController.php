@@ -28,7 +28,7 @@ class RoleController extends Controller
      * Display the specified role.
      *
      * @param int $id the id of the role to find
-     * @return Illuminate\Http\Response a json with the role name
+     * @return App\Http\Responses\ApiResponse with the role name
      */
     public function show($id)
     {
