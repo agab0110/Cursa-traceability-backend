@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Responses\AuthResponse;
 use App\Models\PasswordSetupMail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -26,18 +28,14 @@ class AuthController extends Controller
         $validated = $request->validated();
 
         if (!Auth::attempt($validated)) {
-            return response()->json([
-                'message' => 'Parametri non validi',
-            ], 401);
+            throw new ApiException('Parametri non validi', 400);
         }
 
         $user = User::where('email', $validated['email'])->first();
 
-        return response()->json([
-            'data' => $user,
-            'access_token' => $user->createToken('api_token')->plainTextToken,
-            'token_type' => 'Bearer'
-        ]);
+        $token = $user->createToken('api_token')->plainTextToken;
+
+        return new AuthResponse('Login effettuato', $user, $token, 200);
     }
 
     /**
@@ -72,12 +70,7 @@ class AuthController extends Controller
 
         Mail::to($user->email)->send(new PasswordSetupMail($token));
 
-        return response()->json([
-            'data' => $user,
-            'psw' => $temporaryPassword,
-            'access_token' => $user->createToken('api_token')->plainTextToken,
-            'token_type' => 'Bearer'
-        ], 200);
+        return new AuthResponse('Utente creato con successo', null, null, 200);
     }
 
     /**
@@ -91,8 +84,6 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
 
-        return response()->json([
-            'message' => 'Logout effettuato con successo'
-        ], 200);
+        return new AuthResponse('Logout effettuato', null, null, 200);
     }
 }
