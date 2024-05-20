@@ -10,6 +10,12 @@ class AuthResponse implements Responsable {
     protected $token;
     protected $statusCode;
 
+    /**
+     * @param string $message the message shown in the json
+     * @param mixed $data the data returned
+     * @param string $token the user's token
+     * @param int $statusCode the status code of the response
+     */
     public function __construct($message, $data, $token, $statusCode) {
         $this->$message = $message;
         $this->$data = $data;

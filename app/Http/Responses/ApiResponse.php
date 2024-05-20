@@ -9,6 +9,11 @@ class ApiResponse implements Responsable {
     protected $data;
     protected $statusCode;
 
+    /**
+     * @param string $message the message shown in the json
+     * @param mixed $data the data returned
+     * @param int $statusCode the status code of the response
+     */
     public function __construct($message, $data, $statusCode) {
         $this->$message = $message;
         $this->$data = $data;

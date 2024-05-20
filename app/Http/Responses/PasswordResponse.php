@@ -8,6 +8,10 @@ class PasswordResponse implements Responsable {
     protected $message;
     protected $statusCode;
 
+    /**
+     * @param string $message the message shown in the json
+     * @param int $statusCode the status code of the response
+     */
     public function __construct($message, $statusCode) {
         $this->$message = $message;
         $this->$statusCode = $statusCode;
