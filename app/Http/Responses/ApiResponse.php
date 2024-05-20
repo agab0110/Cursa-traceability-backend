@@ -4,6 +4,9 @@ namespace App\Http\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 
+/**
+ * A custom response for the APIs
+ */
 class ApiResponse implements Responsable {
     protected $message;
     protected $data;
@@ -15,9 +18,9 @@ class ApiResponse implements Responsable {
      * @param int $statusCode the status code of the response
      */
     public function __construct($message, $data, $statusCode) {
-        $this->$message = $message;
-        $this->$data = $data;
-        $this->$statusCode = $statusCode;
+        $this->message = $message;
+        $this->data = $data;
+        $this->statusCode = $statusCode;
     }
 
     public function toResponse($request) {
