@@ -11,9 +11,10 @@ class LotController extends Controller
 {
     /**
      * Display a listing of the lots using pagination.
-     * @param Illuminate\Http\Request the request sent
-     * @return Illuminate\Http\Response a json with an error message if no lots are not found
-     * @return Illuminate\Http\Response a json with a list of found lots
+     *
+     * @param Illuminate\Http\Request $request the request sent
+     * @return App\Http\Responses\ApiResponse with a list of found lots
+     * @throws App\Exceptions\ApiException with an error message if no lots are not found
      */
     public function index(Request $request)
     {
@@ -36,9 +37,10 @@ class LotController extends Controller
 
     /**
      * Display the specified lot.
+     *
      * @param int $id the id of the lot
-     * @return Illuminate\Http\Response a json with an error message if the lot is not found
-     * @return Illuminate\Http\Response a json with a list of found lot
+     * @return App\Http\Responses\ApiResponse with a list of found lot
+     * @throws App\Exceptions\ApiExceptione with an error message if the lot is not found
      */
     public function show($id)
     {
@@ -72,8 +74,8 @@ class LotController extends Controller
      * The filter is used to find only lots with the cutting flag true
      *
      * @param Illuminate\Http\Request the request sent
-     * @return Illuminate\Http\Response a json with an error message if no lots are found
-     * @return Illuminate\Http\Response a json with a list of found lots
+     * @return App\Http\Responses\ApiResponse with a list of found lots
+     * @return App\Exceptions\ApiException with an error message if no lots are found
      */
     public function getCuttingFilteredList(Request $request) {
         $lots = Lot::join('plants', 'lots.plant_id', '=', 'plants.id')
@@ -94,8 +96,8 @@ class LotController extends Controller
      * The filter is used to find only lots with the cutted flag true
      *
      * @param Illuminate\Http\Request the request sent
-     * @return Illuminate\Http\Response a json with an error message if no lots are found
-     * @return Illuminate\Http\Response a json with a list of found lots
+     * @return App\Http\Responses\ApiResponse with a list of found lots
+     * @throws App\Exceptions\ApiException with an error message if no lots are found
      */
     public function getCuttedFilteredList() {
         $lots = Lot::join('plants', 'lots.plant_id', '=', 'plants.id')
