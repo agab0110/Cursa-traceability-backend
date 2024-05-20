@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\Plant\StorePlantRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Forest;
 use App\Models\Plant;
 use Illuminate\Http\Request;
@@ -25,15 +27,10 @@ class PlantController extends Controller
                         ->paginate(13);
 
         if (!$plants) {
-            return response()->json([
-                'message' => 'Piante non trovate',
-            ], 404);
+            throw new ApiException('Piante non trovate', 404);
         }
 
-        return response()->json([
-            'message' => 'Piante trovate',
-            'data' => $plants
-        ], 200);
+        return new ApiResponse('Piante trovate', $plants, 200);
     }
 
     /**
@@ -47,17 +44,14 @@ class PlantController extends Controller
     {
         $validated = $request->validated();
 
-        $forest = Forest::find($request['forest_id']);
+        $forest = Forest::find($validated['forest_id']);
 
         $plant = Plant::create($validated);
 
         $plant->forest()->associate($forest);
         $plant->save();
 
-        return response()->json([
-            'message' => 'Pianta creata con successo',
-            'data' => $plant
-        ], 200);
+        return new ApiResponse('Pianta creata con successo', $plant, 201);
     }
 
     /**
@@ -71,15 +65,10 @@ class PlantController extends Controller
     public function show(Request $request, Plant $plant)
     {
         if (!$plant) {
-            return response()->json([
-                'message' => 'Pianta non trovata'
-            ], 404);
+            throw new ApiException('Pianta non trovata', 404);
         }
 
-        return response()->json([
-            'message' => 'Pianta trovata',
-            'data' => $plant
-        ], 200);
+        return new ApiResponse('Pianta trovata', $plant, 200);
     }
 
     /**
@@ -120,14 +109,9 @@ class PlantController extends Controller
                         ->get();
 
         if (!$plants) {
-            return response()->json([
-                'message' => 'Piante non trovate',
-            ], 404);
+            throw new ApiException('Piante non trovate', 404);
         }
 
-        return response()->json([
-            'message' => 'Piante trovate',
-            'data' => $plants
-        ], 200);
+        return new ApiResponse('Piante trovate', $plants, 200);
     }
 }
