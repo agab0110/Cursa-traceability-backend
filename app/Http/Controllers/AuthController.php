@@ -70,7 +70,7 @@ class AuthController extends Controller
 
         Mail::to($user->email)->send(new PasswordSetupMail($token));
 
-        return new AuthResponse('Utente creato con successo', null, null, 200);
+        return new AuthResponse('Utente creato con successo', null, null, 201);
     }
 
     /**

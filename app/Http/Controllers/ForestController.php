@@ -40,7 +40,7 @@ class ForestController extends Controller
 
         $forest = Forest::create($validated);
 
-        return new ApiResponse('Bosco creato con successo', $forest, 200);
+        return new ApiResponse('Bosco creato con successo', $forest, 201);
     }
 
     /**

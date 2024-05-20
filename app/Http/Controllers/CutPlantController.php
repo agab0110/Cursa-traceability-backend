@@ -64,7 +64,7 @@ class CutPlantController extends Controller
             $lot->save();
         }
 
-        return new ApiResponse('Albero aggiornato con successo', $plant, 200);
+        return new ApiResponse('Albero aggiornato con successo', $plant, 201);
     }
 
     /**

@@ -50,7 +50,7 @@ class HammeredPlantsController extends Controller
         $plant->forest()->associate($forest);
         $plant->save();
 
-        return new ApiResponse('Pianta creata con successso', $plant, 200);
+        return new ApiResponse('Pianta creata con successso', $plant, 201);
     }
 
     /**
@@ -91,7 +91,7 @@ class HammeredPlantsController extends Controller
 
         $plant->update($validated);
 
-        return new ApiResponse('Albero aggiornato con successo', $plant, 200);
+        return new ApiResponse('Albero aggiornato con successo', $plant, 201);
     }
 
     /**
