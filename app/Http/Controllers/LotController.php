@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
+use App\Http\Responses\ApiResponse;
 use App\Models\Lot;
 use Illuminate\Http\Request;
 
@@ -18,15 +20,10 @@ class LotController extends Controller
         $lots = Lot::paginate(13);
 
         if (!$lots) {
-            return response()->json([
-                'message' => 'Lotti non trovati',
-            ], 404);
+            throw new ApiException('Lotti non trovati', 404);
         }
 
-        return response()->json([
-            'message' => 'Lotti trovati',
-            'data' => $lots
-        ], 200);
+        return new ApiResponse('Lotti trovati', $lots, 200);
     }
 
     /**
@@ -48,15 +45,10 @@ class LotController extends Controller
         $lot = Lot::find($id);
 
         if (!$lot) {
-            return response()->json([
-                'message' => 'Lotto non trovato'
-            ], 404);
+            throw new ApiException('Lotto non trovato', 404);
         }
 
-        return response()->json([
-            'message' => 'Lotto trovato',
-            'data' => $lot
-        ], 200);
+        return new ApiResponse('Lotto trovati', $lot, 200);
     }
 
     /**
@@ -91,15 +83,10 @@ class LotController extends Controller
                 ->get();
 
         if (!$lots) {
-            return response()->json([
-                'message' => 'Lotti non trovati',
-            ], 404);
+            throw new ApiException('Lotti non trovati', 404);
         }
 
-        return response()->json([
-            'message' => 'Lotti trovati',
-            'data' => $lots
-        ], 200);
+        return new ApiResponse('Lotti trovati', $lots, 200);
     }
 
     /**
@@ -117,14 +104,9 @@ class LotController extends Controller
                 ->get();
 
         if (!$lots) {
-            return response()->json([
-                'message' => 'Lotti non trovati',
-            ], 404);
+            throw new ApiException('Lotti non trovati', 404);
         }
 
-        return response()->json([
-            'message' => 'Lotti trovati',
-            'data' => $lots
-        ], 200);
+        return new ApiResponse('Lotti trovati', $lots, 200);
     }
 }
