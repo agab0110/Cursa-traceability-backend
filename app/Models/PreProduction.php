@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Sawmill extends Model
+class PreProduction extends Model
 {
     use HasFactory;
 
@@ -23,7 +23,7 @@ class Sawmill extends Model
         return $this->hasMany(Transport::class);
     }
 
-    public function products(): HasMany {
-        return $this->hasMany(Product::class);
+    public function production(): HasMany {
+        return $this->hasMany(Production::class);
     }
 }
