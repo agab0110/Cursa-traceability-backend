@@ -50,12 +50,12 @@ class AuthController extends Controller
         $temporaryPassword = 'password';
 
         $user = new User();
-        $user->name = $request->input("name");
-        $user->surname = $request->input("surname");
-        $user->birth_date = $request->input("birth_date");
-        $user->cf = $request->input("cf");
-        $user->email = $request->input("email");
-        $user->role_id = $request->input("role_id");
+        $user->name = $validated['name'];
+        $user->surname = $validated['surname'];
+        $user->birth_date = $validated['birth_date'];
+        $user->cf = $validated['cf'];
+        $user->email = $validated['email'];
+        $user->role_id = $validated['role_id'];
         $user->password = $temporaryPassword;
 
         $user->save();
