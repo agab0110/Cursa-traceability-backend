@@ -13,7 +13,9 @@ class Production extends Model
 
     protected $fillable = [
         'name',
-        'sawmill_id'
+        'pre_production_id',
+        'log_number',
+        'lot_id'
     ];
 
     protected $hidden = [
