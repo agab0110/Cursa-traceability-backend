@@ -11,7 +11,7 @@ class PreProduction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'company_name'
     ];
 
     protected $hidden = [
