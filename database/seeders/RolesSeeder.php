@@ -16,7 +16,7 @@ class RolesSeeder extends Seeder
             ['name' => 'Operatore'],
             ['name' => 'Vivaista'],
             ['name' => 'Segheria'],
-            ['name' => 'Trasporto']
+            ['name' => 'Produzione']
         ]);
     }
 }
