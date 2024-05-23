@@ -152,21 +152,21 @@ To create a Factory
 php artisan make:factory <factory name>
 ```
 A Request is a PHP class that encapsulates an HTTP request, providing methods for accessing and validating the request data.<br>
-To create a request:
+To create a Request:
 ```
 php artisan make:request <request name>
 ```
-A seeder is a PHP class that can be used to insert some data into the database.<br>
-A seeder works for **one and only one** class.<br>
+A Seeder is a PHP class that can be used to insert some data into the database.<br>
+A Seeder works for **one and only one** class.<br>
 To create a seeder:
 ```
 php artisan make:seeder <seeder name>
 ```
-To use the seeder:
+To use a Seeder:
 ```
 php artisan db:seed --class=<Seeder Class Name>  
 ```
-An exception is a PHP class used to handle errors and other exceptionals events.<br>
+An Exception is a PHP class used to handle errors and other exceptionals events.<br>
 Those allow you to define custom behavior for different types of errors, Laravel automatically handle the thrown exceptions.<br>
 To create an exception:
 ```
