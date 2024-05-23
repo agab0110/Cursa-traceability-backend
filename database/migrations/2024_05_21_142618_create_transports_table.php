@@ -23,6 +23,8 @@ return new class extends Migration
             $table->date('shipping_date');
             $table->boolean('shipped')->default(false);
             $table->date('shipped_date')->nullable();
+            $table->boolean('returning')->default(false);
+            $table->date('returning_date')->nullable();
         });
     }
 
