@@ -80,9 +80,12 @@ class AuthController extends Controller
      * @return App\Http\Responses\AuthResponse with a success message
      */
     public function logout(Request $request) {
-        Auth::logout();
+        $user = $request->user();
 
-        $request->session()->invalidate();
+        $user->currentAccessToken()->delete();
+
+        $user->remember_token = null;
+        $user->save();
 
         return new AuthResponse('Logout effettuato', null, null, 200);
     }
