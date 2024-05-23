@@ -20,19 +20,26 @@ class Transport extends Model
         'shipping',
         'shipping_date',
         'shipped',
-        'shipped_date'
+        'shipped_date',
+        'returning',
+        'returning_date'
     ];
 
     protected $casts = [
         'shipping_date' => 'datetime',
-        'shipped_date' => 'datetime'
+        'shipped_date' => 'datetime',
+        'returning_date' => 'datetime'
     ];
 
     public function lots(): HasMany {
         return $this->hasMany(Lot::class);
     }
 
-    public function sawmill(): BelongsTo {
-        return $this->belongsTo(Sawmill::class);
+    public function preProduction(): BelongsTo {
+        return $this->belongsTo(PreProduction::class);
+    }
+
+    public function production(): BelongsTo {
+        return $this->belongsTo(Production::class);
     }
 }
