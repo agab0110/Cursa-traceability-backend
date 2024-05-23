@@ -166,6 +166,12 @@ To use the seeder:
 ```
 php artisan db:seed --class=<Seeder Class Name>  
 ```
+An exception is a PHP class used to handle errors and other exceptionals events.<br>
+Those allow you to define custom behavior for different types of errors, Laravel automatically handle the thrown exceptions.<br>
+To create an exception:
+```
+php artisan make:exception <exception name>
+``` 
 Usually each model corresponds to a migration, so we can create a model with -m flag to generate the corresponding migration:
 ```
 php artisan migrate make:model <model name> -m
