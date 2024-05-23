@@ -27,15 +27,15 @@ class AuthController extends Controller
     public function login(LoginRequest $request) {
         $validated = $request->validated();
 
-        if (!Auth::attempt($validated)) {
+        if (Auth::attempt(array('email' => $validated['email'], 'password' => $validated['password']), $validated['remember'])) {
+            $user = User::where('email', $validated['email'])->first();
+
+            $token = $user->createToken('api_token')->plainTextToken;
+
+            return new AuthResponse('Login effettuato', $user, $token, 200);
+        } else {
             throw new ApiException('Parametri non validi', 400);
         }
-
-        $user = User::where('email', $validated['email'])->first();
-
-        $token = $user->createToken('api_token')->plainTextToken;
-
-        return new AuthResponse('Login effettuato', $user, $token, 200);
     }
 
     /**
