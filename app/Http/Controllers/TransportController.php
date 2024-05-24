@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
+use App\Http\Requests\Transport\NewTransportRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Transport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransportController extends Controller
@@ -28,11 +30,28 @@ class TransportController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created transport in storage.
+     *
+     * @param App\Http\Requests\Transport\NewTransportReques $request containing the field required
+     * @return App\Http\Responses\ApiResponse with the created transport
      */
-    public function store(Request $request)
+    public function store(NewTransportRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $transport = new Transport();
+        $transport->plate = $validated['plate'];
+        $transport->driver = $validated['driver'];
+        $transport->company = $validated['company'];
+        $transport->lot_id = $validated['lot_id'];
+        $transport->pre_production_id = $validated['pre_production_id'];
+        $transport->production_id = $validated['production_id'];
+        $transport->shipping = $validated['shipping'];
+        $transport->shipping_date = Carbon::now();
+
+        $transport->save();
+
+        return new ApiResponse('Trasporto creato con successo', $transport, 200);
     }
 
     /**
