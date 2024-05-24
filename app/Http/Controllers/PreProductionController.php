@@ -13,11 +13,20 @@ use App\Models\PreProduction;
 class PreProductionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the pre-production using pagination.
+     *
+     * @return App\Http\Responses\ApiResponse with the list of pre-productions found
+     * @throws App\Exceptions\ApiException with an error message if no pre-production is found
      */
     public function index()
     {
-        //
+        $preProductions = PreProduction::paginate(15);
+
+        if (!$preProductions) {
+            throw new ApiException('Nessuna segheria trovata', 404);
+        }
+
+        return new ApiResponse('Segherie trovate', $preProductions, 200);
     }
 
     /**
