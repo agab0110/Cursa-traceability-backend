@@ -49,11 +49,21 @@ class PreProductionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified pre-production.
+     *
+     * @param string $name the name of the pre-production
+     * @return App\Http\Responses\ApiResponse with the pre-production found
+     * @throws App\Exceptions\ApiException with an error message if no pre-production is found
      */
-    public function show(string $id)
+    public function show(string $name)
     {
-        //
+        $preProduction = PreProduction::where('name', $name);
+
+        if (!$preProduction) {
+            throw new ApiException('Nessuna segheria trovata con quel nome', 404);
+        }
+
+        return new ApiResponse('Segheria trovata', $preProduction, 200);
     }
 
     /**
