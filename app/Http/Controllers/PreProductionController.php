@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\PreProduction\CreateLogSectionRequest;
 use App\Http\Requests\PreProduction\NewPreProductionRequest;
+use App\Http\Requests\PreProduction\UpdatePreProductionRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\LogSection;
 use App\Models\PreProduction;
-use Illuminate\Http\Request;
 
 class PreProductionController extends Controller
 {
@@ -47,11 +48,26 @@ class PreProductionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified pre-production in storage.
+     *
+     * @param App\Http\Requests\PreProduction\UpdatePreProductionRequest $request containing the changes to be made
+     * @param int $id the id of the pre-production to update
+     * @return App\Http\Responses\ApiResponse with the updated pre-production
+     * @throws App\Exceptions\ApiException with an error message if the pre-production is not found
      */
-    public function update(Request $request, string $id)
+    public function update(UpdatePreProductionRequest $request, $id)
     {
-        //
+        $preProduction = PreProduction::find($id);
+
+        if (!$preProduction) {
+            throw new ApiException('Segheria non trovata', 404);
+        }
+
+        $validated = $request->validated();
+
+        $preProduction->update($validated);
+
+        return new ApiResponse('Segheria aggiornata con successo', $preProduction, 201);
     }
 
     /**
