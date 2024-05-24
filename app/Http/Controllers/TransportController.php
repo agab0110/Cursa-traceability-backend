@@ -55,11 +55,19 @@ class TransportController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified transport.
+     *
+     * @param App\Models\Transport $transport containing the id of the transport to be found
+     * @return App\Http\Responses\ApiResponse with the found transport
+     * @throws App\Exceptions\ApiException with an error message if no transport is found
      */
-    public function show(string $id)
+    public function show(Transport $transport)
     {
-        //
+        if (!$transport) {
+            throw new ApiException('Trasporto non trovato', 404);
+        }
+
+        return new ApiResponse('Trasporto trovato', $transport, 200);
     }
 
     /**
