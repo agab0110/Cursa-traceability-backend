@@ -23,7 +23,8 @@ class CreateLogSectionRequest extends FormRequest
     {
         return [
             'lot_id' => 'required|integer',
-            'log_number' => 'required|integer'
+            'log_number' => 'required|integer',
+            'section' => 'required|integer'
         ];
     }
 }
