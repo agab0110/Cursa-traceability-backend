@@ -9,6 +9,7 @@ use App\Http\Controllers\LotController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TransportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('cutting-lots', [LotController::class, 'getCuttingFilteredList']);
     Route::get('cutted-lots', [LotController::class, 'getCuttedFilteredList']);
     Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
+    Route::apiResource('transports', [TransportController::class]);
 });
 
 Route::prefix('auth')->group(function () {
