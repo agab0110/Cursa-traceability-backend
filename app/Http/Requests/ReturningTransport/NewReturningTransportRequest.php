@@ -11,7 +11,7 @@ class NewReturningTransportRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class NewReturningTransportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'transport_id' => 'required|integer',
+            'notes' => 'sometimes|string',
+            'returning_date' => 'required|date'
         ];
     }
 }
