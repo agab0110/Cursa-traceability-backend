@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logs', function (Blueprint $table) {
-            $table->integer('number');
-            $table->foreignId('lot_id')->constrained()->nullable()->cascadeOnDelete();
-            $table->double('lenght');
-            $table->double('median');
-            $table->date('cut_date');
+        Schema::create('pre_productions', function (Blueprint $table) {
+            $table->id();
+            $table->string('company_name');
             $table->timestamps();
-
-            $table->primary(['number', 'lot_id']);
         });
     }
 
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('logs');
+        Schema::dropIfExists('pre_productions');
     }
 };

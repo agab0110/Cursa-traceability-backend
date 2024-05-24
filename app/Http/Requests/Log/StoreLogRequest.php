@@ -22,6 +22,7 @@ class StoreLogRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'number' => 'required|numeric',
             'lot_id' => 'required|numeric',
             'lenght' => 'required|numeric',
             'median' => 'required|numeric',

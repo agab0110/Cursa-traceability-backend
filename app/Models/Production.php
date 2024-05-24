@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Lot extends Model
+class Production extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'plant_id'
+        'name',
+        'pre_production_id',
+        'log_number',
+        'lot_id'
     ];
 
     protected $hidden = [
@@ -21,15 +23,11 @@ class Lot extends Model
         'updated_at'
     ];
 
-    public function plant(): HasOne {
-        return $this->hasOne(Plant::class);
+    public function preProduction(): BelongsTo {
+        return $this->belongsTo(PreProduction::class);
     }
 
-    public function logs(): HasMany {
-        return $this->hasMany(Log::class, 'lot_id');
-    }
-
-    public function transport(): BelongsTo {
-        return $this->belongsTo(Transport::class);
+    public function transports(): HasMany {
+        return $this->hasMany(Transport::class);
     }
 }

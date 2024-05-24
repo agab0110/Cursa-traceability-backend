@@ -2,13 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Thiagoprz\CompositeKey\HasCompositeKey;
 
 class Log extends Model
 {
+    use HasCompositeKey;
+
+    protected $primaryKey = [
+        'number',
+        'lot_id'
+    ];
+
+    public $incrementing = false;
+
+    protected $keyType = 'integer';
+
     protected $fillable = [
+        'number',
         'lot_id',
         'lenght',
         'median',
@@ -26,5 +39,9 @@ class Log extends Model
 
     public function lot(): BelongsTo {
         return $this->belongsTo(Lot::class);
+    }
+
+    public function log_sections(): HasMany {
+        return $this->hasMany(LogSection::class);
     }
 }
