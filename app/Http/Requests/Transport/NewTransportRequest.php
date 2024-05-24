@@ -29,6 +29,7 @@ class NewTransportRequest extends FormRequest
         'pre_production_id' => 'sometimes|integer',
         'production_id' => 'sometimes|integer',
         'shipping' => 'required|boolean',
+        'shipping_date' => 'required|date'
         ];
     }
 }
