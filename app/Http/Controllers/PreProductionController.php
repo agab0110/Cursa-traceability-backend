@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PreProduction\CreateLogSectionRequest;
+use App\Http\Requests\PreProduction\NewPreProductionRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\LogSection;
+use App\Models\PreProduction;
 use Illuminate\Http\Request;
 
 class PreProductionController extends Controller
@@ -18,11 +20,22 @@ class PreProductionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created pre-production in storage.
+     *
+     * @param App\Http\Requests\PreProduction\NewPreProductionRequest $request containing the requested field
+     * @return App\Http\Responses\ApiResponse with the created pre-production
      */
-    public function store(Request $request)
+    public function store(NewPreProductionRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $preProduction = new PreProduction();
+
+        $preProduction->company_name = $validated['name'];
+
+        $preProduction->save();
+
+        return new ApiResponse('Segheria creata con successo', $preProduction, 201);
     }
 
     /**
