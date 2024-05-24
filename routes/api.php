@@ -42,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('cutting-lots', [LotController::class, 'getCuttingFilteredList']);
     Route::get('cutted-lots', [LotController::class, 'getCuttedFilteredList']);
     Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
-    Route::apiResource('transports', [TransportController::class]);
+    Route::apiResource('transports', TransportController::class);
 });
 
 Route::prefix('auth')->group(function () {
