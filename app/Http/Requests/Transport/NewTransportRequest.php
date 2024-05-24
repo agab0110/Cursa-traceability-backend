@@ -22,7 +22,13 @@ class NewTransportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+        'plate' => 'required|string|min:7|max:7',
+        'driver' => 'required|string|min:2',
+        'company' => 'required|string|min:3',
+        'lot_id' => 'required|integer',
+        'pre_production_id' => 'sometimes|integer',
+        'production_id' => 'sometimes|integer',
+        'shipping' => 'required|boolean',
         ];
     }
 }
