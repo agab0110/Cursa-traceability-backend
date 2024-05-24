@@ -44,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
     Route::apiResource('transports', TransportController::class);
     Route::get('pre-production-transports', [TransportController::class, 'getPreProductionTransports']);
+    Route::get('production-transports', [TransportController::class, 'getProductionTransports']);
 });
 
 Route::prefix('auth')->group(function () {
