@@ -118,4 +118,21 @@ class TransportController extends Controller
 
         return new ApiResponse('Trasporti trovati', $transports, 200);
     }
+
+    /**
+     * Display a listing of the transport for a specific production.
+     *
+     * @param Illuminate\Http\Request $request containing the production id
+     * @return App\Http\Responses\ApiResponse with a list of transports
+     * @throws App\Exceptions\ApiException with an error message if no transports are found
+     */
+    public function getProductionTransports(Request $request) {
+        $transports = Transport::Where('production_id', $request['production_id']);
+
+        if (!$transports) {
+            throw new ApiException('Trasporti non trovati', 404);
+        }
+
+        return new ApiResponse('Trasporti trovati', $transports, 200);
+    }
 }
