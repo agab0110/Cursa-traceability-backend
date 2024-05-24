@@ -24,8 +24,6 @@ class UpdateTransportRequest extends FormRequest
         return [
             'shipped' => 'sometimes|boolean',
             'shipped_date' => 'sometimes|date|required_with:shipped',
-            'returning' => 'sometimes|boolean',
-            'returning_date' => 'sometimes|date|required_with:returning'
         ];
     }
 }
