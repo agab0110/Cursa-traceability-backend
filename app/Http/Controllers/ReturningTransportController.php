@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\ReturningTransport\NewReturningTransportRequest;
+use App\Http\Requests\ReturningTransport\UpdateReturningTransportRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\ReturningTransport;
-use Illuminate\Http\Request;
 
 class ReturningTransportController extends Controller
 {
@@ -47,11 +48,26 @@ class ReturningTransportController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified retuning transport in storage.
+     *
+     * @param App\Http\Requests\ReturningTransport\UpdateReturningTransportRequest $request containing the changes to be made
+     * @param int $id the id of the retuning transport to update
+     * @return App\Http\Responses\ApiResponse with the updated returning transport
+     * @throws App\Exceptions\ApiException with an error message if the returning transport is not found
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateReturningTransportRequest $request, $id)
     {
-        //
+        $returningTransport = ReturningTransport::find($id);
+
+        if (!$returningTransport) {
+            throw new ApiException('Trasporto di ritorno non trovato', 404);
+        }
+
+        $validated = $request->validated();
+
+        $returningTransport->update($validated);
+
+        return new ApiResponse('Trasporto di ritono aggiornato con successo', $returningTransport, 201);
     }
 
     /**
