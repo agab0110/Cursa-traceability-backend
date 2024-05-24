@@ -101,4 +101,21 @@ class TransportController extends Controller
     {
         //
     }
+
+    /**
+     * Display a listing of the transport for a specific pre-production.
+     *
+     * @param Illuminate\Http\Request $request containing the pre-production id
+     * @return App\Http\Responses\ApiResponse with a list of transports
+     * @throws App\Exceptions\ApiException with an error message if no transports are found
+     */
+    public function getPreProductionTransports(Request $request) {
+        $transports = Transport::Where('pre_production_id', $request['pre_production_id']);
+
+        if (!$transports) {
+            throw new ApiException('Trasporti non trovati', 404);
+        }
+
+        return new ApiResponse('Trasporti trovati', $transports, 200);
+    }
 }
