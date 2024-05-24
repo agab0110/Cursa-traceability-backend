@@ -11,7 +11,7 @@ class UpdateTransportRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateTransportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'shipped' => 'sometimes|boolean',
+            'shipped_date' => 'sometimes|date|required_with:shipped',
+            'returning' => 'sometimes|boolean',
+            'returning_date' => 'sometimes|date|required_with:returning'
         ];
     }
 }
