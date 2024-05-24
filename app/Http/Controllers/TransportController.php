@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Http\Requests\Transport\NewTransportRequest;
+use App\Http\Requests\Transport\UpdateTransportRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Transport;
 use Carbon\Carbon;
@@ -71,11 +72,26 @@ class TransportController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified transport in storage.
+     *
+     * @param App\Http\Requests\Transport\UpdateTransportRequest $request containing the changes to be made
+     * @param int $id the id of the transport to update
+     * @return App\Http\Responses\ApiResponse with the updated transport
+     * @throws App\Exceptions\ApiException with an error message if no transport is found
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTransportRequest $request, $id)
     {
-        //
+        $transport = Transport::find($id);
+
+        if (!$transport) {
+            throw new ApiException('Trasporto non trovato', 404);
+        }
+
+        $validated = $request->validated();
+
+        $transport->update($validated);
+
+        return new ApiResponse('Trasporto aggiornato con successo', $transport, 201);
     }
 
     /**
