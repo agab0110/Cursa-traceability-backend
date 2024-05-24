@@ -47,7 +47,7 @@ class TransportController extends Controller
         $transport->pre_production_id = $validated['pre_production_id'];
         $transport->production_id = $validated['production_id'];
         $transport->shipping = $validated['shipping'];
-        $transport->shipping_date = Carbon::now();
+        $transport->shipping_date = $validated['shipping_date'];
 
         $transport->save();
 
@@ -73,7 +73,7 @@ class TransportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         //
     }
