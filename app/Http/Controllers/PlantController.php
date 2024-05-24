@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\Plant\StorePlantRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Forest;
 use App\Models\Plant;
 use Illuminate\Http\Request;
@@ -13,9 +15,9 @@ class PlantController extends Controller
      * Display a listing of plants using pagination.
      * The plants are not hammered or cutted
      *
-     * @param  Illuminate\Http\Request the request sent
-     * @return Illuminate\Http\Response a json with an error message if no plants are found
-     * @return Illuminate\Http\Response a json with a list of plants
+     * @param  Illuminate\Http\Request $request the request sent
+     * @return App\Http\Responses\ApiResponse with a list of plants
+     * @throws App\Exceptions\ApiException with an error message if no plants are found
      */
     public function index(Request $request)
     {
@@ -25,15 +27,10 @@ class PlantController extends Controller
                         ->paginate(13);
 
         if (!$plants) {
-            return response()->json([
-                'message' => 'Piante non trovate',
-            ], 404);
+            throw new ApiException('Piante non trovate', 404);
         }
 
-        return response()->json([
-            'message' => 'Piante trovate',
-            'data' => $plants
-        ], 200);
+        return new ApiResponse('Piante trovate', $plants, 200);
     }
 
     /**
@@ -41,45 +38,37 @@ class PlantController extends Controller
      * It assoiate a plant with a forest
      *
      * @param  \App\Http\Requests\Plant\StorePlantRequest the plant to store
-     * @return \Illuminate\Http\Response a json with the created plant
+     * @return App\Http\Responses\ApiResponse with the created plant
      */
     public function store(StorePlantRequest $request)
     {
         $validated = $request->validated();
 
-        $forest = Forest::find($request['forest_id']);
+        $forest = Forest::find($validated['forest_id']);
 
         $plant = Plant::create($validated);
 
         $plant->forest()->associate($forest);
         $plant->save();
 
-        return response()->json([
-            'message' => 'Pianta creata con successo',
-            'data' => $plant
-        ], 200);
+        return new ApiResponse('Pianta creata con successo', $plant, 201);
     }
 
     /**
      * Display the specified plant.
      *
-     * @param  Illuminate\Http\Request the request found
+     * @param  Illuminate\Http\Request $request the request found
      * @param  App\Models\Plant $plant the id of the plant to show
-     * @return Illuminate\Http\Response a json with an error message if the plant is not found
-     * @return Illuminate\Http\Response a json with the plant found
+     * @return App\Http\Responses\ApiResponse with the plant found
+     * @throws App\Exceptions\ApiException with an error message if the plant is not found
      */
     public function show(Request $request, Plant $plant)
     {
         if (!$plant) {
-            return response()->json([
-                'message' => 'Pianta non trovata'
-            ], 404);
+            throw new ApiException('Pianta non trovata', 404);
         }
 
-        return response()->json([
-            'message' => 'Pianta trovata',
-            'data' => $plant
-        ], 200);
+        return new ApiResponse('Pianta trovata', $plant, 200);
     }
 
     /**
@@ -109,8 +98,8 @@ class PlantController extends Controller
      * Get a list of elements from storage given a forest id
      *
      * @param Request $request the forest id and hammered flag
-     * @return Illuminate\Http\Response a json with an error message if no plants are found
-     * @return Illuminate\Http\Response a json with a list of plants
+     * @return App\Http\Responses\ApiResponse with a list of plants
+     * @throws App\Exceptions\ApiException with an error message if no plants are found
      */
     public function getPlantByForestId(Request $request) {      // manca la paginazione
         $plants = Plant::where('forest_id', $request->query('forest_id'))
@@ -120,14 +109,9 @@ class PlantController extends Controller
                         ->get();
 
         if (!$plants) {
-            return response()->json([
-                'message' => 'Piante non trovate',
-            ], 404);
+            throw new ApiException('Piante non trovate', 404);
         }
 
-        return response()->json([
-            'message' => 'Piante trovate',
-            'data' => $plants
-        ], 200);
+        return new ApiResponse('Piante trovate', $plants, 200);
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Responses\AuthResponse;
 use App\Models\PasswordSetupMail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -18,33 +20,29 @@ class AuthController extends Controller
     /**
      * Find a user in the database and attempt to login.
      *
-     * @param Illuminate\Http\Request containing the user
-     * @return Illuminate\Http\Response json with the logged user and the access token if the user is found
-     * @return Illuminate\Http\Response json with a message error if no user is found
+     * @param App\Http\Requests\Auth\LoginRequest $request containing the user
+     * @return App\Http\Responses\AuthResponse with the logged user and the access token if the user is found
+     * @throws App\Exceptions\ApiException with a message error if no user is found
      */
     public function login(LoginRequest $request) {
         $validated = $request->validated();
 
-        if (!Auth::attempt($validated)) {
-            return response()->json([
-                'message' => 'Parametri non validi',
-            ], 401);
+        if (Auth::attempt(array('email' => $validated['email'], 'password' => $validated['password']), $validated['remember'])) {
+            $user = User::where('email', $validated['email'])->first();
+
+            $token = $user->createToken('api_token')->plainTextToken;
+
+            return new AuthResponse('Login effettuato', $user, $token, 200);
+        } else {
+            throw new ApiException('Parametri non validi', 400);
         }
-
-        $user = User::where('email', $validated['email'])->first();
-
-        return response()->json([
-            'data' => $user,
-            'access_token' => $user->createToken('api_token')->plainTextToken,
-            'token_type' => 'Bearer'
-        ]);
     }
 
     /**
      * Create a new user in the database
      *
-     * @param Illuminate\Http\Request containing the user
-     * @return Illuminate\Http\Response json with the created user, the temporary password and the access token if the user is found
+     * @param App\Http\Requests\Auth\RegisterRequest $request containing the user
+     * @return App\Http\Responses\AuthResponse with a success message if the user is found
      */
     public function register(RegisterRequest $request) {
         $validated = $request->validated();
@@ -52,12 +50,12 @@ class AuthController extends Controller
         $temporaryPassword = 'password';
 
         $user = new User();
-        $user->name = $request->input("name");
-        $user->surname = $request->input("surname");
-        $user->birth_date = $request->input("birth_date");
-        $user->cf = $request->input("cf");
-        $user->email = $request->input("email");
-        $user->role_id = $request->input("role_id");
+        $user->name = $validated['name'];
+        $user->surname = $validated['surname'];
+        $user->birth_date = $validated['birth_date'];
+        $user->cf = $validated['cf'];
+        $user->email = $validated['email'];
+        $user->role_id = $validated['role_id'];
         $user->password = $temporaryPassword;
 
         $user->save();
@@ -72,27 +70,23 @@ class AuthController extends Controller
 
         Mail::to($user->email)->send(new PasswordSetupMail($token));
 
-        return response()->json([
-            'data' => $user,
-            'psw' => $temporaryPassword,
-            'access_token' => $user->createToken('api_token')->plainTextToken,
-            'token_type' => 'Bearer'
-        ], 200);
+        return new AuthResponse('Utente creato con successo', null, null, 201);
     }
 
     /**
      * Logout the current user
      *
-     * @param Illuminate\Http\Request containing the user
-     * @return Illuminate\Http\Response json with a success message
+     * @param Illuminate\Http\Request $request containing the user
+     * @return App\Http\Responses\AuthResponse with a success message
      */
     public function logout(Request $request) {
-        Auth::logout();
+        $user = $request->user();
 
-        $request->session()->invalidate();
+        $user->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Logout effettuato con successo'
-        ], 200);
+        $user->remember_token = null;
+        $user->save();
+
+        return new AuthResponse('Logout effettuato', null, null, 200);
     }
 }

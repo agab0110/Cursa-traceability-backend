@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\ApiResponse;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -27,16 +28,13 @@ class RoleController extends Controller
      * Display the specified role.
      *
      * @param int $id the id of the role to find
-     * @return Illuminate\Http\Response a json with the role name
+     * @return App\Http\Responses\ApiResponse with the role name
      */
     public function show($id)
     {
         $role = Role::find($id);
 
-        return response()->json([
-            'message' => 'Ruolo trovato',
-            'data' => $role->name
-        ], 200);
+        return new ApiResponse('Ruolo trovato', $role->name, 200);
     }
 
     /**

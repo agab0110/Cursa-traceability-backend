@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\HammeredPlant\StoreHammeredPlantRequest;
 use App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Forest;
 use App\Models\Plant;
 use Illuminate\Http\Request;
@@ -11,11 +13,11 @@ use Illuminate\Http\Request;
 class HammeredPlantsController extends Controller
 {
     /**
-     * Display a listing of plants using pagination if the flags cutting and cutted are false.
+     * Display a listing of plants using pagination if the cutting and cutted flags are false.
      *
-     * @param  Illuminate\Http\Request the request sent
-     * @return Illuminate\Http\Response a json with an error message if no plants are found
-     * @return Illuminate\Http\Response a json with a list of plants
+     * @param  Illuminate\Http\Request $request the request sent
+     * @return App\Http\Responses\ApiResponse with a list of plants
+     * @throws App\Exceptions\ApiException with an error message if no plants are found
      */
     public function index(Request $request)
     {
@@ -25,89 +27,71 @@ class HammeredPlantsController extends Controller
                         ->paginate(13);
 
         if (!$plants) {
-            return response()->json([
-                'message' => 'Alberi non trovati',
-            ], 404);
+            throw new ApiException('Alberi non trovati', 404);
         }
 
-        return response()->json([
-            'message' => 'Alberi trovati',
-            'data' => $plants
-        ], 200);
+        return new ApiResponse('Alberi trovati', $plants, 200);
     }
 
     /**
      * Store a newly created hammered plant in storage.
      *
-     * @param  App\Http\Requests\HammeredPlant\StoreHammeredPlantRequest the new plant
-     * @return Illuminate\Http\Response a json with the new plant created
+     * @param  App\Http\Requests\HammeredPlant\StoreHammeredPlantRequest $request the new plant
+     * @return App\Http\Responses\ApiResponse with the new plant created
      */
     public function store(StoreHammeredPlantRequest $request)
     {
         $validated = $request->validated();
 
-        $forest = Forest::find($request['forest_id']);
+        $forest = Forest::find($validated['forest_id']);
 
         $plant = Plant::create($validated);
 
         $plant->forest()->associate($forest);
         $plant->save();
 
-        return response()->json([
-            'message' => 'Pianta creata con successo',
-            'data' => $plant
-        ], 200);
+        return new ApiResponse('Pianta creata con successso', $plant, 201);
     }
 
     /**
      * Display the specified hammered plant.
      *
      * @param  int  $id the id of the plant
-     * @return Illuminate\Http\Response a json with an error message if the plant is not found
-     * @return Illuminate\Http\Response a json with the found plant
+     * @return App\Http\Responses\ApiResponse with the found plant
+     * @throws Illuminate\Http\ResponseApp\Exceptions\ApiException with an error message if the plant is not found
      */
     public function show($id)
     {
         $plant = Plant::find($id);
 
         if (!$plant) {
-            return response()->json([
-                'message' => 'Albero non trovato'
-            ], 404);
+            throw new ApiException('Albero non trovato', 404);
         }
 
-        return response()->json([
-            'message' => 'Albero trovato',
-            'data' => $plant
-        ], 200);
+        return new ApiResponse('Albero trovato', $plant, 200);
     }
 
     /**
      * Update the specified hammered plant in storage.
      *
-     * @param  App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest the changes to be made
+     * @param  App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest $request the changes to be made
      * @param  int  $id the id of the plant to update
-     * @return Illuminate\Http\Response a json with an error message if the plant is not found
-     * @return Illuminate\Http\Response a json with the updated plant
+     * @return App\Http\Responses\ApiResponse with the updated plant
+     * @throws App\Exceptions\ApiException with an error message if the plant is not found
      */
     public function update(UpdateHammeredPlantRequest $request, $id)
     {
         $plant = Plant::find($id);
 
         if (!$plant) {
-            return response()->json([
-                'message' => 'Albero non trovato',
-            ], 404);
+            throw new ApiException('Albero non trovato', 404);
         }
 
         $validated = $request->validated();
 
         $plant->update($validated);
 
-        return response()->json([
-            'message' => 'Albero aggiornato con successo',
-            'data' => $plant,
-        ], 200);
+        return new ApiResponse('Albero aggiornato con successo', $plant, 201);
     }
 
     /**

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\PasswordException;
 use App\Http\Requests\ResetPassword\ResetPasswordRequest;
+use App\Http\Responses\PasswordResponse;
 use App\Models\PasswordSetupMail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -26,17 +28,15 @@ class PasswordResetController extends Controller
     /**
      * This function finds a user from its email, generate new token for password reset and send an email with password reset form
      *
-     * @param Illuminate\Http\Request the request with the user's email
-     * @return Illuminate\Http\Response a json with an error message if the user is not found
-     * @return Illuminate\Http\Response a json with a success message if the user is found
+     * @param Illuminate\Http\Request $request the request with the user's email
+     * @return App\Http\Responses\PasswordResponse with a success message if the user is found
+     * @throws App\Exceptions\PasswordException with an error message if the user is not found
      */
     public function resetPassword(Request $request) {
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json([
-                'message' => 'Utente non trovato'
-            ], 404);
+            throw new PasswordException('Utente non trovato', 404);
         }
 
         $token = Str::random(60);
@@ -49,41 +49,39 @@ class PasswordResetController extends Controller
 
         Mail::to($user->email)->send(new PasswordSetupMail($token));
 
-        return response()->json([
-            'message' => 'È stata inviata una mail con un link per il reset della password'
-        ], 200);
+        return new PasswordResponse('È stata inviata una mail con un link per il reset delle passowrd', 200);
     }
 
     /**
      * This function update the user's password
      *
-     * @param Illuminate\Http\Request the request containing the token and the new password
-     * @return Illuminate\Http\Response a json with an error message if the user is not found
-     * @return Illuminate\Http\Response a json with a success message if the user is found and the password is succesfully updated
+     * @param App\Http\Requests\ResetPassword\ResetPasswordRequest $request the request containing the token and the new password
+     * @return view
+     * @throws App\Exceptions\PasswordException with an error message if the token is not valid
+     * @throws App\Exceptions\PasswordException with an error message if the user is not found
      */
     public function update(ResetPasswordRequest $request) {
         $validated = $request->validated();
 
-        $passwordReset = DB::table('password_resets')->where('token', $request->token)->first();
+        $passwordReset = DB::table('password_resets')->where('token', $validated['token'])->first();
 
         if (!$passwordReset) {
-            return response()->json(['error' => 'Token non valido'], 400);
+            throw new PasswordException('Token non valido', 401);
         }
 
         $user = User::where('email', $passwordReset->email)->first();
 
         if (!$user) {
-            return response()->json(['error' => 'Utente non trovato'], 404);
+            throw new PasswordException('Utente non trovato', 404);
         }
 
         // Update user's password
-        $user->password = bcrypt($request->password);
+        $user->password = bcrypt($validated['password']);
         $user->save();
 
         // Delete the token from password resets table
         DB::table('password_resets')->where('email', $user->email)->delete();
 
-        //return response()->json(['message' => 'La passoword è stata aggiornata con successo'], 200);
         return view('password.password_success');
     }
 }

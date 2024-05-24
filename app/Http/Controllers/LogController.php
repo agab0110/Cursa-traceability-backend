@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\Log\StoreLogRequest;
 use App\Http\Requests\Log\UpdateLogRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Log;
 use Illuminate\Http\Request;
 
@@ -12,9 +14,9 @@ class LogController extends Controller
     /**
      * Display a listing of the logs using pagination.
      *
-     * @param Illuminate\Http\Request the request sent
-     * @return Illuminate\Http\Response a json with an error message if no logs are found
-     * @return Illuminate\Http\Response a json with a list of the found logs
+     * @param Illuminate\Http\Request $request the request sent
+     * @return App\Http\Responses\ApiResponse with a list of the found logs
+     * @throws App\Exceptions\ApiException with an error message if no logs are found
      */
     public function index(Request $request)
     {
@@ -22,21 +24,17 @@ class LogController extends Controller
                         ->paginate(13);
 
         if (!$logs) {
-            return response()->json([
-                'message' => 'Toppi non trovati',
-            ], 404);
+            throw new ApiException('Toppi non trovati', 404);
         }
 
-        return response()->json([
-            'message' => 'Toppi trovati',
-            'data' => $logs
-        ], 200);
+        return new ApiResponse('Toppi trovati', $logs, 200);
     }
 
     /**
      * Store a newly created log in storage.
-     * @param App\Http\Requests\Log\StoreLogRequest the log to save
-     * @return Illuminate\Http\Response a json with the created log
+     *
+     * @param App\Http\Requests\Log\StoreLogRequest $request the log to save
+     * @return App\Http\Responses\ApiResponse with the created log
      */
     public function store(StoreLogRequest $request)
     {
@@ -44,10 +42,7 @@ class LogController extends Controller
 
         $log = Log::create($validated);
 
-        return response()->json([
-            'message' => 'Toppo creato con successo',
-            'data' => $log
-        ], 200);
+        return new ApiResponse('Toppo creato con successo', $log, 201);
     }
 
     /**
@@ -60,20 +55,23 @@ class LogController extends Controller
 
     /**
      * Update the specified log in storage.
-     * @param App\Http\Requests\Log\UpdateLogRequest the changes to be made
-     * @param App\Models\Log the log to update
-     * @return Illuminate\Http\Response a json with the updated log
+     *
+     * @param App\Http\Requests\Log\UpdateLogRequest $request the changes to be made
+     * @param App\Models\Log $log the log to update
+     * @return App\Http\Responses\ApiResponse with the updated log
+     * @throws App\Exceptions\ApiException with an error message if no log is found
      */
     public function update(UpdateLogRequest $request, Log $log)
     {
+        if (!$log) {
+            throw new ApiException('Toppo non trovato', 404);
+        }
+
         $validated = $request->validated();
 
         $log->update($validated);
 
-        return response()->json([
-            'message' => 'Toppo aggiornato con successo',
-            'data' => $log
-        ], 200);
+        return new ApiResponse('Toppo aggiornato con successo', $log, 201);
     }
 
     /**
