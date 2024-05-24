@@ -11,6 +11,7 @@ use App\Http\Controllers\PlantController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\UserController;
+use App\Models\PreProduction;
 use App\Models\ReturningTransport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('transports', TransportController::class);
     Route::get('pre-production-transports', [TransportController::class, 'getPreProductionTransports']);
     Route::get('production-transports', [TransportController::class, 'getProductionTransports']);
+    Route::apiResource('pre-productions', PreProduction::class);
+    Route::post('create-log-section', [PreProduction::class, 'createLogSection']);
     Route::apiResource('returning-transports', ReturningTransport::class);
 });
 
