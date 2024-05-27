@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
+use App\Http\Requests\LogSection\NewLogSectionRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\LogSection;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 class LogSectionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the log sections.
      *
      * @param Illuminate\Http\Request $request containing the lot id and the log number
      * @return App\Http\Responses\ApiResponse with the sections found
@@ -28,11 +29,18 @@ class LogSectionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created log section in storage.
+     *
+     * @param App\Http\Requests\LogSection\NewLogSectionRequest $request containing the required fields
+     * @return App\Http\Responses\ApiResponse with the created log section
      */
-    public function store(Request $request)
+    public function store(NewLogSectionRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $section = LogSection::create($validated);
+
+        return new ApiResponse('Sezione di toppo creata', $section, 201);
     }
 
     /**
