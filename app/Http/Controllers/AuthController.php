@@ -49,15 +49,8 @@ class AuthController extends Controller
 
         $temporaryPassword = 'password';
 
-        $user = new User();
-        $user->name = $validated['name'];
-        $user->surname = $validated['surname'];
-        $user->birth_date = $validated['birth_date'];
-        $user->cf = $validated['cf'];
-        $user->email = $validated['email'];
-        $user->role_id = $validated['role_id'];
+        $user = User::create($validated);
         $user->password = $temporaryPassword;
-
         $user->save();
 
         $token = Str::random(60);
