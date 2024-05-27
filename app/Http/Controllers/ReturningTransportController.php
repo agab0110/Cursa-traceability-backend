@@ -28,13 +28,7 @@ class ReturningTransportController extends Controller
     {
         $validated = $request->validated();
 
-        $returningTransport = new ReturningTransport();
-
-        $returningTransport->transport_id = $validated['transport_id'];
-        $returningTransport->notes = $validated['notes'];
-        $returningTransport->returing_date = $validated['returing_date'];
-
-        $returningTransport->save();
+        $returningTransport = ReturningTransport::create($validated);
 
         return new ApiResponse('Trasporto di ritorno creato con successo', $returningTransport, 201);
     }
