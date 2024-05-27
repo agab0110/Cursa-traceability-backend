@@ -57,7 +57,7 @@ class PreProductionController extends Controller
      */
     public function show(string $name)
     {
-        $preProduction = PreProduction::where('name', $name);
+        $preProduction = PreProduction::where('company_name', $name)->get();
 
         if (!$preProduction) {
             throw new ApiException('Nessuna segheria trovata con quel nome', 404);
