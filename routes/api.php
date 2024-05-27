@@ -5,6 +5,7 @@ use App\Http\Controllers\CutPlantController;
 use App\Http\Controllers\ForestController;
 use App\Http\Controllers\HammeredPlantsController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\LogSectionController;
 use App\Http\Controllers\LotController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PlantController;
@@ -37,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('roles', RoleController::class);
-    
+
     Route::apiResource('plants', PlantController::class);
     Route::prefix('plant')->group(function () {
         Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
@@ -54,6 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('logs', LogController::class);
+    Route::apiResource('log-sections', LogSectionController::class);
 
     Route::apiResource('pre-productions', PreProductionController::class);
     Route::prefix('pre-production')->group(function () {
