@@ -37,22 +37,37 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('roles', RoleController::class);
+    
     Route::apiResource('plants', PlantController::class);
+    Route::prefix('plant')->group(function () {
+        Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
+    });
+
     Route::apiResource('hammered-plants', HammeredPlantsController::class);
     Route::apiResource('cut-plants', CutPlantController::class);
     Route::apiResource('forests', ForestController::class);
+
     Route::apiResource('lots', LotController::class);
+    Route::prefix('lot')->group(function () {
+        Route::get('cutting-lots', [LotController::class, 'getCuttingFilteredList']);
+        Route::get('cutted-lots', [LotController::class, 'getCuttedFilteredList']);
+    });
+
     Route::apiResource('logs', LogController::class);
-    Route::get('cutting-lots', [LotController::class, 'getCuttingFilteredList']);
-    Route::get('cutted-lots', [LotController::class, 'getCuttedFilteredList']);
-    Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
+
     Route::apiResource('pre-productions', PreProductionController::class);
-    Route::post('create-log-section', [PreProductionController::class, 'createLogSection']);
+    Route::prefix('pre-production')->group(function () {
+        Route::post('create-log-section', [PreProductionController::class, 'createLogSection']);
+    });
     Route::apiResource('productions', ProductionController::class);
     Route::apiResource('product', ProductController::class);
+
     Route::apiResource('transports', TransportController::class);
-    Route::get('pre-production-transports', [TransportController::class, 'getPreProductionTransports']);
-    Route::get('production-transports', [TransportController::class, 'getProductionTransports']);
+    Route::prefix('transport')->group(function () {
+        Route::get('pre-production-transports', [TransportController::class, 'getPreProductionTransports']);
+        Route::get('production-transports', [TransportController::class, 'getProductionTransports']);
+    });
+
     Route::apiResource('returning-transports', ReturningTransportController::class);
 });
 
