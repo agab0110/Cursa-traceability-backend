@@ -8,11 +8,13 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\LotController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PlantController;
+use App\Http\Controllers\PreProductionController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductionController;
+use App\Http\Controllers\ReturningTransportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\UserController;
-use App\Models\PreProduction;
-use App\Models\ReturningTransport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,12 +46,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('cutting-lots', [LotController::class, 'getCuttingFilteredList']);
     Route::get('cutted-lots', [LotController::class, 'getCuttedFilteredList']);
     Route::get('getPlantByForestId', [PlantController::class, 'getPlantByForestId']);
+    Route::apiResource('pre-productions', PreProductionController::class);
+    Route::post('create-log-section', [PreProductionController::class, 'createLogSection']);
+    Route::apiResource('productions', ProductionController::class);
+    Route::apiResource('product', ProductController::class);
     Route::apiResource('transports', TransportController::class);
     Route::get('pre-production-transports', [TransportController::class, 'getPreProductionTransports']);
     Route::get('production-transports', [TransportController::class, 'getProductionTransports']);
-    Route::apiResource('pre-productions', PreProduction::class);
-    Route::post('create-log-section', [PreProduction::class, 'createLogSection']);
-    Route::apiResource('returning-transports', ReturningTransport::class);
+    Route::apiResource('returning-transports', ReturningTransportController::class);
 });
 
 Route::prefix('auth')->group(function () {
