@@ -13,14 +13,7 @@ return new class extends Migration
     {
         Schema::create('productions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('pre_production_id')->constrained();
-            $table->integer('log_number');
-            $table->foreignId('lot_id')->constrained();
-            $table->foreign(['log_number', 'lot_id'])
-                    ->references(['number', 'lot_id'])
-                    ->on('logs')
-                    ->onDelete('cascade');
+            $table->string('company_name');
             $table->timestamps();
         });
     }
