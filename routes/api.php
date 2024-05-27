@@ -55,7 +55,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('logs', LogController::class);
-    Route::apiResource('log-sections', LogSectionController::class);
+    Route::prefix('log')->group(function () {
+        Route::apiResource('log-sections', LogSectionController::class);
+    });
 
     Route::apiResource('pre-productions', PreProductionController::class);
     Route::prefix('pre-production')->group(function () {
