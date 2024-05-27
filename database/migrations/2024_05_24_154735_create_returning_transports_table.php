@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('notes');
             $table->date('returning_date');
             $table->date('returned_date');
+            $table->timestamps();
         });
     }
 
