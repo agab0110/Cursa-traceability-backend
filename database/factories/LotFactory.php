@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Forest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class LotFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'plant_id' => Forest::factory()
         ];
     }
 }
