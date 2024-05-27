@@ -7,15 +7,26 @@ use App\Http\Requests\ReturningTransport\NewReturningTransportRequest;
 use App\Http\Requests\ReturningTransport\UpdateReturningTransportRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\ReturningTransport;
+use Illuminate\Http\Request;
 
 class ReturningTransportController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the returning transport for a pre production.
+     *
+     * @param Illuminate\Http\Request $request containing the pre-production id
+     * @return App\Http\Responses\ApiResponse with the list of transports
+     * @throws App\Exceptions\ApiException with an error message if no trasport is found
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $transports = ReturningTransport::where('pre_production_id', $request->pre_production_id)->get();
+
+        if (!$transports) {
+            throw new ApiException('Nessun trasporto di ritorno trovato', 404);
+        }
+
+        return new ApiResponse('Trasporti trovati', $transports, 200);
     }
 
     /**
@@ -34,11 +45,21 @@ class ReturningTransportController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a listing of the returning transport for a production.
+     *
+     * @param Illuminate\Http\Request $request containing the production id
+     * @return App\Http\Responses\ApiResponse with the list of transports
+     * @throws App\Exceptions\ApiException with an error message if no trasport is found
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $transports = ReturningTransport::where('production_id', $request->production_id)->get();
+
+        if (!$transports) {
+            throw new ApiException('Nessun trasporto di ritorno trovato', 404);
+        }
+
+        return new ApiResponse('Trasporti trovati', $transports, 200);
     }
 
     /**
