@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\Production\NewProductionRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Production;
@@ -40,11 +41,19 @@ class ProductionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified production.
+     *
+     * @param App\Models\Production $production with the id of the production to be found
+     * @return App\Http\Responses\ApiResponse with the found production
+     * @throws App\Exceptions\ApiException with an error message if no production is found
      */
-    public function show(string $id)
+    public function show(Production $production)
     {
-        //
+        if (!$production) {
+            throw new ApiException('Nessuna produzione trovata', 404);
+        }
+
+        return new ApiResponse('Produzione trovata', $production, 200);
     }
 
     /**
