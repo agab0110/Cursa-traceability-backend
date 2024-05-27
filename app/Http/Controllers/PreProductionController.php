@@ -39,11 +39,7 @@ class PreProductionController extends Controller
     {
         $validated = $request->validated();
 
-        $preProduction = new PreProduction();
-
-        $preProduction->company_name = $validated['name'];
-
-        $preProduction->save();
+        $preProduction = PreProduction::create($validated);
 
         return new ApiResponse('Segheria creata con successo', $preProduction, 201);
     }
