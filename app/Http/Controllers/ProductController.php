@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
+use App\Http\Requests\Product\NewProductRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -28,11 +29,25 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created product in storage.
+     *
+     * @param App\Http\Requests\Product\NewProductRequest $request containig the requested fields
+     * @return App\Http\Responses\ApiResponse with the created product
      */
-    public function store(Request $request)
+    public function store(NewProductRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $product = new Product();
+
+        $product->name = $validated['name'];
+        $product->production_id = $validated['production_id'];
+        $product->lot_id = $validated['lot_id'];
+        $product->log_number = $validated['log_number'];
+
+        $product->save();
+
+        return new ApiResponse('Prodotto creato con successo', $product, 201);
     }
 
     /**
