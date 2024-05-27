@@ -12,21 +12,11 @@ use Illuminate\Http\Request;
 class ProductionController extends Controller
 {
     /**
-     * Display a listing of the products created by a production.
-     *
-     * @param Illuminate\Http\Request $request containing the production id
-     * @return App\Http\Responses\ApiResponse with the list of products found
-     * @throws App\Exceptions\ApiException with an error message if no product is found
+     * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $products = Product::where('production_id', $request->production_id)->get();
-
-        if (!$products) {
-            throw new ApiException('Nessun prodotto trovato', 404);
-        }
-
-        return new ApiResponse('Prodotti trovati', $products, 200);
+        //
     }
 
     /**
