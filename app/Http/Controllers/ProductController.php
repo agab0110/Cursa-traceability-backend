@@ -38,14 +38,7 @@ class ProductController extends Controller
     {
         $validated = $request->validated();
 
-        $product = new Product();
-
-        $product->name = $validated['name'];
-        $product->production_id = $validated['production_id'];
-        $product->lot_id = $validated['lot_id'];
-        $product->log_number = $validated['log_number'];
-
-        $product->save();
+        $product = Product::create($validated);
 
         return new ApiResponse('Prodotto creato con successo', $product, 201);
     }
