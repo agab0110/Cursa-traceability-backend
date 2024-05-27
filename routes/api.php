@@ -64,7 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('create-log-section', [PreProductionController::class, 'createLogSection']);
     });
     Route::apiResource('productions', ProductionController::class);
-    Route::apiResource('product', ProductController::class);
+    Route::apiResource('products', ProductController::class);
 
     Route::apiResource('transports', TransportController::class);
     Route::prefix('transport')->group(function () {
