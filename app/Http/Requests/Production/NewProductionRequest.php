@@ -22,10 +22,7 @@ class NewProductionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:3',
-            'pre_production_id' => 'required|integer',
-            'log_number' => 'required|integer',
-            'lot_id' => 'required|integer'
+            'company_name' => 'required|string|min:3',
         ];
     }
 }
