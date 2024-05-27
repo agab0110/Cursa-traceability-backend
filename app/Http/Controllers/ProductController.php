@@ -51,11 +51,19 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified product.
+     *
+     * @param App\Models\Product $product containing the id of the product to be found
+     * @return App\Http\Responses\ApiResponse containing the found product
+     * @throws App\Exceptions\ApiException with an error message if no product is found
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
+        if (!$product) {
+            throw new ApiException('Prodotto non trovato', 404);
+        }
+
+        return new ApiResponse('Prodotto trovato', $product, 200);
     }
 
     /**
