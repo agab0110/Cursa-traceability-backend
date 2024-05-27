@@ -40,17 +40,7 @@ class TransportController extends Controller
     {
         $validated = $request->validated();
 
-        $transport = new Transport();
-        $transport->plate = $validated['plate'];
-        $transport->driver = $validated['driver'];
-        $transport->company = $validated['company'];
-        $transport->lot_id = $validated['lot_id'];
-        $transport->pre_production_id = $validated['pre_production_id'];
-        $transport->production_id = $validated['production_id'];
-        $transport->shipping = $validated['shipping'];
-        $transport->shipping_date = $validated['shipping_date'];
-
-        $transport->save();
+        $transport = Transport::create($validated);
 
         return new ApiResponse('Trasporto creato con successo', $transport, 200);
     }
