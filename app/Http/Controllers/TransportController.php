@@ -7,7 +7,6 @@ use App\Http\Requests\Transport\NewTransportRequest;
 use App\Http\Requests\Transport\UpdateTransportRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Transport;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransportController extends Controller
