@@ -11,7 +11,7 @@ class NewLogSectionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class NewLogSectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'lot_id' => 'required|integer',
+            'log_number' => 'required|integer',
+            'section' => 'required|integer'
         ];
     }
 }
