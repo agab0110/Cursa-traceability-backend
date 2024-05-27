@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Http\Requests\Production\NewProductionRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\Product;
 use App\Models\Production;
 use Illuminate\Http\Request;
 
