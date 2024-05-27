@@ -19,7 +19,7 @@ class LogSectionController extends Controller
      */
     public function index(Request $request)
     {
-        $sections = LogSection::where('lot_id', $request->lot_id)->where('log_number', $request->log_number);
+        $sections = LogSection::where('lot_id', $request->lot_id)->where('log_number', $request->log_number)->get();
 
         if (!$sections) {
             throw new ApiException('Nessuna sezione presente', 404);
