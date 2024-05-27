@@ -21,7 +21,7 @@ class TransportController extends Controller
      */
     public function index(Request $request)
     {
-        $transports = Transport::where('company_name', $request->query('company_name'));
+        $transports = Transport::where('company_name', $request->query('company_name'))->get();
 
         if (!$transports) {
             throw new ApiException('Trasporti non trovati', 404);
