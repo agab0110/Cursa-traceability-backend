@@ -28,14 +28,7 @@ class ProductionController extends Controller
     {
         $validated = $request->validated();
 
-        $production = new Production();
-
-        $production->name = $validated['name'];
-        $production->pre_production_id = $validated['pre_production_id'];
-        $production->lot_id = $validated['lot_id'];
-        $production->log_number = $validated['log_number'];
-
-        $production->save();
+        $production = Production::create($validated);
 
         return new ApiResponse('Produzione creata con successo', $production, 201);
     }
