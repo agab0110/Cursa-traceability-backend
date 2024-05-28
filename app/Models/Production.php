@@ -12,10 +12,7 @@ class Production extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'pre_production_id',
-        'log_number',
-        'lot_id'
+        'company_name',
     ];
 
     protected $hidden = [
@@ -29,5 +26,9 @@ class Production extends Model
 
     public function transports(): HasMany {
         return $this->hasMany(Transport::class);
+    }
+
+    public function products(): HasMany {
+        return $this->hasMany(Product::class);
     }
 }

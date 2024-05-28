@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('productions', function (Blueprint $table) {
-            $table->id();
-            $table->string('company_name')->unique();
+        Schema::create('returning_transports', function (Blueprint $table) {
+            $table->foreignId('transport_id')->constrained();
+            $table->string('notes');
+            $table->date('returning_date');
+            $table->date('returned_date');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('productions');
+        Schema::dropIfExists('returning_transports');
     }
 };

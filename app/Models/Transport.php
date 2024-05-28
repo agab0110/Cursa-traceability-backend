@@ -22,14 +22,11 @@ class Transport extends Model
         'shipping_date',
         'shipped',
         'shipped_date',
-        'returning',
-        'returning_date'
     ];
 
     protected $casts = [
         'shipping_date' => 'datetime',
         'shipped_date' => 'datetime',
-        'returning_date' => 'datetime'
     ];
 
     public function lots(): HasMany {

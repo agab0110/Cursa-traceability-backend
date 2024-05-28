@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Cut;
+namespace App\Http\Requests\Production;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCutPlantRequest extends FormRequest
+class NewProductionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,7 @@ class UpdateCutPlantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cutting' => 'sometimes|required|boolean',
-            'cutted' => 'sometimes|required|boolean',
-            'cutting_date' => 'required_with:cutting',
+            'company_name' => 'required|string|min:3',
         ];
     }
 }
