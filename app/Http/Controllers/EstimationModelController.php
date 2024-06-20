@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Http\Requests\EstimationModel\NewEstimationModelRequest;
+use App\Http\Requests\EstimationModel\UpdateEstimationModelRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\EstimationModel;
 use Illuminate\Http\Request;
@@ -59,11 +60,23 @@ class EstimationModelController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified estimation model in storage.
+     *
+     * @param App\Http\Requests\EstimationModel\UpdateEstimationModelRequest $request the changes to be made
+     * @throws App\Exceptions\ApiException with an error message if the estimation model is not found
+     * @return App\Http\Responses\ApiResponse with the updated estimation model
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateEstimationModelRequest $request, EstimationModel $estimationModel)
     {
-        //
+        if (!$estimationModel) {
+            throw new ApiException('Modello di stima non trovato', 404);
+        }
+
+        $validated = $request->validated();
+
+        $estimationModel->update($validated);
+
+        return new ApiResponse('Modello di stima aggiornato con successo', $estimationModel, 201);
     }
 
     /**
