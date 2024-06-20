@@ -17,4 +17,9 @@ class EstimationModel extends Model
         'formula',
         'retrurning_parameter'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }
