@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class EstimationModel extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'height',
+        'volume',
+        'double_diameter',
+        'mesure',
+        'formula',
+        'retrurning_parameter'
+    ];
 }
