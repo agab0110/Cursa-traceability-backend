@@ -11,7 +11,7 @@ class UpdateEstimationModelRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateEstimationModelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'height' => 'sometimes|numeric',
+            'volume' => 'sometimes|numeric',
+            'double_diameter' => 'sometimes|numeric',
+            'mesure' => 'sometimes|string',
+            'formula' => 'sometimes|string',
+            'retrurning_parameter' => 'sometimes|string'
         ];
     }
 }
