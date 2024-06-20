@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EstimationModel\NewEstimationModelRequest;
+use App\Http\Responses\ApiResponse;
+use App\Models\EstimationModel;
 use Illuminate\Http\Request;
 
 class EstimationModelController extends Controller
@@ -17,9 +20,13 @@ class EstimationModelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(NewEstimationModelRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $estimationModel = EstimationModel::create($validated);
+
+        return new ApiResponse('Modello di stima creato con successo', $estimationModel, 200);
     }
 
     /**
