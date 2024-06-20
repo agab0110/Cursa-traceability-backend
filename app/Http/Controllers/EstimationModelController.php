@@ -11,7 +11,10 @@ use Illuminate\Http\Request;
 class EstimationModelController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the estimation models using pagination.
+     *
+     * @throws App\Exceptions\ApiException with an error message if no estimation model is found
+     * @return App\Http\Responses\ApiResponse with the list of estimation models
      */
     public function index()
     {
@@ -25,7 +28,10 @@ class EstimationModelController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created estimation model in storage.
+     *
+     * @param App\Http\Requests\EstimationModel\NewEstimationModelRequest $request with the request fields
+     * @return App\Http\Responses\ApiResponse with the created estimation model
      */
     public function store(NewEstimationModelRequest $request)
     {
@@ -33,7 +39,7 @@ class EstimationModelController extends Controller
 
         $estimationModel = EstimationModel::create($validated);
 
-        return new ApiResponse('Modello di stima creato con successo', $estimationModel, 200);
+        return new ApiResponse('Modello di stima creato con successo', $estimationModel, 201);
     }
 
     /**
