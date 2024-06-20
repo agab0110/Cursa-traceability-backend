@@ -43,11 +43,19 @@ class EstimationModelController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified estimation model using the name convenion.
+     *
+     * @param App\Models\EstimationModel $estimationModel containing the id of the model to be found
+     * @throws App\Exceptions\ApiException with an error message if the model is not found
+     * @return App\Http\Responses\ApiResponse with the found estimation model
      */
-    public function show(string $id)
+    public function show(EstimationModel $estimationModel)
     {
-        //
+        if (!$estimationModel) {
+            throw new ApiException('Modello di stima non trovato', 404);
+        }
+
+        return new ApiResponse('Modello di stima trovato', $estimationModel, 200);
     }
 
     /**
