@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\EstimationModel\NewEstimationModelRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\EstimationModel;
@@ -14,7 +15,13 @@ class EstimationModelController extends Controller
      */
     public function index()
     {
-        //
+        $estimationModels = EstimationModel::paginate(15);
+
+        if (!$estimationModels) {
+            throw new ApiException('Nessun modello di stima trovato', 404);
+        }
+
+        return new ApiResponse('Modelli di stima trovati', $estimationModels, 200);
     }
 
     /**
