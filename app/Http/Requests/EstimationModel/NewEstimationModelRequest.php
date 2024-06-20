@@ -4,7 +4,7 @@ namespace App\Http\Requests\EstimationModel;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewEstimationModel extends FormRequest
+class NewEstimationModelRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
