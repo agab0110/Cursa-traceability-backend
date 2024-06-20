@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CutPlantController;
+use App\Http\Controllers\EstimationModelController;
 use App\Http\Controllers\ForestController;
 use App\Http\Controllers\HammeredPlantsController;
 use App\Http\Controllers\LogController;
@@ -73,6 +74,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('returning-transports', ReturningTransportController::class);
+
+    Route::apiResource('estimation-models', EstimationModelController::class);
 });
 
 Route::prefix('auth')->group(function () {
