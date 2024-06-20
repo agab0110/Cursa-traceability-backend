@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('estimation_models', function (Blueprint $table) {
             $table->id();
+            $table->double('height')->nullable();
+            $table->double('volume')->nullable();
+            $table->double('double_diameter')->nullable();
+            $table->string('mesure');
+            $table->string('formula');
+            $table->string('retrurning_parameter');
             $table->timestamps();
         });
     }
