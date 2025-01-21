@@ -58,7 +58,15 @@ class PlantController extends Controller
         $plant->forest()->associate($forest);
         $plant->save();
 
-        return new ApiResponse('Pianta creata con successo', $plant, 201);
+        // invio dati alla blockchain
+        $blockchaninData = [
+            'lat' => $validated->lat,
+            'lng' => $validated->lng,
+        ];
+
+        $blockchainResponse = $this->blockchainService->processTransaction($blockchaninData);
+
+        return new ApiResponse('Pianta creata con successo', [$plant, $blockchainResponse], 201);
     }
 
     /**
