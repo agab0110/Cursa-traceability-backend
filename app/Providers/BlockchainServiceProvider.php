@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\Blockchain\BlockchainService;
+use App\Services\Blockchain\BlockchainTransactionService;
+use App\Services\Blockchain\Implementations\BlockchainImplementation;
 use Illuminate\Support\ServiceProvider;
 
 class BlockchainServiceProvider extends ServiceProvider
@@ -11,7 +14,11 @@ class BlockchainServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(BlockchainService::class, function ($app) {
+            // Da qui si può cambiare l'implementazione come si vuole
+            $implementation = new BlockchainImplementation();
+            return new BlockchainTransactionService($implementation);
+        });
     }
 
     /**
