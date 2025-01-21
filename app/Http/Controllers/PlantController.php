@@ -7,10 +7,17 @@ use App\Http\Requests\Plant\StorePlantRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Forest;
 use App\Models\Plant;
+use App\Services\Blockchain\BlockchainService;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
 {
+    protected $blockchainService;
+
+    public function __construct(BlockchainService $blockchainService = null) {
+        $this->blockchainService = $blockchainService;
+    }
+
     /**
      * Display a listing of plants using pagination.
      * The plants are not hammered or cutted
