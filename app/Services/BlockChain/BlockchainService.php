@@ -6,7 +6,7 @@ abstract class BlockchainService
 {
     protected $implementation;
 
-    public function __construct(BlockchainImplementation $implementation)
+    public function __construct(BlockchainInterface $implementation)
     {
         $this->implementation = $implementation;
     }
