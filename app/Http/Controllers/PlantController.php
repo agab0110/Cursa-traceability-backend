@@ -41,11 +41,13 @@ class PlantController extends Controller
     }
 
     /**
-     * Store a newly created plant in storage.
-     * It assoiate a plant with a forest
+     * Store a newly created plant in storage and associate it with a forest.
      *
-     * @param  \App\Http\Requests\Plant\StorePlantRequest the plant to store
-     * @return App\Http\Responses\ApiResponse with the created plant
+     * This method validates the input data, creates a new plant, associates it
+     * with the specified forest, and sends the plant's data to the blockchain.
+     *
+     * @param  \App\Http\Requests\Plant\StorePlantRequest the request containing the plant data to store.
+     * @return App\Http\Responses\ApiResponse with the created plant and blockchain transaction details.
      */
     public function store(StorePlantRequest $request)
     {
