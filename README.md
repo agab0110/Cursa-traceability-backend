@@ -122,6 +122,10 @@ The foundamental things we need are:
 **NOTICE**: The setup for the emails usually comes from your email host
 
 ## 4 Useful commands
+To create documentation. Make sure to be in root path
+```
+composer generate-doc
+```
 To display the list of the possible creations:
 ```
 php artisan make -h
