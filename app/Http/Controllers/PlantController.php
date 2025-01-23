@@ -22,9 +22,9 @@ class PlantController extends Controller
      * Display a listing of plants using pagination.
      * The plants are not hammered or cutted
      *
-     * @param  Illuminate\Http\Request $request the request sent
-     * @return App\Http\Responses\ApiResponse with a list of plants
-     * @throws App\Exceptions\ApiException with an error message if no plants are found
+     * @param  \Illuminate\Http\Request $request the request sent
+     * @return \App\Http\Responses\ApiResponse with a list of plants
+     * @throws \App\Exceptions\ApiException with an error message if no plants are found
      */
     public function index(Request $request)
     {
@@ -47,7 +47,7 @@ class PlantController extends Controller
      * with the specified forest, and sends the plant's data to the blockchain.
      *
      * @param  \App\Http\Requests\Plant\StorePlantRequest the request containing the plant data to store.
-     * @return App\Http\Responses\ApiResponse with the created plant and blockchain transaction details.
+     * @return \App\Http\Responses\ApiResponse with the created plant and blockchain transaction details.
      */
     public function store(StorePlantRequest $request)
     {
@@ -75,10 +75,10 @@ class PlantController extends Controller
     /**
      * Display the specified plant.
      *
-     * @param  Illuminate\Http\Request $request the request found
-     * @param  App\Models\Plant $plant the id of the plant to show
-     * @return App\Http\Responses\ApiResponse with the plant found
-     * @throws App\Exceptions\ApiException with an error message if the plant is not found
+     * @param  \Illuminate\Http\Request $request the request found
+     * @param  \App\Models\Plant $plant the id of the plant to show
+     * @return \App\Http\Responses\ApiResponse with the plant found
+     * @throws \App\Exceptions\ApiException with an error message if the plant is not found
      */
     public function show(Request $request, Plant $plant)
     {
@@ -115,9 +115,9 @@ class PlantController extends Controller
     /**
      * Get a list of elements from storage given a forest id
      *
-     * @param Request $request the forest id and hammered flag
-     * @return App\Http\Responses\ApiResponse with a list of plants
-     * @throws App\Exceptions\ApiException with an error message if no plants are found
+     * @param \Illuminate\Http\Request $request the forest id and hammered flag
+     * @return \App\Http\Responses\ApiResponse with a list of plants
+     * @throws \App\Exceptions\ApiException with an error message if no plants are found
      */
     public function getPlantByForestId(Request $request) {      // manca la paginazione
         $plants = Plant::where('forest_id', $request->query('forest_id'))
