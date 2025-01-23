@@ -60,8 +60,9 @@ class PlantController extends Controller
 
         // invio dati alla blockchain
         $blockchaninData = [
-            'lat' => $validated->lat,
-            'lng' => $validated->lng,
+            'lat' => $plant->lat,
+            'lng' => $plant->lng,
+            'plant_id' => $plant->id,
         ];
 
         $blockchainResponse = $this->blockchainService->processTransaction($blockchaninData);
