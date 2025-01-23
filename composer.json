@@ -49,7 +49,7 @@
             "@php artisan key:generate --ansi"
         ],
         "generate-doc": [
-            "vendor/bin/phpdoc run -d app/Http/Controllers -t docs/api"
+            "@php vendor/bin/phpdoc run -d app/Http/Controllers -t docs/api"
         ]
     },
     "extra": {
