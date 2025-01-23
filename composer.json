@@ -10,6 +10,7 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "phpdocumentor/shim": "^3.6",
         "thiagoprz/eloquent-composite-key": "^1.0"
     },
     "require-dev": {
@@ -46,6 +47,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "generate-doc": [
+            "vendor/bin/phpdoc run -d app/Http/Controllers -t docs/api"
         ]
     },
     "extra": {
@@ -58,7 +62,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "phpdocumentor/shim": true
         }
     },
     "minimum-stability": "stable",
