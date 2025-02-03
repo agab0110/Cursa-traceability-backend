@@ -14,11 +14,7 @@ class BlockchainServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(BlockchainService::class, function ($app) {
-            // Da qui si può cambiare l'implementazione come si vuole
-            $implementation = new BlockchainImplementation();
-            return new BlockchainTransactionService($implementation);
-        });
+        
     }
 
     /**
