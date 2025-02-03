@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Blockchain\BlockchainBridge;
 use App\Exceptions\ApiException;
 use App\Http\Requests\Plant\StorePlantRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Forest;
 use App\Models\Plant;
-use App\Services\Blockchain\BlockchainService;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
 {
     protected $blockchainService;
 
-    public function __construct(BlockchainService $blockchainService = null) {
+    public function __construct(BlockchainBridge $blockchainService) {
         $this->blockchainService = $blockchainService;
     }
 
@@ -67,7 +67,7 @@ class PlantController extends Controller
             'plant_id' => $plant->id,
         ];
 
-        $blockchainResponse = $this->blockchainService->processTransaction($blockchaninData);
+        $blockchainResponse = $this->blockchainService->sendTransaction($blockchaninData);
 
         return new ApiResponse('Pianta creata con successo', [$plant, $blockchainResponse], 201);
     }
