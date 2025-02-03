@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Blockchain;
+namespace App\Services\Blockchain;
 
 use App\Services\Blockchain\BlockchainInterface;
 
