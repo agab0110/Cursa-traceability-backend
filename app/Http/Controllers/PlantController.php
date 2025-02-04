@@ -67,7 +67,7 @@ class PlantController extends Controller
             'plant_id' => $plant->id,
         ];
 
-        $blockchainResponse = $this->blockchainService->sendTransaction($blockchaninData);
+        $blockchainResponse = $this->blockchainService->sendData($blockchaninData);
 
         return new ApiResponse('Pianta creata con successo', [$plant, $blockchainResponse], 201);
     }
