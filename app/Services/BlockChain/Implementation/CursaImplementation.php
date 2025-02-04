@@ -4,8 +4,6 @@ namespace App\Services\Blockchain\Implementation;
 
 use App\Services\Blockchain\BlockchainInterface;
 
-use function PHPUnit\Framework\returnSelf;
-
 class CursaImplementation implements BlockchainInterface
 {
     public function connect() {
