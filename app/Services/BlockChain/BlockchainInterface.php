@@ -2,9 +2,8 @@
 
 namespace App\Services\Blockchain;
 
-interface BlockchainInterface
-{
+interface BlockchainInterface {
     public function connect();
-    public function sendTransaction(array $transactionData);
-    public function getTransactionStatus(string $transactionId);
+    public function getData(string $id);
+    public function sendTransaction(array $data);
 }
