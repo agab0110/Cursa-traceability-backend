@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Services\Blockchain\BlockchainBridge;
-use App\Services\Blockchain\Implementations\BlockchainImplementation;
+use App\Services\Blockchain\Implementation\CursaImplementation;
 use Illuminate\Support\ServiceProvider;
 
 class BlockchainServiceProvider extends ServiceProvider
@@ -13,9 +13,9 @@ class BlockchainServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(BlockchainBridge::class, function ($app) {
-            //$blockchainType = config('blockchain.default'); // Legge la configurazione, in base ad essa con un if si cambia l'implementazione
-            return new BlockchainBridge(new BlockchainImplementation);
+        //$blockchainType = config('blockchain.default'); // Legge la configurazione, in base ad essa con un if si cambia l'implementazione
+        $this->app->bind(BlockchainBridge::class, function($app) {
+            return new BlockchainBridge(new CursaImplementation);
         });
     }
 
