@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Blockchain\BlockchainBridge;
 use App\Exceptions\ApiException;
 use App\Http\Requests\Plant\StorePlantRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Forest;
 use App\Models\Plant;
+use App\Services\Blockchain\BlockchainBridge;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
