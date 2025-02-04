@@ -4,6 +4,9 @@ namespace App\Services\Blockchain;
 
 use App\Services\Blockchain\BlockchainInterface;
 
+/**
+ * Classe Bridge tra l'implementazione e l'astrazione
+ */
 class BlockchainBridge{
     protected BlockchainInterface $blockchain;
 
