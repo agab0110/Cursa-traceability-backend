@@ -4,6 +4,9 @@ namespace App\Services\Blockchain\Implementation;
 
 use App\Services\Blockchain\BlockchainInterface;
 
+/**
+ * Implementazione interfaccia
+ */
 class CursaImplementation implements BlockchainInterface
 {
     public function connect() {
