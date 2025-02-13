@@ -14,10 +14,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use OpenApi\Annotations as OA;
 
 class AuthController extends Controller
 {
     /**
+     * @OA\Post(
+     *  path="/api/auth/login",
+     *  summary="Effettua il login",
+     * @OA\Response(
+     *         response=200,
+     *         description="Lista utenti recuperata con successo",
+     *         @OA\JsonContent(
+     *           type="array",
+     *           @OA\Items(ref="#/components/schemas/User")
+     *          )
+     *      )
+     * )
      * Find a user in the database and attempt to login.
      *
      * @param App\Http\Requests\Auth\LoginRequest $request containing the user
