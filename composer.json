@@ -56,7 +56,7 @@
             "@php vendor/bin/phpdoc run -d app/Services/Blockchain -t docs/api"
         ],
         "generate-doc": [
-            "@php vendor/bin/phpdoc run -d app/Services/Blockchain -d app/Services/Blockchain -t docs/api"
+            "@php vendor/bin/phpdoc run -d app --ignore app/Http/Controllers -t docs/api"
         ]
 
     },
