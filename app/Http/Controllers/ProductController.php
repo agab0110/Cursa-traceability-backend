@@ -59,7 +59,7 @@ class ProductController extends Controller
      *             @OA\Property(property="name", type="string", example="Prodotto esempio"),
      *             @OA\Property(property="production_id", type="integer", example=1),
      *             @OA\Property(property="log_number", type="integer", example=1),
-     *             @OA\Property(property="lot_id", type="integer" example=1),
+     *             @OA\Property(property="lot_id", type="integer", example=1),
      *         )
      *     ),
      *     @OA\Response(

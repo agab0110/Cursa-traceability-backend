@@ -17,7 +17,6 @@ class LotController extends Controller
      *     summary="Recupera un elenco di lotti",
      *     description="Recupera l'elenco di tutti i lotti con paginazione.",
      *     operationId="getLots",
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Lotti trovati con successo",
@@ -127,7 +126,6 @@ class LotController extends Controller
      *     summary="Recupera i lotti con piante in stato di cutting",
      *     description="Recupera una lista di lotti dove le piante sono in stato di cutting e non sono ancora state tagliate.",
      *     operationId="getCuttingFilteredList",
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Lotti trovati",
@@ -163,10 +161,9 @@ class LotController extends Controller
      * @OA\Get(
      *     path="/api/lot/cutted-lots",
      *     tags={"Lots"},
-     *     summary="Recupera i lotti con piante in stato di cutting",
-     *     description="Recupera una lista di lotti dove le piante sono in stato di cutting e non sono ancora state tagliate.",
-     *     operationId="getCuttingFilteredList",
-     *     ),
+     *     summary="Recupera i lotti con piante in stato di cutted",
+     *     description="Recupera una lista di lotti dove le piante sono in stato di cutted e non sono più in cutting.",
+     *     operationId="getCuttedFilteredList",
      *     @OA\Response(
      *         response=200,
      *         description="Lotti trovati",

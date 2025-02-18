@@ -128,7 +128,6 @@ class ReturningTransportController extends Controller
 
         return new ApiResponse('Trasporti trovati', $transports, 200);
     }
-
     /**
      * @OA\Put(
      *     path="/api/returning-transports/{id}",
@@ -140,12 +139,13 @@ class ReturningTransportController extends Controller
      *         name="id",
      *         in="path",
      *         required=true,
+     *         description="ID del trasporto di ritorno da aggiornare",
      *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="returned_date", type="date", example=2025-05-03),
+     *             @OA\Property(property="returned_date", type="string", format="date", example="2025-05-03")
      *         )
      *     ),
      *     @OA\Response(
