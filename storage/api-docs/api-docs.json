@@ -2,7 +2,6 @@
     "openapi": "3.0.0",
     "info": {
         "title": "APIs",
-        "description": "Api dell'app",
         "version": "1.0.0"
     },
     "paths": {
@@ -20,6 +19,401 @@
                                     "items": {
                                         "$ref": "#/components/schemas/User"
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/productions": {
+            "post": {
+                "tags": [
+                    "Productions"
+                ],
+                "summary": "Crea una nuova produzione",
+                "description": "Crea una nuova produzione e la memorizza nel database.",
+                "operationId": "storeProduction",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Produzione XYZ"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Dettagli sulla produzione XYZ"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produzione creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Produzione creata con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Production"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Richiesta non valida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione della produzione"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/productions/{id}": {
+            "get": {
+                "tags": [
+                    "Productions"
+                ],
+                "summary": "Mostra una produzione specifica",
+                "description": "Recupera una produzione specifica utilizzando l'ID.",
+                "operationId": "getProductionById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produzione trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Produzione trovata"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Production"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produzione non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessuna produzione trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/returning-transports": {
+            "get": {
+                "tags": [
+                    "Returning Transports"
+                ],
+                "summary": "Mostra una lista di trasporti di ritorno per una pre-produzione",
+                "description": "Recupera tutti i trasporti di ritorno associati a una pre-produzione.",
+                "operationId": "getReturningTransportsByPreProductionId",
+                "parameters": [
+                    {
+                        "name": "pre_production_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trasporti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ReturningTransport"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporto di ritorno non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessun trasporto di ritorno trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Returning Transports"
+                ],
+                "summary": "Crea un nuovo trasporto di ritorno",
+                "description": "Crea un nuovo trasporto di ritorno e lo memorizza nel database.",
+                "operationId": "storeReturningTransport",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pre_production_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "production_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "other_field": {
+                                        "type": "string",
+                                        "example": "example value"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Trasporto di ritorno creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto di ritorno creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReturningTransport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Richiesta non valida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del trasporto di ritorno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/returning-transports/{production_id}": {
+            "get": {
+                "tags": [
+                    "Returning Transports"
+                ],
+                "summary": "Mostra una lista di trasporti di ritorno per una produzione",
+                "description": "Recupera tutti i trasporti di ritorno associati a una produzione.",
+                "operationId": "getReturningTransportsByProductionId",
+                "parameters": [
+                    {
+                        "name": "production_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trasporti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti trovati"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReturningTransport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporto di ritorno non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessun trasporto di ritorno trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/returning-transports/{id}": {
+            "put": {
+                "tags": [
+                    "Returning Transports"
+                ],
+                "summary": "Aggiorna un trasporto di ritorno",
+                "description": "Aggiorna un trasporto di ritorno esistente.",
+                "operationId": "updateReturningTransport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pre_production_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "production_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "other_field": {
+                                        "type": "string",
+                                        "example": "updated value"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trasporto di ritorno aggiornato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto di ritorno aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReturningTransport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporto di ritorno non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto di ritorno non trovato"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -330,46 +724,6 @@
                                 }
                             }
                         }
-                    },
-                    "404": {
-                        "description": "Trasporto non trovato",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Trasporto non trovato"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Transports"
-                ],
-                "summary": "Rimuovi un trasporto",
-                "description": "Elimina un trasporto esistente.",
-                "operationId": "deleteTransport",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Trasporto eliminato con successo"
                     },
                     "404": {
                         "description": "Trasporto non trovato",
@@ -1228,6 +1582,14 @@
         }
     },
     "tags": [
+        {
+            "name": "Productions",
+            "description": "Productions"
+        },
+        {
+            "name": "Returning Transports",
+            "description": "Returning Transports"
+        },
         {
             "name": "Roles",
             "description": "Roles"
