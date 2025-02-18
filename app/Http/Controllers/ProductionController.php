@@ -7,22 +7,44 @@ use App\Http\Requests\Production\NewProductionRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Production;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
 class ProductionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         //
     }
 
-    /**
-     * Store a newly created production in storage.
-     *
-     * @param App\Http\Requests\Production\NewProductionRequest $request with the field required
-     * @return App\Http\Responses\ApiResponse with the created production
+   /**
+     * @OA\Post(
+     *     path="/api/productions",
+     *     tags={"Productions"},
+     *     summary="Crea una nuova produzione",
+     *     description="Crea una nuova produzione e la memorizza nel database.",
+     *     operationId="storeProduction",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="company_name", type="string", example="Produzione XYZ"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Produzione creata con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Produzione creata con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Production")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Richiesta non valida",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Errore nella creazione della produzione")
+     *         )
+     *     )
+     * )
      */
     public function store(NewProductionRequest $request)
     {
@@ -34,11 +56,34 @@ class ProductionController extends Controller
     }
 
     /**
-     * Display the specified production.
-     *
-     * @param App\Models\Production $production with the id of the production to be found
-     * @return App\Http\Responses\ApiResponse with the found production
-     * @throws App\Exceptions\ApiException with an error message if no production is found
+     * @OA\Get(
+     *     path="/api/productions/{id}",
+     *     tags={"Productions"},
+     *     summary="Mostra una produzione specifica",
+     *     description="Recupera una produzione specifica utilizzando l'ID.",
+     *     operationId="getProductionById",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string", example="1")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Produzione trovata",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Produzione trovata"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Production")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Produzione non trovata",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Nessuna produzione trovata")
+     *         )
+     *     )
+     * )
      */
     public function show(Production $production)
     {

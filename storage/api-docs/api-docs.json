@@ -1,0 +1,4306 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "APIs",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Effettua il login dell'utente",
+                "description": "Consente all'utente di effettuare il login con le credenziali (email e password). Se il login è corretto, viene generato un token per l'accesso alle API.",
+                "operationId": "userLogin",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "remember": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login effettuato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login effettuato"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "your_api_token_here"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Parametri non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Parametri non validi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Crea un nuovo utente",
+                "description": "Permette la creazione di un nuovo utente. Viene assegnata una password temporanea e inviata un'email all'utente per il settaggio della password.",
+                "operationId": "userRegister",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cf": {
+                                        "type": "string",
+                                        "example": "ABCDEFGHIJKLMNOP"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2001-08-15"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "role_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Utente creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utente creato con successo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione dell'utente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Effettua il logout dell'utente",
+                "description": "Permette di effettuare il logout, invalidando il token di accesso dell'utente e rimuovendo il token di ricordami.",
+                "operationId": "userLogout",
+                "responses": {
+                    "200": {
+                        "description": "Logout effettuato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout effettuato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Utente non autenticato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utente non autenticato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/plants/{id}": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Mostra una pianta specifica",
+                "description": "Recupera una pianta utilizzando il suo ID.",
+                "operationId": "getPlantById",
+                "parameters": [
+                    {
+                        "name": "plant",
+                        "in": "path",
+                        "description": "ID della pianta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pianta trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta trovata"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plant"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pianta non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta non trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Aggiorna una pianta",
+                "description": "Aggiorna i dettagli di una pianta esistente. Se la pianta viene segata, viene creato un nuovo lotto.",
+                "operationId": "updateCuttedPlant",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID della pianta da aggiornare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cutting": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "cutted": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "cutting_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pianta aggiornata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta aggiornata con successo"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        },
+                                        "blockchainResponse": {
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "transactionId": {
+                                                    "type": "string",
+                                                    "example": "abcd1234xyz"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pianta non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta non trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/estimation-models": {
+            "get": {
+                "tags": [
+                    "Estimation Models"
+                ],
+                "summary": "Recupera una lista di modelli di stima",
+                "description": "Recupera tutti i modelli di stima, con supporto per la paginazione.",
+                "operationId": "getEstimationModels",
+                "responses": {
+                    "200": {
+                        "description": "Modelli di stima trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modelli di stima trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/EstimationModel"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modelli di stima non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessun modello di stima trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Estimation Models"
+                ],
+                "summary": "Crea un nuovo modello di stima",
+                "description": "Crea un nuovo modello di stima con i dati forniti.",
+                "operationId": "storeEstimationModel",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.5
+                                    },
+                                    "volume": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5.2
+                                    },
+                                    "double_diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5.2
+                                    },
+                                    "mesure": {
+                                        "type": "string",
+                                        "example": "Esempio"
+                                    },
+                                    "formula": {
+                                        "type": "string",
+                                        "example": "ax^2+bx+c"
+                                    },
+                                    "retrurning_parameter": {
+                                        "type": "string",
+                                        "example": "Parametro di ritorno"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Modello di stima creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/EstimationModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del modello di stima"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/estimation-models/{id}": {
+            "get": {
+                "tags": [
+                    "Estimation Models"
+                ],
+                "summary": "Mostra un modello di stima",
+                "description": "Recupera i dettagli di un modello di stima specificato tramite il suo ID.",
+                "operationId": "showEstimationModel",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del modello di stima",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Modello di stima trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/EstimationModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modello di stima non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Estimation Models"
+                ],
+                "summary": "Aggiorna un modello di stima",
+                "description": "Aggiorna i dettagli di un modello di stima specificato tramite il suo ID.",
+                "operationId": "updateEstimationModel",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del modello di stima da aggiornare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.5
+                                    },
+                                    "volume": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5.2
+                                    },
+                                    "double_diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5.2
+                                    },
+                                    "mesure": {
+                                        "type": "string",
+                                        "example": "Esempio"
+                                    },
+                                    "formula": {
+                                        "type": "string",
+                                        "example": "ax^2+bx+c"
+                                    },
+                                    "retrurning_parameter": {
+                                        "type": "string",
+                                        "example": "Parametro di ritorno"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Modello di stima aggiornato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/EstimationModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modello di stima non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/forests": {
+            "get": {
+                "tags": [
+                    "Forests"
+                ],
+                "summary": "Recupera una lista di boschi",
+                "description": "Recupera tutti i boschi disponibili, con paginazione.",
+                "operationId": "getForests",
+                "responses": {
+                    "200": {
+                        "description": "Boschi trovati con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Boschi trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Forest"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Boschi non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Boschi non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Forests"
+                ],
+                "summary": "Crea un nuovo bosco",
+                "description": "Crea un nuovo bosco con i dati forniti.",
+                "operationId": "storeForest",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Foresta di esempio"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Italia"
+                                    },
+                                    "region": {
+                                        "type": "string",
+                                        "example": "Roma"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Bosco creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bosco creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Forest"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del bosco"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/forests/{id}": {
+            "get": {
+                "tags": [
+                    "Forests"
+                ],
+                "summary": "Recupera un bosco specifico",
+                "description": "Recupera i dettagli di un bosco specifico tramite il suo ID.",
+                "operationId": "showForest",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del bosco da recuperare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bosco trovato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bosco trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Forest"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bosco non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bosco non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hammered-plants": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Recupera un elenco di alberi filtrati",
+                "description": "Recupera l'elenco di alberi filtrati per 'hammered' con stati 'cutting' e 'cutted' pari a 0 e paginazione.",
+                "operationId": "getHammeredPlants",
+                "parameters": [
+                    {
+                        "name": "hammered",
+                        "in": "query",
+                        "description": "Filtro per lo stato degli alberi 'hammered'",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alberi trovati con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Alberi trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 13
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Alberi non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Alberi non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Crea una nuova pianta",
+                "description": "Crea una nuova pianta associata a una foresta e invia i dati alla blockchain.",
+                "operationId": "storeHammeredPlant",
+                "requestBody": {
+                    "description": "Dati della pianta da creare.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "lat": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 45.123
+                                    },
+                                    "lng": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 9.123
+                                    },
+                                    "particle": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "woody_species": {
+                                        "type": "string",
+                                        "example": "Quercia"
+                                    },
+                                    "diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25.52
+                                    },
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25.52
+                                    },
+                                    "cultivar": {
+                                        "type": "string",
+                                        "example": "Sconosciuta"
+                                    },
+                                    "propagation": {
+                                        "type": "string",
+                                        "example": "Sconosciuta"
+                                    },
+                                    "hammered_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Note per la pianta"
+                                    },
+                                    "hammered": {
+                                        "type": "boolean",
+                                        "example": "false"
+                                    },
+                                    "forest_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pianta creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta creata con successo"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        },
+                                        "blockchainResponse": {
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "transactionId": {
+                                                    "type": "string",
+                                                    "example": "abcd1234xyz"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati di input non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dati di input non validi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Errore interno del server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore interno del server"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hammered-plants/{id}": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Recupera i dettagli di una pianta",
+                "description": "Recupera i dettagli di una pianta specificata tramite il suo ID.",
+                "operationId": "showHammeredPlant",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID della pianta da recuperare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pianta trovata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Albero trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plant"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pianta non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Albero non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Errore interno del server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore interno del server"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Aggiorna i dettagli di una pianta",
+                "description": "Aggiorna i dettagli di una pianta esistente specificata tramite il suo ID e invia i dati alla blockchain.",
+                "operationId": "updateHammeredPlant",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID della pianta da aggiornare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dati della pianta da aggiornare.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "hammered_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    },
+                                    "hammered": {
+                                        "description": "Stato 'hammered' della pianta",
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.5
+                                    },
+                                    "height": {
+                                        "format": "float",
+                                        "example": 12.5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pianta aggiornata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Albero aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plant"
+                                        },
+                                        "blockchainResponse": {
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "transactionId": {
+                                                    "type": "string",
+                                                    "example": "abcd1234xyz"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pianta non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Albero non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati di input non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dati di input non validi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Errore interno del server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore interno del server"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logs": {
+            "get": {
+                "tags": [
+                    "Logs"
+                ],
+                "summary": "Recupera un elenco di log",
+                "description": "Recupera l'elenco di tutti i log con filtro per 'lot_id' e paginazione.",
+                "operationId": "getLogs",
+                "parameters": [
+                    {
+                        "name": "lot_id",
+                        "in": "query",
+                        "description": "ID del lotto per filtrare i log",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Log trovati con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppi trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Log"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 13
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Toppi non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppi non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Logs"
+                ],
+                "summary": "Crea un nuovo log",
+                "description": "Crea un nuovo log e lo memorizza nel database.",
+                "operationId": "storeLog",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "number": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "length": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.3
+                                    },
+                                    "median": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.3
+                                    },
+                                    "cut_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Toppo creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppo creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Log"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del toppo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logs/{id}": {
+            "put": {
+                "tags": [
+                    "Logs"
+                ],
+                "summary": "Aggiorna un log esistente",
+                "description": "Aggiorna un log esistente nel database.",
+                "operationId": "updateLog",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "number": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "lenght": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.3
+                                    },
+                                    "median": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Toppo aggiornato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppo aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Log"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Toppo non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppo non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nell'aggiornamento del log"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/log-sections": {
+            "get": {
+                "tags": [
+                    "Log Sections"
+                ],
+                "summary": "Recupera le sezioni di log per un lotto specifico",
+                "description": "Recupera un elenco di sezioni di log in base a `lot_id` e `log_number`.",
+                "operationId": "getLogSections",
+                "parameters": [
+                    {
+                        "name": "lot_id",
+                        "in": "query",
+                        "description": "ID del lotto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "log_number",
+                        "in": "query",
+                        "description": "Numero del log",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sezioni trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sezioni trovate"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/LogSection"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessuna sezione trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessuna sezione presente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Log Sections"
+                ],
+                "summary": "Crea una nuova sezione di log",
+                "description": "Crea una nuova sezione di log e la memorizza nel database.",
+                "operationId": "storeLogSection",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "log_number": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "section": {
+                                        "type": "string",
+                                        "example": "Sezione 1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sezione di log creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sezione di toppo creata"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/LogSection"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione della sezione di log"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lots": {
+            "get": {
+                "tags": [
+                    "Lots"
+                ],
+                "summary": "Recupera un elenco di lotti",
+                "description": "Recupera l'elenco di tutti i lotti con paginazione.",
+                "operationId": "getLots",
+                "responses": {
+                    "200": {
+                        "description": "Lotti trovati con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Lot"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 13
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessun lotto trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lots/{id}": {
+            "get": {
+                "tags": [
+                    "Lots"
+                ],
+                "summary": "Recupera un lotto specifico",
+                "description": "Recupera i dettagli di un lotto specifico tramite l'ID.",
+                "operationId": "getLotById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del lotto da recuperare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lotto trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotto trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Lot"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lotto non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotto non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lot/cutting-lots": {
+            "get": {
+                "tags": [
+                    "Lots"
+                ],
+                "summary": "Recupera i lotti con piante in stato di cutting",
+                "description": "Recupera una lista di lotti dove le piante sono in stato di cutting e non sono ancora state tagliate.",
+                "operationId": "getCuttingFilteredList",
+                "responses": {
+                    "200": {
+                        "description": "Lotti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Lot"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lotti non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lot/cutted-lots": {
+            "get": {
+                "tags": [
+                    "Lots"
+                ],
+                "summary": "Recupera i lotti con piante in stato di cutted",
+                "description": "Recupera una lista di lotti dove le piante sono in stato di cutted e non sono più in cutting.",
+                "operationId": "getCuttedFilteredList",
+                "responses": {
+                    "200": {
+                        "description": "Lotti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Lot"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lotti non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/plants": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Mostra una lista di piante non lavorate",
+                "description": "Recupera tutte le piante che non sono state lavorate (cutting = 0 e cutted = 0) e hanno un determinato stato di 'hammered', con paginazione.",
+                "operationId": "getPlants",
+                "parameters": [
+                    {
+                        "name": "hammered",
+                        "in": "query",
+                        "description": "Filtra le piante in base allo stato 'hammered'.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Piante trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Piante trovate"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 30
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 13
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessuna pianta trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Piante non trovate"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Crea una nuova pianta",
+                "description": "Crea una nuova pianta e la associa a una foresta. I dati della pianta vengono inviati anche alla blockchain.",
+                "operationId": "storePlant",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "lat": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 45.123
+                                    },
+                                    "lng": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 9.123
+                                    },
+                                    "particle": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "woody_species": {
+                                        "type": "string",
+                                        "example": "Quercia"
+                                    },
+                                    "diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25.52
+                                    },
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25.52
+                                    },
+                                    "cultivar": {
+                                        "type": "string",
+                                        "example": "Sconosciuta"
+                                    },
+                                    "propagation": {
+                                        "type": "string",
+                                        "example": "Sconosciuta"
+                                    },
+                                    "georeferenzial_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Note per la pianta"
+                                    },
+                                    "hammered": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "forest_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pianta creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta creata con successo"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        },
+                                        "blockchainResponse": {
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "transactionId": {
+                                                    "type": "string",
+                                                    "example": "abcd1234xyz"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione della pianta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/plant/getPlantByForestId": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Mostra piante in base alla foresta",
+                "description": "Recupera tutte le piante appartenenti a una foresta specifica.",
+                "operationId": "getPlantsByForestId",
+                "parameters": [
+                    {
+                        "name": "forest_id",
+                        "in": "query",
+                        "description": "ID della foresta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "hammered",
+                        "in": "query",
+                        "description": "Filtra per stato delle piante",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Piante trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Piante trovate"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Piante non trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Piante non trovate"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pre-productions": {
+            "get": {
+                "tags": [
+                    "Pre-Productions"
+                ],
+                "summary": "Mostra una lista di pre-produzioni",
+                "description": "Recupera tutte le pre-produzioni con paginazione.",
+                "operationId": "getPreProductions",
+                "responses": {
+                    "200": {
+                        "description": "Pre-produzioni trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segherie trovate"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PreProduction"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessuna pre-produzione trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessuna segheria trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pre-Productions"
+                ],
+                "summary": "Crea una nuova pre-produzione",
+                "description": "Crea una nuova pre-produzione e la memorizza nel database.",
+                "operationId": "storePreProduction",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Segheria Alfa"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pre-produzione creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segheria creata con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PreProduction"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione della segheria"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pre-productions/{name}": {
+            "get": {
+                "tags": [
+                    "Pre-Productions"
+                ],
+                "summary": "Mostra i dettagli di una pre-produzione specifica",
+                "description": "Recupera una pre-produzione in base al nome dell'azienda (company_name).",
+                "operationId": "getPreProductionByName",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Nome dell'azienda per la quale cercare la pre-produzione.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Nome Azienda"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Segheria trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segheria trovata"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PreProduction"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessuna pre-produzione trovata con quel nome",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessuna segheria trovata con quel nome"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pre-productions/{id}": {
+            "put": {
+                "tags": [
+                    "Pre-Productions"
+                ],
+                "summary": "Aggiorna una pre-produzione esistente",
+                "description": "Aggiorna i dettagli di una pre-produzione specifica identificata tramite l'ID.",
+                "operationId": "updatePreProduction",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID della pre-produzione da aggiornare.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "I dati da aggiornare per la pre-produzione.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "company_name": {
+                                        "type": "string",
+                                        "example": "Nome Azienda"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Segheria aggiornata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segheria aggiornata con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PreProduction"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Segheria non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segheria non trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/log-section/create-log-section": {
+            "post": {
+                "tags": [
+                    "Log Sections"
+                ],
+                "summary": "Crea una nuova sezione di toppo",
+                "description": "Crea una nuova sezione di toppo (log section) con i dati forniti.",
+                "operationId": "createLogSection",
+                "requestBody": {
+                    "description": "I dati necessari per creare una nuova sezione di toppo.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "lot_id",
+                                    "log_number",
+                                    "section"
+                                ],
+                                "properties": {
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "log_number": {
+                                        "type": "string",
+                                        "example": "456"
+                                    },
+                                    "section": {
+                                        "type": "string",
+                                        "example": "Sezione 1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sezione di toppo creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sezione di toppo creata con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/LogSection"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati di input non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dati non validi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Mostra una lista di prodotti per una produzione specifica",
+                "description": "Recupera tutti i prodotti associati a una specifica produzione utilizzando l'ID di produzione.",
+                "operationId": "getProductsByProduction",
+                "responses": {
+                    "200": {
+                        "description": "Prodotti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Prodotti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessun prodotto trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessun prodotto trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Crea un nuovo prodotto",
+                "description": "Crea un nuovo prodotto e lo memorizza nel database.",
+                "operationId": "storeProduct",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Prodotto esempio"
+                                    },
+                                    "production_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "log_number": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Prodotto creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Prodotto creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del prodotto"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Mostra un prodotto specifico",
+                "description": "Recupera un prodotto utilizzando il suo ID.",
+                "operationId": "getProductById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Prodotto trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Prodotto trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Prodotto non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Prodotto non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/productions": {
+            "post": {
+                "tags": [
+                    "Productions"
+                ],
+                "summary": "Crea una nuova produzione",
+                "description": "Crea una nuova produzione e la memorizza nel database.",
+                "operationId": "storeProduction",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "company_name": {
+                                        "type": "string",
+                                        "example": "Produzione XYZ"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produzione creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Produzione creata con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Production"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Richiesta non valida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione della produzione"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/productions/{id}": {
+            "get": {
+                "tags": [
+                    "Productions"
+                ],
+                "summary": "Mostra una produzione specifica",
+                "description": "Recupera una produzione specifica utilizzando l'ID.",
+                "operationId": "getProductionById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produzione trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Produzione trovata"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Production"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produzione non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessuna produzione trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/returning-transports": {
+            "get": {
+                "tags": [
+                    "Returning Transports"
+                ],
+                "summary": "Mostra una lista di trasporti di ritorno per una pre-produzione",
+                "description": "Recupera tutti i trasporti di ritorno associati a una pre-produzione.",
+                "operationId": "getReturningTransportsByPreProductionId",
+                "responses": {
+                    "200": {
+                        "description": "Trasporti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ReturningTransport"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporto di ritorno non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessun trasporto di ritorno trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Returning Transports"
+                ],
+                "summary": "Crea un nuovo trasporto di ritorno",
+                "description": "Crea un nuovo trasporto di ritorno e lo memorizza nel database.",
+                "operationId": "storeReturningTransport",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "transport_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Trasposto di carico difettoso"
+                                    },
+                                    "returning_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Trasporto di ritorno creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto di ritorno creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReturningTransport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Richiesta non valida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del trasporto di ritorno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/returning-transports/{production_id}": {
+            "get": {
+                "tags": [
+                    "Returning Transports"
+                ],
+                "summary": "Mostra una lista di trasporti di ritorno per una produzione",
+                "description": "Recupera tutti i trasporti di ritorno associati a una produzione.",
+                "operationId": "getReturningTransportsByProductionId",
+                "parameters": [
+                    {
+                        "name": "production_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trasporti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti trovati"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReturningTransport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporto di ritorno non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessun trasporto di ritorno trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/returning-transports/{id}": {
+            "put": {
+                "tags": [
+                    "Returning Transports"
+                ],
+                "summary": "Aggiorna un trasporto di ritorno",
+                "description": "Aggiorna un trasporto di ritorno esistente.",
+                "operationId": "updateReturningTransport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del trasporto di ritorno da aggiornare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "returned_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trasporto di ritorno aggiornato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto di ritorno aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReturningTransport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporto di ritorno non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto di ritorno non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Mostra un ruolo specifico",
+                "description": "Recupera il ruolo utilizzando il suo ID.",
+                "operationId": "getRoleById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ruolo trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ruolo trovato"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Admin"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ruolo non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ruolo non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transports": {
+            "get": {
+                "tags": [
+                    "Transports"
+                ],
+                "summary": "Mostra tutti i trasporti per una specifica compagnia",
+                "description": "Recupera tutti i trasporti associati a una compagnia specificata.",
+                "operationId": "getTransportsByCompany",
+                "responses": {
+                    "200": {
+                        "description": "Trasporti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Transport"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporti non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Transports"
+                ],
+                "summary": "Crea un nuovo trasporto",
+                "description": "Crea un nuovo trasporto con i dati forniti.",
+                "operationId": "createTransport",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "plate": {
+                                        "type": "string",
+                                        "example": "AB123CD"
+                                    },
+                                    "driver": {
+                                        "type": "string",
+                                        "example": "Jhon Doe"
+                                    },
+                                    "company": {
+                                        "type": "string",
+                                        "example": "ACME Corp"
+                                    },
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "pre_production_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "production_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "shipping": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "shipping_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trasporto creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Transport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transports/{id}": {
+            "get": {
+                "tags": [
+                    "Transports"
+                ],
+                "summary": "Mostra un trasporto specifico",
+                "description": "Recupera un trasporto utilizzando il suo ID.",
+                "operationId": "getTransportById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trasporto trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Transport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporto non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Transports"
+                ],
+                "summary": "Aggiorna un trasporto specifico",
+                "description": "Aggiorna i dettagli di un trasporto esistente.",
+                "operationId": "updateTransport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "shipping": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "shipping_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trasporto aggiornato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Transport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporto non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporto non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transport/getPreProductionTransports/{id}": {
+            "get": {
+                "tags": [
+                    "Transports"
+                ],
+                "summary": "Mostra trasporti per una pre-produzione",
+                "description": "Recupera tutti i trasporti associati a un pre-produzione specificato.",
+                "operationId": "getPreProductionTransports",
+                "parameters": [
+                    {
+                        "name": "pre_production_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 101
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trasporti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Transport"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporti non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transport/production/{id}": {
+            "get": {
+                "tags": [
+                    "Transports"
+                ],
+                "summary": "Mostra trasporti per una produzione",
+                "description": "Recupera tutti i trasporti associati a una produzione specificata.",
+                "operationId": "getProductionTransports",
+                "parameters": [
+                    {
+                        "name": "production_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 202
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trasporti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Transport"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trasporti non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trasporti non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Aggiorna un utente specifico",
+                "description": "Aggiorna i dettagli di un utente esistente.",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2001-05-03"
+                                    },
+                                    "cf": {
+                                        "type": "string",
+                                        "example": "ABCDEFGHIJKLMNOP"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "ROLE": {
+                                        "type": "integer",
+                                        "example": "2"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Utente aggiornato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utente aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Richiesta errata, dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dati non validi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utente non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utente non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "EstimationModel": {
+                "title": "EstimationModel",
+                "description": "Modello che rappresenta una stima delle caratteristiche di una pianta o materiale, inclusi altezza, volume, diametro e parametri associati.",
+                "properties": {
+                    "height": {
+                        "description": "Altezza stimata",
+                        "type": "number",
+                        "format": "float",
+                        "example": 12.5
+                    },
+                    "volume": {
+                        "description": "Volume stimato",
+                        "type": "number",
+                        "format": "float",
+                        "example": 45.7
+                    },
+                    "double_diameter": {
+                        "description": "Diametro doppio stimato",
+                        "type": "number",
+                        "format": "float",
+                        "example": 10.2
+                    },
+                    "mesure": {
+                        "description": "Tipo di misura utilizzata",
+                        "type": "string",
+                        "example": "metri"
+                    },
+                    "formula": {
+                        "description": "Formula utilizzata per il calcolo",
+                        "type": "string",
+                        "example": "pi * (diametro/2)^2 * altezza"
+                    },
+                    "retrurning_parameter": {
+                        "description": "Parametro di ritorno utilizzato per la stima",
+                        "type": "string",
+                        "example": "coefficiente di densità"
+                    },
+                    "created_at": {
+                        "description": "Timestamp di creazione",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-18T12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp dell'ultima modifica",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-19T12:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "Forest": {
+                "title": "Forest",
+                "description": "Modello che rappresenta una foresta, con informazioni sul nome, città e regione, e le piante ad essa associate.",
+                "properties": {
+                    "name": {
+                        "description": "Nome della foresta",
+                        "type": "string",
+                        "example": "Foresta di Pianura"
+                    },
+                    "city": {
+                        "description": "Città in cui si trova la foresta",
+                        "type": "string",
+                        "example": "Venezia"
+                    },
+                    "region": {
+                        "description": "Regione in cui si trova la foresta",
+                        "type": "string",
+                        "example": "Veneto"
+                    },
+                    "created_at": {
+                        "description": "Timestamp di creazione",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-18T12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp dell'ultima modifica",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-19T12:00:00"
+                    },
+                    "plants": {
+                        "description": "Lista delle piante associate alla foresta",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Plant"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Log": {
+                "title": "Log",
+                "description": "Modello che rappresenta un log associato a un lotto, comprendente informazioni relative a lunghezza, media e data di taglio.",
+                "properties": {
+                    "number": {
+                        "description": "Numero identificativo del log",
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "lot_id": {
+                        "description": "ID del lotto a cui il log è associato",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "lenght": {
+                        "description": "Lunghezza del log",
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "median": {
+                        "description": "Media associata al log",
+                        "type": "number",
+                        "format": "float",
+                        "example": 50.5
+                    },
+                    "cut_date": {
+                        "description": "Data del taglio",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-18T12:00:00"
+                    },
+                    "created_at": {
+                        "description": "Timestamp di creazione",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-18T12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp dell'ultima modifica",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-19T12:00:00"
+                    },
+                    "lot": {
+                        "$ref": "#/components/schemas/Lot"
+                    },
+                    "log_sections": {
+                        "description": "Lista delle sezioni del log",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/LogSection"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "LogSection": {
+                "title": "LogSection",
+                "description": "Modello che rappresenta una sezione di un log associato a un lotto.",
+                "properties": {
+                    "lot_id": {
+                        "description": "ID del lotto associato alla sezione del log",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "log_number": {
+                        "description": "Numero del log",
+                        "type": "string",
+                        "example": "LOG123456"
+                    },
+                    "section": {
+                        "description": "Nome o identificatore della sezione",
+                        "type": "string",
+                        "example": "Sezione A"
+                    },
+                    "created_at": {
+                        "description": "Timestamp di creazione",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-18T12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp dell'ultima modifica",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-19T12:00:00"
+                    },
+                    "logs": {
+                        "$ref": "#/components/schemas/Log"
+                    }
+                },
+                "type": "object"
+            },
+            "Lot": {
+                "title": "Lot",
+                "description": "Modello che rappresenta un lotto, associato a un impianto, trasporto e log.",
+                "properties": {
+                    "plant_id": {
+                        "description": "ID della pianta associata al lotto",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Timestamp di creazione",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-18T12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp dell'ultima modifica",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-19T12:00:00"
+                    },
+                    "plant": {
+                        "$ref": "#/components/schemas/Plant"
+                    },
+                    "logs": {
+                        "description": "Lista dei log associati al lotto",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Log"
+                        }
+                    },
+                    "transport": {
+                        "$ref": "#/components/schemas/Transport"
+                    }
+                },
+                "type": "object"
+            },
+            "Plant": {
+                "title": "Plant",
+                "description": "Modello che rappresenta una pianta",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 45.123456
+                    },
+                    "lng": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 12.654321
+                    },
+                    "particle": {
+                        "type": "string",
+                        "example": "ABC123"
+                    },
+                    "woody_species": {
+                        "type": "string",
+                        "example": "Quercia"
+                    },
+                    "diameter": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 30.5
+                    },
+                    "height": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 12.4
+                    },
+                    "cultivar": {
+                        "type": "string",
+                        "example": "Frantoio"
+                    },
+                    "propagation": {
+                        "type": "string",
+                        "example": "Innesto"
+                    },
+                    "georeferenzial_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-02-18T10:00:00Z"
+                    },
+                    "hammered_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-02-19T10:00:00Z"
+                    },
+                    "cutting_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-02-20T10:00:00Z"
+                    },
+                    "cutted_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-02-21T10:00:00Z"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Pianta in buone condizioni"
+                    },
+                    "hammered": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "cutting": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "cutted": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "forest_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "lot_id": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "forest": {
+                        "$ref": "#/components/schemas/Forest"
+                    },
+                    "lot": {
+                        "$ref": "#/components/schemas/Lot"
+                    }
+                },
+                "type": "object"
+            },
+            "PreProduction": {
+                "title": "PreProduction",
+                "description": "Modello che rappresenta la fase preliminare della produzione, collegata a Transport e Production.",
+                "properties": {
+                    "company_name": {
+                        "description": "Nome dell'azienda in fase preliminare",
+                        "type": "string",
+                        "example": "XYZ Manufacturing"
+                    },
+                    "created_at": {
+                        "description": "Timestamp di creazione",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-18T12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp dell'ultima modifica",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-19T12:00:00"
+                    },
+                    "transports": {
+                        "description": "Lista di trasporti associati alla pre-produzione",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Transport"
+                        }
+                    },
+                    "production": {
+                        "description": "Lista di produzioni associate alla pre-produzione",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Production"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Product": {
+                "title": "Product",
+                "description": "Modello che rappresenta un prodotto all'interno della produzione.",
+                "properties": {
+                    "name": {
+                        "description": "Nome del prodotto",
+                        "type": "string",
+                        "example": "Prodotto A"
+                    },
+                    "production_id": {
+                        "description": "ID della produzione associata",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "log_number": {
+                        "description": "Numero di log del prodotto",
+                        "type": "string",
+                        "example": "LOG123456"
+                    },
+                    "lot_id": {
+                        "description": "ID del lotto del prodotto",
+                        "type": "string",
+                        "example": "LOT987654"
+                    },
+                    "created_at": {
+                        "description": "Timestamp di creazione",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-18T12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp dell'ultima modifica",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-19T12:00:00"
+                    },
+                    "production": {
+                        "$ref": "#/components/schemas/Production"
+                    }
+                },
+                "type": "object"
+            },
+            "Production": {
+                "title": "Production",
+                "description": "Modello che rappresenta la produzione, collegato a PreProduction, Transport e Product.",
+                "properties": {
+                    "company_name": {
+                        "description": "Nome dell'azienda",
+                        "type": "string",
+                        "example": "ABC Manufacturing"
+                    },
+                    "pre_production_id": {
+                        "description": "ID della produzione preliminare associata",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Timestamp di creazione",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-18T12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp dell'ultima modifica",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-02-19T12:00:00"
+                    },
+                    "transports": {
+                        "description": "Lista di trasporti associati alla produzione",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Transport"
+                        }
+                    },
+                    "products": {
+                        "description": "Lista di prodotti associati alla produzione",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ReturningTransport": {
+                "title": "ReturningTransport",
+                "properties": {
+                    "transport_id": {
+                        "description": "ID del trasporto",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "notes": {
+                        "description": "Note relative al trasporto",
+                        "type": "string",
+                        "example": "Trasporto ritardato"
+                    },
+                    "returing_date": {
+                        "description": "Data di ritorno prevista",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-02-18"
+                    },
+                    "returned_date": {
+                        "description": "Data effettiva di ritorno",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-02-18"
+                    }
+                },
+                "type": "object"
+            },
+            "Role": {
+                "title": "Role",
+                "description": "Modello che rappresenta un ruolo utente",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin"
+                    },
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Transport": {
+                "title": "Transport",
+                "description": "Modello che rappresenta un trasporto",
+                "properties": {
+                    "id": {
+                        "description": "ID del trasporto",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "plate": {
+                        "description": "Targa del veicolo",
+                        "type": "string",
+                        "example": "AB123CD"
+                    },
+                    "driver": {
+                        "description": "Nome dell'autista",
+                        "type": "string",
+                        "example": "Mario Rossi"
+                    },
+                    "company": {
+                        "description": "Nome dell'azienda di trasporti",
+                        "type": "string",
+                        "example": "Trasporti SRL"
+                    },
+                    "lot_id": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "pre_production_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "production_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "shipping": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "shipping_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-02-18T10:00:00Z"
+                    },
+                    "shipped": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "shipped_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-02-19T10:00:00Z"
+                    },
+                    "lots": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Lot"
+                        }
+                    },
+                    "pre_production": {
+                        "$ref": "#/components/schemas/PreProduction"
+                    },
+                    "production": {
+                        "$ref": "#/components/schemas/Production"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "Modello che rappresenta un utente",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "cf": {
+                        "type": "string",
+                        "example": "RSSMRA85M01H501Z"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Mario"
+                    },
+                    "surname": {
+                        "type": "string",
+                        "example": "Rossi"
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "1985-01-01"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "mario.rossi@example.com"
+                    },
+                    "role_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/Role"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Plants",
+            "description": "Plants"
+        },
+        {
+            "name": "Estimation Models",
+            "description": "Estimation Models"
+        },
+        {
+            "name": "Forests",
+            "description": "Forests"
+        },
+        {
+            "name": "Logs",
+            "description": "Logs"
+        },
+        {
+            "name": "Log Sections",
+            "description": "Log Sections"
+        },
+        {
+            "name": "Lots",
+            "description": "Lots"
+        },
+        {
+            "name": "Pre-Productions",
+            "description": "Pre-Productions"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
+        },
+        {
+            "name": "Productions",
+            "description": "Productions"
+        },
+        {
+            "name": "Returning Transports",
+            "description": "Returning Transports"
+        },
+        {
+            "name": "Roles",
+            "description": "Roles"
+        },
+        {
+            "name": "Transports",
+            "description": "Transports"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}

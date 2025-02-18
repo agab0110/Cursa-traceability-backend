@@ -9,14 +9,33 @@ use App\Http\Requests\PreProduction\UpdatePreProductionRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\LogSection;
 use App\Models\PreProduction;
+use OpenApi\Annotations as OA;
 
 class PreProductionController extends Controller
 {
     /**
-     * Display a listing of the pre-production using pagination.
-     *
-     * @return App\Http\Responses\ApiResponse with the list of pre-productions found
-     * @throws App\Exceptions\ApiException with an error message if no pre-production is found
+     * @OA\Get(
+     *     path="/api/pre-productions",
+     *     tags={"Pre-Productions"},
+     *     summary="Mostra una lista di pre-produzioni",
+     *     description="Recupera tutte le pre-produzioni con paginazione.",
+     *     operationId="getPreProductions",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pre-produzioni trovate",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Segherie trovate"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PreProduction"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nessuna pre-produzione trovata",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Nessuna segheria trovata")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -30,10 +49,34 @@ class PreProductionController extends Controller
     }
 
     /**
-     * Store a newly created pre-production in storage.
-     *
-     * @param App\Http\Requests\PreProduction\NewPreProductionRequest $request containing the requested field
-     * @return App\Http\Responses\ApiResponse with the created pre-production
+     * @OA\Post(
+     *     path="/api/pre-productions",
+     *     tags={"Pre-Productions"},
+     *     summary="Crea una nuova pre-produzione",
+     *     description="Crea una nuova pre-produzione e la memorizza nel database.",
+     *     operationId="storePreProduction",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="Segheria Alfa"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Pre-produzione creata con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Segheria creata con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/PreProduction")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Dati non validi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Errore nella creazione della segheria")
+     *         )
+     *     )
+     * )
      */
     public function store(NewPreProductionRequest $request)
     {
@@ -45,11 +88,38 @@ class PreProductionController extends Controller
     }
 
     /**
-     * Display the specified pre-production.
-     *
-     * @param string $name the name of the pre-production
-     * @return App\Http\Responses\ApiResponse with the pre-production found
-     * @throws App\Exceptions\ApiException with an error message if no pre-production is found
+     * @OA\Get(
+     *     path="/api/pre-productions/{name}",
+     *     tags={"Pre-Productions"},
+     *     summary="Mostra i dettagli di una pre-produzione specifica",
+     *     description="Recupera una pre-produzione in base al nome dell'azienda (company_name).",
+     *     operationId="getPreProductionByName",
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="path",
+     *         description="Nome dell'azienda per la quale cercare la pre-produzione.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="Nome Azienda"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Segheria trovata",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Segheria trovata"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PreProduction"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nessuna pre-produzione trovata con quel nome",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Nessuna segheria trovata con quel nome")
+     *         )
+     *     )
+     * )
      */
     public function show(string $name)
     {
@@ -63,12 +133,45 @@ class PreProductionController extends Controller
     }
 
     /**
-     * Update the specified pre-production in storage.
-     *
-     * @param App\Http\Requests\PreProduction\UpdatePreProductionRequest $request containing the changes to be made
-     * @param int $id the id of the pre-production to update
-     * @return App\Http\Responses\ApiResponse with the updated pre-production
-     * @throws App\Exceptions\ApiException with an error message if the pre-production is not found
+     * @OA\Put(
+     *     path="/api/pre-productions/{id}",
+     *     tags={"Pre-Productions"},
+     *     summary="Aggiorna una pre-produzione esistente",
+     *     description="Aggiorna i dettagli di una pre-produzione specifica identificata tramite l'ID.",
+     *     operationId="updatePreProduction",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID della pre-produzione da aggiornare.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="I dati da aggiornare per la pre-produzione.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="company_name", type="string", example="Nome Azienda"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Segheria aggiornata con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Segheria aggiornata con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/PreProduction")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Segheria non trovata",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Segheria non trovata")
+     *         )
+     *     )
+     * )
      */
     public function update(UpdatePreProductionRequest $request, $id)
     {
@@ -93,6 +196,40 @@ class PreProductionController extends Controller
         //
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/log-section/create-log-section",
+     *     tags={"Log Sections"},
+     *     summary="Crea una nuova sezione di toppo",
+     *     description="Crea una nuova sezione di toppo (log section) con i dati forniti.",
+     *     operationId="createLogSection",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="I dati necessari per creare una nuova sezione di toppo.",
+     *         @OA\JsonContent(
+     *             required={"lot_id", "log_number", "section"},
+     *             @OA\Property(property="lot_id", type="integer", example=123),
+     *             @OA\Property(property="log_number", type="string", example="456"),
+     *             @OA\Property(property="section", type="string", example="Sezione 1")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Sezione di toppo creata con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Sezione di toppo creata con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/LogSection")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Dati di input non validi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Dati non validi")
+     *         )
+     *     )
+     * )
+     */
     public function createLogSection(CreateLogSectionRequest $request) {
         $validated = $request->validated();
 
