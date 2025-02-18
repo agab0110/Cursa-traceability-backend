@@ -50,13 +50,13 @@
             "@php artisan key:generate --ansi"
         ],
         "generate-controllers-doc": [
-            "@php vendor/bin/phpdoc run -d app/Http/Controllers -t docs/api"
+            "@php vendor/bin/phpdoc run -d app/Http/Controllers -t docs/classes"
         ],
         "generate-blockchain-doc": [
-            "@php vendor/bin/phpdoc run -d app/Services/Blockchain -t docs/api"
+            "@php vendor/bin/phpdoc run -d app/Services/Blockchain -t docs/classes"
         ],
         "generate-doc": [
-            "@php vendor/bin/phpdoc run -d app --ignore app/Http/Controllers -t docs/api"
+            "@php vendor/bin/phpdoc run -d app --ignore app/Http/Controllers -t docs/classes"
         ]
 
     },
