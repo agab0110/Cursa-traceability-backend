@@ -26,6 +26,265 @@
                 }
             }
         },
+        "/api/logs": {
+            "get": {
+                "tags": [
+                    "Logs"
+                ],
+                "summary": "Recupera un elenco di log",
+                "description": "Recupera l'elenco di tutti i log con filtro per 'lot_id' e paginazione.",
+                "operationId": "getLogs",
+                "parameters": [
+                    {
+                        "name": "lot_id",
+                        "in": "query",
+                        "description": "ID del lotto per filtrare i log",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Log trovati con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppi trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Log"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 13
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Toppi non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppi non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Logs"
+                ],
+                "summary": "Crea un nuovo log",
+                "description": "Crea un nuovo log e lo memorizza nel database.",
+                "operationId": "storeLog",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "number": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "length": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.3
+                                    },
+                                    "median": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.3
+                                    },
+                                    "cut_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Toppo creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppo creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Log"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del toppo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logs/{id}": {
+            "put": {
+                "tags": [
+                    "Logs"
+                ],
+                "summary": "Aggiorna un log esistente",
+                "description": "Aggiorna un log esistente nel database.",
+                "operationId": "updateLog",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "number": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "lenght": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.3
+                                    },
+                                    "median": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Toppo aggiornato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppo aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Log"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Toppo non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toppo non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nell'aggiornamento del log"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/log-sections": {
             "get": {
                 "tags": [
@@ -2528,6 +2787,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Logs",
+            "description": "Logs"
+        },
         {
             "name": "Log Sections",
             "description": "Log Sections"
