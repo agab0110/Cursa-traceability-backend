@@ -71,9 +71,9 @@ class LogController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="number", type="integer", example=1),
      *             @OA\Property(property="lot_id", type="integer", example=1),
-     *             @OA\Property(property="lenght", type="number",format="float", example=12.30),
-     *             @OA\Property(property="median", type="number",format="float", example=12.30),
-     *             @OA\Property(property="cut_date", type="date", example=2025-05-03)
+     *             @OA\Property(property="length", type="number", format="float", example=12.30),
+     *             @OA\Property(property="median", type="number", format="float", example=12.30),
+     *             @OA\Property(property="cut_date", type="string", format="date", example="2025-05-03")
      *         )
      *     ),
      *     @OA\Response(
@@ -88,7 +88,7 @@ class LogController extends Controller
      *         response=400,
      *         description="Dati non validi",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Errore nella creazione del log")
+     *             @OA\Property(property="message", type="string", example="Errore nella creazione del toppo")
      *         )
      *     )
      * )
