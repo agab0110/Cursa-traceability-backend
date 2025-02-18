@@ -11,13 +11,13 @@ class UserController extends Controller
 {
     /**
      * @OA\Put(
-     *     path="/api/users/{user}",
+     *     path="/api/users/{id}",
      *     tags={"Users"},
      *     summary="Aggiorna un utente specifico",
      *     description="Aggiorna i dettagli di un utente esistente.",
      *     operationId="updateUser",
      *     @OA\Parameter(
-     *         name="user",
+     *         name="id",
      *         in="path",
      *         required=true,
      *         @OA\Schema(type="integer", example=1)
@@ -25,10 +25,12 @@ class UserController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"name", "email"},
-     *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="name", type="string", example="John"),
+     *             @OA\Property(property="surname", type="string", example="Doe"),
+     *             @OA\Property(property="birth_date", type="datetime", example="2001-05-03"),
+     *             @OA\Property(property="cf", type="string", example="ABCDEFGHIJKLMNOP"),
      *             @OA\Property(property="email", type="string", format="email", example="john.doe@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="new_password_123")
+     *             @OA\Property(property="ROLE", type="integer", example="2"),
      *         )
      *     ),
      *     @OA\Response(

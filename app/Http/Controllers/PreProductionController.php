@@ -9,14 +9,33 @@ use App\Http\Requests\PreProduction\UpdatePreProductionRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\LogSection;
 use App\Models\PreProduction;
+use OpenApi\Annotations as OA;
 
 class PreProductionController extends Controller
 {
     /**
-     * Display a listing of the pre-production using pagination.
-     *
-     * @return App\Http\Responses\ApiResponse with the list of pre-productions found
-     * @throws App\Exceptions\ApiException with an error message if no pre-production is found
+     * @OA\Get(
+     *     path="/api/pre-productions",
+     *     tags={"Pre-Productions"},
+     *     summary="Mostra una lista di pre-produzioni",
+     *     description="Recupera tutte le pre-produzioni con paginazione.",
+     *     operationId="getPreProductions",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pre-produzioni trovate",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Segherie trovate"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PreProduction"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nessuna pre-produzione trovata",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Nessuna segheria trovata")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -30,10 +49,34 @@ class PreProductionController extends Controller
     }
 
     /**
-     * Store a newly created pre-production in storage.
-     *
-     * @param App\Http\Requests\PreProduction\NewPreProductionRequest $request containing the requested field
-     * @return App\Http\Responses\ApiResponse with the created pre-production
+     * @OA\Post(
+     *     path="/api/pre-productions",
+     *     tags={"Pre-Productions"},
+     *     summary="Crea una nuova pre-produzione",
+     *     description="Crea una nuova pre-produzione e la memorizza nel database.",
+     *     operationId="storePreProduction",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="Segheria Alfa"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Pre-produzione creata con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Segheria creata con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/PreProduction")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Dati non validi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Errore nella creazione della segheria")
+     *         )
+     *     )
+     * )
      */
     public function store(NewPreProductionRequest $request)
     {

@@ -7,6 +7,7 @@ use App\Http\Requests\Production\NewProductionRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Production;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
 class ProductionController extends Controller
 {
@@ -25,8 +26,7 @@ class ProductionController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", example="Produzione XYZ"),
-     *             @OA\Property(property="description", type="string", example="Dettagli sulla produzione XYZ")
+     *             @OA\Property(property="company_name", type="string", example="Produzione XYZ"),
      *         )
      *     ),
      *     @OA\Response(

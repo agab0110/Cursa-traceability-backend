@@ -19,12 +19,6 @@ class TransportController extends Controller
      *     summary="Mostra tutti i trasporti per una specifica compagnia",
      *     description="Recupera tutti i trasporti associati a una compagnia specificata.",
      *     operationId="getTransportsByCompany",
-     *     @OA\Parameter(
-     *         name="company_name",
-     *         in="query",
-     *         required=true,
-     *         @OA\Schema(type="string", example="ACME Corp")
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Trasporti trovati",
@@ -63,10 +57,14 @@ class TransportController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"company_name", "vehicle_type", "status"},
-     *             @OA\Property(property="company_name", type="string", example="ACME Corp"),
-     *             @OA\Property(property="vehicle_type", type="string", example="Truck"),
-     *             @OA\Property(property="status", type="string", example="In Transit")
+     *             @OA\Property(property="plate", type="string", example="AB123CD"),
+     *             @OA\Property(property="driver", type="string", example="Jhon Doe"),
+     *             @OA\Property(property="company", type="string", example="ACME Corp"),
+     *             @OA\Property(property="lot_id", type="integer", example="1"),
+     *             @OA\Property(property="pre_production_id", type="integer", example="1"),
+     *             @OA\Property(property="production_id", type="integer", example="1"),
+     *             @OA\Property(property="shipping", type="boolean", example="true"),
+     *             @OA\Property(property="shipping_date", type="date", example="2025-05-03"),
      *         )
      *     ),
      *     @OA\Response(
@@ -90,13 +88,13 @@ class TransportController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/transports/{transport}",
+     *     path="/api/transports/{id}",
      *     tags={"Transports"},
      *     summary="Mostra un trasporto specifico",
      *     description="Recupera un trasporto utilizzando il suo ID.",
      *     operationId="getTransportById",
      *     @OA\Parameter(
-     *         name="transport",
+     *         name="id",
      *         in="path",
      *         required=true,
      *         @OA\Schema(type="integer", example=1)
@@ -143,10 +141,8 @@ class TransportController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"company_name", "vehicle_type", "status"},
-     *             @OA\Property(property="company_name", type="string", example="ACME Corp"),
-     *             @OA\Property(property="vehicle_type", type="string", example="Truck"),
-     *             @OA\Property(property="status", type="string", example="Delivered")
+     *             @OA\Property(property="shipping", type="boolean", example="true"),
+     *             @OA\Property(property="shipping_date", type="date", example="2025-05-03"),
      *         )
      *     ),
      *     @OA\Response(
@@ -188,7 +184,7 @@ class TransportController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/transports/pre-production",
+     *     path="/api/transport/getPreProductionTransports/{id}",
      *     tags={"Transports"},
      *     summary="Mostra trasporti per una pre-produzione",
      *     description="Recupera tutti i trasporti associati a un pre-produzione specificato.",
@@ -229,7 +225,7 @@ class TransportController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/transports/production",
+     *     path="/api/transport/production/{id}",
      *     tags={"Transports"},
      *     summary="Mostra trasporti per una produzione",
      *     description="Recupera tutti i trasporti associati a una produzione specificata.",

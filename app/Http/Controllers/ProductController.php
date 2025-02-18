@@ -7,15 +7,33 @@ use App\Http\Requests\Product\NewProductRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the products for a specific production.
-     *
-     * @param Illuminate\Http\Request $request containing the production id
-     * @return App\Http\Responses\ApiResponse containing the products found
-     * @throws App\Exceptions\ApiException with an error message if no product is found
+     * @OA\Get(
+     *     path="/api/products",
+     *     tags={"Products"},
+     *     summary="Mostra una lista di prodotti per una produzione specifica",
+     *     description="Recupera tutti i prodotti associati a una specifica produzione utilizzando l'ID di produzione.",
+     *     operationId="getProductsByProduction",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Prodotti trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Prodotti trovati"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Product"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nessun prodotto trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Nessun prodotto trovato")
+     *         )
+     *     )
+     * )
      */
     public function index(Request $request)
     {
@@ -29,10 +47,37 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created product in storage.
-     *
-     * @param App\Http\Requests\Product\NewProductRequest $request containig the requested fields
-     * @return App\Http\Responses\ApiResponse with the created product
+     * @OA\Post(
+     *     path="/api/products",
+     *     tags={"Products"},
+     *     summary="Crea un nuovo prodotto",
+     *     description="Crea un nuovo prodotto e lo memorizza nel database.",
+     *     operationId="storeProduct",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="Prodotto esempio"),
+     *             @OA\Property(property="production_id", type="integer", example=1),
+     *             @OA\Property(property="log_number", type="integer", example=1),
+     *             @OA\Property(property="lot_id", type="integer" example=1),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Prodotto creato con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Prodotto creato con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Product")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Dati non validi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Errore nella creazione del prodotto")
+     *         )
+     *     )
+     * )
      */
     public function store(NewProductRequest $request)
     {
@@ -44,11 +89,34 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified product.
-     *
-     * @param App\Models\Product $product containing the id of the product to be found
-     * @return App\Http\Responses\ApiResponse containing the found product
-     * @throws App\Exceptions\ApiException with an error message if no product is found
+     * @OA\Get(
+     *     path="/api/products/{id}",
+     *     tags={"Products"},
+     *     summary="Mostra un prodotto specifico",
+     *     description="Recupera un prodotto utilizzando il suo ID.",
+     *     operationId="getProductById",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Prodotto trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Prodotto trovato"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Product")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Prodotto non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Prodotto non trovato")
+     *         )
+     *     )
+     * )
      */
     public function show(Product $product)
     {

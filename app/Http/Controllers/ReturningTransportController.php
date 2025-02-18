@@ -19,12 +19,6 @@ class ReturningTransportController extends Controller
      *     summary="Mostra una lista di trasporti di ritorno per una pre-produzione",
      *     description="Recupera tutti i trasporti di ritorno associati a una pre-produzione.",
      *     operationId="getReturningTransportsByPreProductionId",
-     *     @OA\Parameter(
-     *         name="pre_production_id",
-     *         in="query",
-     *         required=true,
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Trasporti trovati",
@@ -63,9 +57,9 @@ class ReturningTransportController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="pre_production_id", type="integer", example=1),
-     *             @OA\Property(property="production_id", type="integer", example=2),
-     *             @OA\Property(property="other_field", type="string", example="example value")
+     *             @OA\Property(property="transport_id", type="integer", example=1),
+     *             @OA\Property(property="notes", type="string", example="Trasposto di carico difettoso"),
+     *             @OA\Property(property="returning_date", type="date", example="2025-05-03")
      *         )
      *     ),
      *     @OA\Response(
@@ -151,9 +145,7 @@ class ReturningTransportController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="pre_production_id", type="integer", example=1),
-     *             @OA\Property(property="production_id", type="integer", example=2),
-     *             @OA\Property(property="other_field", type="string", example="updated value")
+     *             @OA\Property(property="returned_date", type="date", example=2025-05-03),
      *         )
      *     ),
      *     @OA\Response(
