@@ -12,11 +12,40 @@ use Illuminate\Http\Request;
 class LogController extends Controller
 {
     /**
-     * Display a listing of the logs using pagination.
-     *
-     * @param Illuminate\Http\Request $request the request sent
-     * @return App\Http\Responses\ApiResponse with a list of the found logs
-     * @throws App\Exceptions\ApiException with an error message if no logs are found
+     * @OA\Get(
+     *     path="/api/logs",
+     *     tags={"Logs"},
+     *     summary="Recupera un elenco di log",
+     *     description="Recupera l'elenco di tutti i log con filtro per 'lot_id' e paginazione.",
+     *     operationId="getLogs",
+     *     @OA\Parameter(
+     *         name="lot_id",
+     *         in="query",
+     *         required=true,
+     *         description="ID del lotto per filtrare i log",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Log trovati con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Toppi trovati"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Log")),
+     *             @OA\Property(property="pagination", type="object",
+     *                 @OA\Property(property="current_page", type="integer", example=1),
+     *                 @OA\Property(property="per_page", type="integer", example=13),
+     *                 @OA\Property(property="total", type="integer", example=100)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Toppi non trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Toppi non trovati")
+     *         )
+     *     )
+     * )
      */
     public function index(Request $request)
     {
@@ -31,10 +60,38 @@ class LogController extends Controller
     }
 
     /**
-     * Store a newly created log in storage.
-     *
-     * @param App\Http\Requests\Log\StoreLogRequest $request the log to save
-     * @return App\Http\Responses\ApiResponse with the created log
+     * @OA\Post(
+     *     path="/api/logs",
+     *     tags={"Logs"},
+     *     summary="Crea un nuovo log",
+     *     description="Crea un nuovo log e lo memorizza nel database.",
+     *     operationId="storeLog",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="number", type="integer", example=1),
+     *             @OA\Property(property="lot_id", type="integer", example=1),
+     *             @OA\Property(property="lenght", type="number",format="float", example=12.30),
+     *             @OA\Property(property="median", type="number",format="float", example=12.30),
+     *             @OA\Property(property="cut_date", type="date", example=2025-05-03)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Toppo creato con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Toppo creato con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Log")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Dati non validi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Errore nella creazione del log")
+     *         )
+     *     )
+     * )
      */
     public function store(StoreLogRequest $request)
     {
@@ -54,12 +111,49 @@ class LogController extends Controller
     }
 
     /**
-     * Update the specified log in storage.
-     *
-     * @param App\Http\Requests\Log\UpdateLogRequest $request the changes to be made
-     * @param App\Models\Log $log the log to update
-     * @return App\Http\Responses\ApiResponse with the updated log
-     * @throws App\Exceptions\ApiException with an error message if no log is found
+     * @OA\Put(
+     *     path="/api/logs/{id}",
+     *     tags={"Logs"},
+     *     summary="Aggiorna un log esistente",
+     *     description="Aggiorna un log esistente nel database.",
+     *     operationId="updateLog",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="number", type="integer", example=1),
+     *             @OA\Property(property="lenght", type="number", format="float", example=12.30),
+     *             @OA\Property(property="median", type="number", format="float", example=12.30),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Toppo aggiornato con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Toppo aggiornato con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Log")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Toppo non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Toppo non trovato")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Dati non validi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Errore nell'aggiornamento del log")
+     *         )
+     *     )
+     * )
      */
     public function update(UpdateLogRequest $request, Log $log)
     {
