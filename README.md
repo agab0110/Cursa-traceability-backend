@@ -14,6 +14,8 @@
 ## 1 General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
 
+To see Swagger interface start the server and then go to http://127.0.0.1:8000/api/documentation
+
 ## 2 Technologies
 The technologies used for this project are:
 * PHP version: 8.1
