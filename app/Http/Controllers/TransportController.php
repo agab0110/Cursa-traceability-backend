@@ -181,32 +181,6 @@ class TransportController extends Controller
         return new ApiResponse('Trasporto aggiornato con successo', $transport, 201);
     }
 
-    /**
-     * @OA\Delete(
-     *     path="/api/transports/{id}",
-     *     tags={"Transports"},
-     *     summary="Rimuovi un trasporto",
-     *     description="Elimina un trasporto esistente.",
-     *     operationId="deleteTransport",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="Trasporto eliminato con successo"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Trasporto non trovato",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Trasporto non trovato")
-     *         )
-     *     )
-     * )
-     */
     public function destroy(string $id)
     {
         // Implementa la logica per eliminare il trasporto

@@ -8,15 +8,39 @@ use App\Http\Requests\ReturningTransport\UpdateReturningTransportRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\ReturningTransport;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
 class ReturningTransportController extends Controller
 {
     /**
-     * Display a listing of the returning transport for a pre production.
-     *
-     * @param Illuminate\Http\Request $request containing the pre-production id
-     * @return App\Http\Responses\ApiResponse with the list of transports
-     * @throws App\Exceptions\ApiException with an error message if no trasport is found
+     * @OA\Get(
+     *     path="/api/returning-transports",
+     *     tags={"Returning Transports"},
+     *     summary="Mostra una lista di trasporti di ritorno per una pre-produzione",
+     *     description="Recupera tutti i trasporti di ritorno associati a una pre-produzione.",
+     *     operationId="getReturningTransportsByPreProductionId",
+     *     @OA\Parameter(
+     *         name="pre_production_id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trasporti trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporti trovati"),
+     *             @OA\Property(property="data", type="array", ref="#/components/schemas/ReturningTransport")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Trasporto di ritorno non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Nessun trasporto di ritorno trovato")
+     *         )
+     *     )
+     * )
      */
     public function index(Request $request)
     {
@@ -30,10 +54,36 @@ class ReturningTransportController extends Controller
     }
 
     /**
-     * Store a newly created returning transport in storage.
-     *
-     * @param App\Http\Requests\ReturningTransport\NewReturningTransportRequest $request containing the required field
-     * @return App\Http\Responses\ApiResponse with the returning transport created
+     * @OA\Post(
+     *     path="/api/returning-transports",
+     *     tags={"Returning Transports"},
+     *     summary="Crea un nuovo trasporto di ritorno",
+     *     description="Crea un nuovo trasporto di ritorno e lo memorizza nel database.",
+     *     operationId="storeReturningTransport",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="pre_production_id", type="integer", example=1),
+     *             @OA\Property(property="production_id", type="integer", example=2),
+     *             @OA\Property(property="other_field", type="string", example="example value")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Trasporto di ritorno creato con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporto di ritorno creato con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/ReturningTransport")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Richiesta non valida",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Errore nella creazione del trasporto di ritorno")
+     *         )
+     *     )
+     * )
      */
     public function store(NewReturningTransportRequest $request)
     {
@@ -45,11 +95,34 @@ class ReturningTransportController extends Controller
     }
 
     /**
-     * Display a listing of the returning transport for a production.
-     *
-     * @param Illuminate\Http\Request $request containing the production id
-     * @return App\Http\Responses\ApiResponse with the list of transports
-     * @throws App\Exceptions\ApiException with an error message if no trasport is found
+     * @OA\Get(
+     *     path="/api/returning-transports/{production_id}",
+     *     tags={"Returning Transports"},
+     *     summary="Mostra una lista di trasporti di ritorno per una produzione",
+     *     description="Recupera tutti i trasporti di ritorno associati a una produzione.",
+     *     operationId="getReturningTransportsByProductionId",
+     *     @OA\Parameter(
+     *         name="production_id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trasporti trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporti trovati"),
+     *             @OA\Property(property="data", ref="#/components/schemas/ReturningTransport")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Trasporto di ritorno non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Nessun trasporto di ritorno trovato")
+     *         )
+     *     )
+     * )
      */
     public function show(Request $request)
     {
@@ -63,12 +136,42 @@ class ReturningTransportController extends Controller
     }
 
     /**
-     * Update the specified retuning transport in storage.
-     *
-     * @param App\Http\Requests\ReturningTransport\UpdateReturningTransportRequest $request containing the changes to be made
-     * @param int $id the id of the retuning transport to update
-     * @return App\Http\Responses\ApiResponse with the updated returning transport
-     * @throws App\Exceptions\ApiException with an error message if the returning transport is not found
+     * @OA\Put(
+     *     path="/api/returning-transports/{id}",
+     *     tags={"Returning Transports"},
+     *     summary="Aggiorna un trasporto di ritorno",
+     *     description="Aggiorna un trasporto di ritorno esistente.",
+     *     operationId="updateReturningTransport",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="pre_production_id", type="integer", example=1),
+     *             @OA\Property(property="production_id", type="integer", example=2),
+     *             @OA\Property(property="other_field", type="string", example="updated value")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trasporto di ritorno aggiornato con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporto di ritorno aggiornato con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/ReturningTransport")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Trasporto di ritorno non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporto di ritorno non trovato")
+     *         )
+     *     )
+     * )
      */
     public function update(UpdateReturningTransportRequest $request, $id)
     {
@@ -85,9 +188,6 @@ class ReturningTransportController extends Controller
         return new ApiResponse('Trasporto di ritono aggiornato con successo', $returningTransport, 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
