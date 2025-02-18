@@ -8,15 +8,45 @@ use App\Http\Requests\Transport\UpdateTransportRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Transport;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Tag(
+ *     name="Transports",
+ *     description="Gestione dei trasporti"
+ * )
+ */
 class TransportController extends Controller
 {
     /**
-     * Display a listing of the transport for a specific company.
-     *
-     * @param Illuminate\Http\Request $request containing the company name
-     * @return App\Http\Responses\ApiResponse with the list of transprts
-     * @throws App\Exceptions\ApiException with an error message if no transports are found
+     * @OA\Get(
+     *     path="/api/transports",
+     *     tags={"Transports"},
+     *     summary="Mostra tutti i trasporti per una specifica compagnia",
+     *     description="Recupera tutti i trasporti associati a una compagnia specificata.",
+     *     operationId="getTransportsByCompany",
+     *     @OA\Parameter(
+     *         name="company_name",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string", example="ACME Corp")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trasporti trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporti trovati"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Transport"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Trasporti non trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporti non trovati")
+     *         )
+     *     )
+     * )
      */
     public function index(Request $request)
     {
@@ -30,10 +60,30 @@ class TransportController extends Controller
     }
 
     /**
-     * Store a newly created transport in storage.
-     *
-     * @param App\Http\Requests\Transport\NewTransportReques $request containing the field required
-     * @return App\Http\Responses\ApiResponse with the created transport
+     * @OA\Post(
+     *     path="/api/transports",
+     *     tags={"Transports"},
+     *     summary="Crea un nuovo trasporto",
+     *     description="Crea un nuovo trasporto con i dati forniti.",
+     *     operationId="createTransport",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"company_name", "vehicle_type", "status"},
+     *             @OA\Property(property="company_name", type="string", example="ACME Corp"),
+     *             @OA\Property(property="vehicle_type", type="string", example="Truck"),
+     *             @OA\Property(property="status", type="string", example="In Transit")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trasporto creato con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporto creato con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Transport")
+     *         )
+     *     )
+     * )
      */
     public function store(NewTransportRequest $request)
     {
@@ -45,11 +95,34 @@ class TransportController extends Controller
     }
 
     /**
-     * Display the specified transport.
-     *
-     * @param App\Models\Transport $transport containing the id of the transport to be found
-     * @return App\Http\Responses\ApiResponse with the found transport
-     * @throws App\Exceptions\ApiException with an error message if no transport is found
+     * @OA\Get(
+     *     path="/api/transports/{transport}",
+     *     tags={"Transports"},
+     *     summary="Mostra un trasporto specifico",
+     *     description="Recupera un trasporto utilizzando il suo ID.",
+     *     operationId="getTransportById",
+     *     @OA\Parameter(
+     *         name="transport",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trasporto trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporto trovato"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Transport")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Trasporto non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporto non trovato")
+     *         )
+     *     )
+     * )
      */
     public function show(Transport $transport)
     {
@@ -61,12 +134,43 @@ class TransportController extends Controller
     }
 
     /**
-     * Update the specified transport in storage.
-     *
-     * @param App\Http\Requests\Transport\UpdateTransportRequest $request containing the changes to be made
-     * @param int $id the id of the transport to update
-     * @return App\Http\Responses\ApiResponse with the updated transport
-     * @throws App\Exceptions\ApiException with an error message if no transport is found
+     * @OA\Put(
+     *     path="/api/transports/{id}",
+     *     tags={"Transports"},
+     *     summary="Aggiorna un trasporto specifico",
+     *     description="Aggiorna i dettagli di un trasporto esistente.",
+     *     operationId="updateTransport",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"company_name", "vehicle_type", "status"},
+     *             @OA\Property(property="company_name", type="string", example="ACME Corp"),
+     *             @OA\Property(property="vehicle_type", type="string", example="Truck"),
+     *             @OA\Property(property="status", type="string", example="Delivered")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trasporto aggiornato con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporto aggiornato con successo"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Transport")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Trasporto non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporto non trovato")
+     *         )
+     *     )
+     * )
      */
     public function update(UpdateTransportRequest $request, $id)
     {
@@ -84,22 +188,69 @@ class TransportController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/transports/{id}",
+     *     tags={"Transports"},
+     *     summary="Rimuovi un trasporto",
+     *     description="Elimina un trasporto esistente.",
+     *     operationId="deleteTransport",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Trasporto eliminato con successo"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Trasporto non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporto non trovato")
+     *         )
+     *     )
+     * )
      */
     public function destroy(string $id)
     {
-        //
+        // Implementa la logica per eliminare il trasporto
     }
 
     /**
-     * Display a listing of the transport for a specific pre-production.
-     *
-     * @param Illuminate\Http\Request $request containing the pre-production id
-     * @return App\Http\Responses\ApiResponse with a list of transports
-     * @throws App\Exceptions\ApiException with an error message if no transports are found
+     * @OA\Get(
+     *     path="/api/transports/pre-production",
+     *     tags={"Transports"},
+     *     summary="Mostra trasporti per una pre-produzione",
+     *     description="Recupera tutti i trasporti associati a un pre-produzione specificato.",
+     *     operationId="getPreProductionTransports",
+     *     @OA\Parameter(
+     *         name="pre_production_id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=101)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trasporti trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporti trovati"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Transport"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Trasporti non trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporti non trovati")
+     *         )
+     *     )
+     * )
      */
-    public function getPreProductionTransports(Request $request) {
-        $transports = Transport::Where('pre_production_id', $request['pre_production_id']);
+    public function getPreProductionTransports(Request $request)
+    {
+        $transports = Transport::Where('pre_production_id', $request['pre_production_id'])->get();
 
         if (!$transports) {
             throw new ApiException('Trasporti non trovati', 404);
@@ -109,14 +260,38 @@ class TransportController extends Controller
     }
 
     /**
-     * Display a listing of the transport for a specific production.
-     *
-     * @param Illuminate\Http\Request $request containing the production id
-     * @return App\Http\Responses\ApiResponse with a list of transports
-     * @throws App\Exceptions\ApiException with an error message if no transports are found
+     * @OA\Get(
+     *     path="/api/transports/production",
+     *     tags={"Transports"},
+     *     summary="Mostra trasporti per una produzione",
+     *     description="Recupera tutti i trasporti associati a una produzione specificata.",
+     *     operationId="getProductionTransports",
+     *     @OA\Parameter(
+     *         name="production_id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=202)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trasporti trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporti trovati"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Transport"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Trasporti non trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Trasporti non trovati")
+     *         )
+     *     )
+     * )
      */
-    public function getProductionTransports(Request $request) {
-        $transports = Transport::Where('production_id', $request['production_id']);
+    public function getProductionTransports(Request $request)
+    {
+        $transports = Transport::Where('production_id', $request['production_id'])->get();
 
         if (!$transports) {
             throw new ApiException('Trasporti non trovati', 404);
