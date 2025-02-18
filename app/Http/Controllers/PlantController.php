@@ -31,14 +31,19 @@ class PlantController extends Controller
      *         in="query",
      *         required=true,
      *         description="Filtra per stato delle piante (e.g. se sono state martellate o no).",
-     *         @OA\Schema(type="boolean")
+     *         @OA\Schema(type="boolean", example=true)
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Piante trovate",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Piante trovate"),
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Plant"))
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Plant")),
+     *             @OA\Property(property="pagination", type="object",
+     *                 @OA\Property(property="current_page", type="integer", example=1),
+     *                 @OA\Property(property="per_page", type="integer", example=13),
+     *                 @OA\Property(property="total", type="integer", example=100)
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -63,6 +68,7 @@ class PlantController extends Controller
 
         return new ApiResponse('Piante trovate', $plants, 200);
     }
+
 
     /**
      * @OA\Post(
