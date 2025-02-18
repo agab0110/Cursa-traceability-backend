@@ -26,6 +26,147 @@
                 }
             }
         },
+        "/api/log-sections": {
+            "get": {
+                "tags": [
+                    "Log Sections"
+                ],
+                "summary": "Recupera le sezioni di log per un lotto specifico",
+                "description": "Recupera un elenco di sezioni di log in base a `lot_id` e `log_number`.",
+                "operationId": "getLogSections",
+                "parameters": [
+                    {
+                        "name": "lot_id",
+                        "in": "query",
+                        "description": "ID del lotto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "log_number",
+                        "in": "query",
+                        "description": "Numero del log",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sezioni trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sezioni trovate"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/LogSection"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessuna sezione trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessuna sezione presente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Log Sections"
+                ],
+                "summary": "Crea una nuova sezione di log",
+                "description": "Crea una nuova sezione di log e la memorizza nel database.",
+                "operationId": "storeLogSection",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "log_number": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "section": {
+                                        "type": "string",
+                                        "example": "Sezione 1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sezione di log creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sezione di toppo creata"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/LogSection"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione della sezione di log"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/lots": {
             "get": {
                 "tags": [
@@ -2387,6 +2528,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Log Sections",
+            "description": "Log Sections"
+        },
         {
             "name": "Lots",
             "description": "Lots"
