@@ -26,6 +26,828 @@
                 }
             }
         },
+        "/api/lots": {
+            "get": {
+                "tags": [
+                    "Lots"
+                ],
+                "summary": "Recupera un elenco di lotti",
+                "description": "Recupera l'elenco di tutti i lotti con paginazione.",
+                "operationId": "getLots",
+                "responses": {
+                    "200": {
+                        "description": "Lotti trovati con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Lot"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 13
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessun lotto trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lots/{id}": {
+            "get": {
+                "tags": [
+                    "Lots"
+                ],
+                "summary": "Recupera un lotto specifico",
+                "description": "Recupera i dettagli di un lotto specifico tramite l'ID.",
+                "operationId": "getLotById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del lotto da recuperare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lotto trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotto trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Lot"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lotto non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotto non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lot/cutting-lots": {
+            "get": {
+                "tags": [
+                    "Lots"
+                ],
+                "summary": "Recupera i lotti con piante in stato di cutting",
+                "description": "Recupera una lista di lotti dove le piante sono in stato di cutting e non sono ancora state tagliate.",
+                "operationId": "getCuttingFilteredList",
+                "responses": {
+                    "200": {
+                        "description": "Lotti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Lot"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lotti non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lot/cutted-lots": {
+            "get": {
+                "tags": [
+                    "Lots"
+                ],
+                "summary": "Recupera i lotti con piante in stato di cutted",
+                "description": "Recupera una lista di lotti dove le piante sono in stato di cutted e non sono più in cutting.",
+                "operationId": "getCuttedFilteredList",
+                "responses": {
+                    "200": {
+                        "description": "Lotti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Lot"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lotti non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotti non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/plants": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Mostra una lista di piante",
+                "description": "Recupera tutte le piante che non sono state segate o tagliate, filtrando per stato.",
+                "operationId": "getPlants",
+                "parameters": [
+                    {
+                        "name": "hammered",
+                        "in": "query",
+                        "description": "Filtra per stato delle piante (e.g. se sono state martellate o no).",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Piante trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Piante trovate"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Piante non trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Piante non trovate"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Crea una nuova pianta",
+                "description": "Crea una nuova pianta e la associa a una foresta. I dati della pianta vengono inviati anche alla blockchain.",
+                "operationId": "storePlant",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "lat": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 45.123
+                                    },
+                                    "lng": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 9.123
+                                    },
+                                    "particle": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "woody_species": {
+                                        "type": "string",
+                                        "example": "Quercia"
+                                    },
+                                    "diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25.52
+                                    },
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25.52
+                                    },
+                                    "cultivar": {
+                                        "type": "string",
+                                        "example": "Sconosciuta"
+                                    },
+                                    "propagation": {
+                                        "type": "string",
+                                        "example": "Sconosciuta"
+                                    },
+                                    "georeferenzial_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Note per la pianta"
+                                    },
+                                    "hammered": {
+                                        "type": "boolean",
+                                        "example": "false"
+                                    },
+                                    "forest_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pianta creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta creata con successo"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione della pianta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/plants/{id}": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Mostra una pianta specifica",
+                "description": "Recupera una pianta utilizzando il suo ID.",
+                "operationId": "getPlantById",
+                "parameters": [
+                    {
+                        "name": "plant",
+                        "in": "path",
+                        "description": "ID della pianta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pianta trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta trovata"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plant"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pianta non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta non trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/plant/getPlantByForestId": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Mostra piante in base alla foresta",
+                "description": "Recupera tutte le piante appartenenti a una foresta specifica.",
+                "operationId": "getPlantsByForestId",
+                "parameters": [
+                    {
+                        "name": "forest_id",
+                        "in": "query",
+                        "description": "ID della foresta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "hammered",
+                        "in": "query",
+                        "description": "Filtra per stato delle piante",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Piante trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Piante trovate"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Piante non trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Piante non trovate"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pre-productions": {
+            "get": {
+                "tags": [
+                    "Pre-Productions"
+                ],
+                "summary": "Mostra una lista di pre-produzioni",
+                "description": "Recupera tutte le pre-produzioni con paginazione.",
+                "operationId": "getPreProductions",
+                "responses": {
+                    "200": {
+                        "description": "Pre-produzioni trovate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segherie trovate"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PreProduction"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessuna pre-produzione trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessuna segheria trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pre-Productions"
+                ],
+                "summary": "Crea una nuova pre-produzione",
+                "description": "Crea una nuova pre-produzione e la memorizza nel database.",
+                "operationId": "storePreProduction",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Segheria Alfa"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pre-produzione creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segheria creata con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PreProduction"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione della segheria"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Mostra una lista di prodotti per una produzione specifica",
+                "description": "Recupera tutti i prodotti associati a una specifica produzione utilizzando l'ID di produzione.",
+                "operationId": "getProductsByProduction",
+                "responses": {
+                    "200": {
+                        "description": "Prodotti trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Prodotti trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessun prodotto trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessun prodotto trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Crea un nuovo prodotto",
+                "description": "Crea un nuovo prodotto e lo memorizza nel database.",
+                "operationId": "storeProduct",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Prodotto esempio"
+                                    },
+                                    "production_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "log_number": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Prodotto creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Prodotto creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del prodotto"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Mostra un prodotto specifico",
+                "description": "Recupera un prodotto utilizzando il suo ID.",
+                "operationId": "getProductById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Prodotto trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Prodotto trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Prodotto non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Prodotto non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/productions": {
             "post": {
                 "tags": [
@@ -40,13 +862,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "name": {
+                                    "company_name": {
                                         "type": "string",
                                         "example": "Produzione XYZ"
-                                    },
-                                    "description": {
-                                        "type": "string",
-                                        "example": "Dettagli sulla produzione XYZ"
                                     }
                                 },
                                 "type": "object"
@@ -159,17 +977,6 @@
                 "summary": "Mostra una lista di trasporti di ritorno per una pre-produzione",
                 "description": "Recupera tutti i trasporti di ritorno associati a una pre-produzione.",
                 "operationId": "getReturningTransportsByPreProductionId",
-                "parameters": [
-                    {
-                        "name": "pre_production_id",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Trasporti trovati",
@@ -224,17 +1031,18 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "pre_production_id": {
+                                    "transport_id": {
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "production_id": {
-                                        "type": "integer",
-                                        "example": 2
-                                    },
-                                    "other_field": {
+                                    "notes": {
                                         "type": "string",
-                                        "example": "example value"
+                                        "example": "Trasposto di carico difettoso"
+                                    },
+                                    "returning_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
                                     }
                                 },
                                 "type": "object"
@@ -351,6 +1159,7 @@
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID del trasporto di ritorno da aggiornare",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -364,17 +1173,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "pre_production_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "production_id": {
-                                        "type": "integer",
-                                        "example": 2
-                                    },
-                                    "other_field": {
+                                    "returned_date": {
                                         "type": "string",
-                                        "example": "updated value"
+                                        "format": "date",
+                                        "example": "2025-05-03"
                                     }
                                 },
                                 "type": "object"
@@ -488,17 +1290,6 @@
                 "summary": "Mostra tutti i trasporti per una specifica compagnia",
                 "description": "Recupera tutti i trasporti associati a una compagnia specificata.",
                 "operationId": "getTransportsByCompany",
-                "parameters": [
-                    {
-                        "name": "company_name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "ACME Corp"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Trasporti trovati",
@@ -552,23 +1343,39 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "company_name",
-                                    "vehicle_type",
-                                    "status"
-                                ],
                                 "properties": {
-                                    "company_name": {
+                                    "plate": {
+                                        "type": "string",
+                                        "example": "AB123CD"
+                                    },
+                                    "driver": {
+                                        "type": "string",
+                                        "example": "Jhon Doe"
+                                    },
+                                    "company": {
                                         "type": "string",
                                         "example": "ACME Corp"
                                     },
-                                    "vehicle_type": {
-                                        "type": "string",
-                                        "example": "Truck"
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": "1"
                                     },
-                                    "status": {
+                                    "pre_production_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "production_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "shipping": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "shipping_date": {
                                         "type": "string",
-                                        "example": "In Transit"
+                                        "format": "date",
+                                        "example": "2025-05-03"
                                     }
                                 },
                                 "type": "object"
@@ -599,7 +1406,7 @@
                 }
             }
         },
-        "/api/transports/{transport}": {
+        "/api/transports/{id}": {
             "get": {
                 "tags": [
                     "Transports"
@@ -609,7 +1416,7 @@
                 "operationId": "getTransportById",
                 "parameters": [
                     {
-                        "name": "transport",
+                        "name": "id",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -655,9 +1462,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/transports/{id}": {
+            },
             "put": {
                 "tags": [
                     "Transports"
@@ -681,23 +1486,15 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "company_name",
-                                    "vehicle_type",
-                                    "status"
-                                ],
                                 "properties": {
-                                    "company_name": {
-                                        "type": "string",
-                                        "example": "ACME Corp"
+                                    "shipping": {
+                                        "type": "boolean",
+                                        "example": "true"
                                     },
-                                    "vehicle_type": {
+                                    "shipping_date": {
                                         "type": "string",
-                                        "example": "Truck"
-                                    },
-                                    "status": {
-                                        "type": "string",
-                                        "example": "Delivered"
+                                        "format": "date",
+                                        "example": "2025-05-03"
                                     }
                                 },
                                 "type": "object"
@@ -744,7 +1541,7 @@
                 }
             }
         },
-        "/api/transports/pre-production": {
+        "/api/transport/getPreProductionTransports/{id}": {
             "get": {
                 "tags": [
                     "Transports"
@@ -805,7 +1602,7 @@
                 }
             }
         },
-        "/api/transports/production": {
+        "/api/transport/production/{id}": {
             "get": {
                 "tags": [
                     "Transports"
@@ -866,7 +1663,7 @@
                 }
             }
         },
-        "/api/users/{user}": {
+        "/api/users/{id}": {
             "put": {
                 "tags": [
                     "Users"
@@ -876,7 +1673,7 @@
                 "operationId": "updateUser",
                 "parameters": [
                     {
-                        "name": "user",
+                        "name": "id",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -890,24 +1687,32 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "name",
-                                    "email"
-                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "John Doe"
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2001-05-03"
+                                    },
+                                    "cf": {
+                                        "type": "string",
+                                        "example": "ABCDEFGHIJKLMNOP"
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
                                         "example": "john.doe@example.com"
                                     },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "new_password_123"
+                                    "ROLE": {
+                                        "type": "integer",
+                                        "example": "2"
                                     }
                                 },
                                 "type": "object"
@@ -1582,6 +2387,22 @@
         }
     },
     "tags": [
+        {
+            "name": "Lots",
+            "description": "Lots"
+        },
+        {
+            "name": "Plants",
+            "description": "Plants"
+        },
+        {
+            "name": "Pre-Productions",
+            "description": "Pre-Productions"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
+        },
         {
             "name": "Productions",
             "description": "Productions"
