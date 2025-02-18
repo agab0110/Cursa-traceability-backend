@@ -94,6 +94,10 @@ class PlantController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Pianta creata con successo"),
      *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Plant"))
+     *             @OA\Property(property="blockchainResponse", type="object",
+     *                 @OA\Property(property="status", type="string", example="success"),
+     *                 @OA\Property(property="transactionId", type="string", example="abcd1234xyz")
+     *             ),
      *         )
      *     ),
      *     @OA\Response(
