@@ -61,13 +61,13 @@ class PlantController extends Controller
         $plant->save();
 
         // invio dati alla blockchain
-        $blockchaninData = [
+        $blockchainData = [
             'lat' => $plant->lat,
             'lng' => $plant->lng,
             'plant_id' => $plant->id,
         ];
 
-        $blockchainResponse = $this->blockchainService->sendData($blockchaninData);
+        $blockchainResponse = $this->blockchainService->sendData($blockchainData);
 
         return new ApiResponse('Pianta creata con successo', [$plant, $blockchainResponse], 201);
     }

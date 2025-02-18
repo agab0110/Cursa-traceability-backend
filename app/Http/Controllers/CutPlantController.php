@@ -7,10 +7,17 @@ use App\Http\Requests\Cut\UpdateCutPlantRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Lot;
 use App\Models\Plant;
+use App\Services\Blockchain\BlockchainBridge;
 use Illuminate\Http\Request;
 
 class CutPlantController extends Controller
 {
+    protected $blockchainService;
+
+    public function __construct(BlockchainBridge $blockchainService) {
+        $this->blockchainService = $blockchainService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -64,7 +71,16 @@ class CutPlantController extends Controller
             $lot->save();
         }
 
-        return new ApiResponse('Albero aggiornato con successo', $plant, 201);
+        // invio dati alla blockchain
+        $blockchainData = [
+            'lat' => $plant->lat,
+            'lng' => $plant->lng,
+            'plant_id' => $plant->id,
+        ];
+
+        $blockchainResponse = $this->blockchainService->sendData($blockchainData);
+
+        return new ApiResponse('Albero aggiornato con successo', [$plant, $blockchainResponse], 201);
     }
 
     /**

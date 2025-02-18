@@ -8,10 +8,17 @@ use App\Http\Requests\HammeredPlant\UpdateHammeredPlantRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Forest;
 use App\Models\Plant;
+use App\Services\Blockchain\BlockchainBridge;
 use Illuminate\Http\Request;
 
 class HammeredPlantsController extends Controller
 {
+    protected $blockchainService;
+
+    public function __construct(BlockchainBridge $blockchainService) {
+        $this->blockchainService = $blockchainService;
+    }
+
     /**
      * Display a listing of plants using pagination if the cutting and cutted flags are false.
      *
@@ -50,7 +57,16 @@ class HammeredPlantsController extends Controller
         $plant->forest()->associate($forest);
         $plant->save();
 
-        return new ApiResponse('Pianta creata con successso', $plant, 201);
+        // invio dati alla blockchain
+        $blockchainData = [
+            'lat' => $plant->lat,
+            'lng' => $plant->lng,
+            'plant_id' => $plant->id,
+        ];
+
+        $blockchainResponse = $this->blockchainService->sendData($blockchainData);
+
+        return new ApiResponse('Pianta creata con successo', [$plant, $blockchainResponse], 201);
     }
 
     /**
@@ -91,7 +107,16 @@ class HammeredPlantsController extends Controller
 
         $plant->update($validated);
 
-        return new ApiResponse('Albero aggiornato con successo', $plant, 201);
+        // invio dati alla blockchain
+        $blockchainData = [
+            'lat' => $plant->lat,
+            'lng' => $plant->lng,
+            'plant_id' => $plant->id,
+        ];
+
+        $blockchainResponse = $this->blockchainService->sendData($blockchainData);
+
+        return new ApiResponse('Albero aggiornato con successo', [$plant, $blockchainResponse], 201);
     }
 
     /**
