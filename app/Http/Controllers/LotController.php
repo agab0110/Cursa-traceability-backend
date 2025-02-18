@@ -6,15 +6,39 @@ use App\Exceptions\ApiException;
 use App\Http\Responses\ApiResponse;
 use App\Models\Lot;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
 class LotController extends Controller
 {
     /**
-     * Display a listing of the lots using pagination.
-     *
-     * @param Illuminate\Http\Request $request the request sent
-     * @return App\Http\Responses\ApiResponse with a list of found lots
-     * @throws App\Exceptions\ApiException with an error message if no lots are not found
+     * @OA\Get(
+     *     path="/api/lots",
+     *     tags={"Lots"},
+     *     summary="Recupera un elenco di lotti",
+     *     description="Recupera l'elenco di tutti i lotti con paginazione.",
+     *     operationId="getLots",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lotti trovati con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lotti trovati"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Lot")),
+     *             @OA\Property(property="pagination", type="object",
+     *                 @OA\Property(property="current_page", type="integer", example=1),
+     *                 @OA\Property(property="per_page", type="integer", example=13),
+     *                 @OA\Property(property="total", type="integer", example=100)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nessun lotto trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lotti non trovati")
+     *         )
+     *     )
+     * )
      */
     public function index(Request $request)
     {
@@ -36,11 +60,38 @@ class LotController extends Controller
     }
 
     /**
-     * Display the specified lot.
-     *
-     * @param int $id the id of the lot
-     * @return App\Http\Responses\ApiResponse with a list of found lot
-     * @throws App\Exceptions\ApiExceptione with an error message if the lot is not found
+     * @OA\Get(
+     *     path="/api/lots/{id}",
+     *     tags={"Lots"},
+     *     summary="Recupera un lotto specifico",
+     *     description="Recupera i dettagli di un lotto specifico tramite l'ID.",
+     *     operationId="getLotById",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del lotto da recuperare",
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lotto trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lotto trovato"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Lot")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Lotto non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lotto non trovato")
+     *         )
+     *     )
+     * )
      */
     public function show($id)
     {
@@ -70,12 +121,29 @@ class LotController extends Controller
     }
 
     /**
-     * Display a listing of filtred lots.
-     * The filter is used to find only lots with the cutting flag true
-     *
-     * @param Illuminate\Http\Request the request sent
-     * @return App\Http\Responses\ApiResponse with a list of found lots
-     * @return App\Exceptions\ApiException with an error message if no lots are found
+     * @OA\Get(
+     *     path="/api/lot/cutting-lots",
+     *     tags={"Lots"},
+     *     summary="Recupera i lotti con piante in stato di cutting",
+     *     description="Recupera una lista di lotti dove le piante sono in stato di cutting e non sono ancora state tagliate.",
+     *     operationId="getCuttingFilteredList",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lotti trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lotti trovati"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Lot"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Lotti non trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lotti non trovati")
+     *         )
+     *     )
+     * )
      */
     public function getCuttingFilteredList(Request $request) {
         $lots = Lot::join('plants', 'lots.plant_id', '=', 'plants.id')
@@ -92,12 +160,29 @@ class LotController extends Controller
     }
 
     /**
-     * Display a listing of filtred lots.
-     * The filter is used to find only lots with the cutted flag true
-     *
-     * @param Illuminate\Http\Request the request sent
-     * @return App\Http\Responses\ApiResponse with a list of found lots
-     * @throws App\Exceptions\ApiException with an error message if no lots are found
+     * @OA\Get(
+     *     path="/api/lot/cutted-lots",
+     *     tags={"Lots"},
+     *     summary="Recupera i lotti con piante in stato di cutting",
+     *     description="Recupera una lista di lotti dove le piante sono in stato di cutting e non sono ancora state tagliate.",
+     *     operationId="getCuttingFilteredList",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lotti trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lotti trovati"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Lot"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Lotti non trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lotti non trovati")
+     *         )
+     *     )
+     * )
      */
     public function getCuttedFilteredList() {
         $lots = Lot::join('plants', 'lots.plant_id', '=', 'plants.id')
