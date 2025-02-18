@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiResponse;
 use App\Models\Role;
-use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Tag(
