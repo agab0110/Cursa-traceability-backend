@@ -7,12 +7,6 @@ use App\Http\Responses\ApiResponse;
 use App\Models\User;
 use OpenApi\Annotations as OA;
 
-/**
- * @OA\Tag(
- *     name="Users",
- *     description="Gestione degli utenti"
- * )
- */
 class UserController extends Controller
 {
     /**

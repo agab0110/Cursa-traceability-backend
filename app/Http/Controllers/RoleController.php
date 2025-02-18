@@ -6,12 +6,6 @@ use App\Http\Responses\ApiResponse;
 use App\Models\Role;
 use OpenApi\Annotations as OA;
 
-/**
- * @OA\Tag(
- *     name="Roles",
- *     description="Gestione dei ruoli"
- * )
- */
 class RoleController extends Controller
 {
     /**

@@ -10,12 +10,6 @@ use App\Models\Transport;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 
-/**
- * @OA\Tag(
- *     name="Transports",
- *     description="Gestione dei trasporti"
- * )
- */
 class TransportController extends Controller
 {
     /**
