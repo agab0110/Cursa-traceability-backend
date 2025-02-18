@@ -25,7 +25,7 @@ class HammeredPlantsController extends Controller
      *     tags={"Plants"},
      *     summary="Recupera un elenco di alberi filtrati",
      *     description="Recupera l'elenco di alberi filtrati per 'hammered' con stati 'cutting' e 'cutted' pari a 0 e paginazione.",
-     *     operationId="getFilteredPlants",
+     *     operationId="getHammeredPlants",
      *     @OA\Parameter(
      *         name="hammered",
      *         in="query",
@@ -75,7 +75,7 @@ class HammeredPlantsController extends Controller
      *     tags={"Plants"},
      *     summary="Crea una nuova pianta",
      *     description="Crea una nuova pianta associata a una foresta e invia i dati alla blockchain.",
-     *     operationId="storePlant",
+     *     operationId="storeHammeredPlant",
      *     @OA\RequestBody(
      *         required=true,
      *         description="Dati della pianta da creare.",
@@ -151,7 +151,7 @@ class HammeredPlantsController extends Controller
      *     tags={"Plants"},
      *     summary="Recupera i dettagli di una pianta",
      *     description="Recupera i dettagli di una pianta specificata tramite il suo ID.",
-     *     operationId="showPlant",
+     *     operationId="showHammeredPlant",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -200,7 +200,7 @@ class HammeredPlantsController extends Controller
      *     tags={"Plants"},
      *     summary="Aggiorna i dettagli di una pianta",
      *     description="Aggiorna i dettagli di una pianta esistente specificata tramite il suo ID e invia i dati alla blockchain.",
-     *     operationId="updatePlant",
+     *     operationId="updateHammeredPlant",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

@@ -23,15 +23,18 @@ class PlantController extends Controller
      * @OA\Get(
      *     path="/api/plants",
      *     tags={"Plants"},
-     *     summary="Mostra una lista di piante",
-     *     description="Recupera tutte le piante che non sono state segate o tagliate, filtrando per stato.",
+     *     summary="Mostra una lista di piante non lavorate",
+     *     description="Recupera tutte le piante che non sono state lavorate (cutting = 0 e cutted = 0) e hanno un determinato stato di 'hammered', con paginazione.",
      *     operationId="getPlants",
      *     @OA\Parameter(
      *         name="hammered",
      *         in="query",
+     *         description="Filtra le piante in base allo stato 'hammered'.",
      *         required=true,
-     *         description="Filtra per stato delle piante (e.g. se sono state martellate o no).",
-     *         @OA\Schema(type="boolean", example=true)
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=0
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -41,14 +44,15 @@ class PlantController extends Controller
      *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Plant")),
      *             @OA\Property(property="pagination", type="object",
      *                 @OA\Property(property="current_page", type="integer", example=1),
+     *                 @OA\Property(property="total", type="integer", example=30),
      *                 @OA\Property(property="per_page", type="integer", example=13),
-     *                 @OA\Property(property="total", type="integer", example=100)
+     *                 @OA\Property(property="last_page", type="integer", example=3)
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Piante non trovate",
+     *         description="Nessuna pianta trovata",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Piante non trovate")
      *         )

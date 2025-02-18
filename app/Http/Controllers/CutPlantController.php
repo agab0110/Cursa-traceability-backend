@@ -48,7 +48,7 @@ class CutPlantController extends Controller
      *     tags={"Plants"},
      *     summary="Aggiorna una pianta",
      *     description="Aggiorna i dettagli di una pianta esistente. Se la pianta viene segata, viene creato un nuovo lotto.",
-     *     operationId="updatePlant",
+     *     operationId="updateCuttedPlant",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
