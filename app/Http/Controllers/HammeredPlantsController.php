@@ -196,7 +196,7 @@ class HammeredPlantsController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/plants/{id}",
+     *     path="/api/hammered-plants/{id}",
      *     tags={"Plants"},
      *     summary="Aggiorna i dettagli di una pianta",
      *     description="Aggiorna i dettagli di una pianta esistente specificata tramite il suo ID e invia i dati alla blockchain.",
