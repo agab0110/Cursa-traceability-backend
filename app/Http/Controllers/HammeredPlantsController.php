@@ -21,7 +21,7 @@ class HammeredPlantsController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/plants",
+     *     path="/api/hammered-plants",
      *     tags={"Plants"},
      *     summary="Recupera un elenco di alberi filtrati",
      *     description="Recupera l'elenco di alberi filtrati per 'hammered' con stati 'cutting' e 'cutted' pari a 0 e paginazione.",
