@@ -84,7 +84,7 @@ class PlantController extends Controller
      *             @OA\Property(property="propagation", type="string", example="Sconosciuta"),
      *             @OA\Property(property="georeferenzial_date", type="date", example="2025-05-03"),
      *             @OA\Property(property="notes", type="string", example="Note per la pianta"),
-     *             @OA\Property(property="hammered", type="boolean", example="false"),
+     *             @OA\Property(property="hammered", type="boolean", example=false),
      *             @OA\Property(property="forest_id", type="integer", example=1)
      *         )
      *     ),
@@ -93,11 +93,11 @@ class PlantController extends Controller
      *         description="Pianta creata con successo",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Pianta creata con successo"),
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Plant"))
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Plant")),
      *             @OA\Property(property="blockchainResponse", type="object",
      *                 @OA\Property(property="status", type="string", example="success"),
      *                 @OA\Property(property="transactionId", type="string", example="abcd1234xyz")
-     *             ),
+     *             )
      *         )
      *     ),
      *     @OA\Response(
