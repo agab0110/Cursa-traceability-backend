@@ -7,18 +7,1286 @@
     "paths": {
         "/api/auth/login": {
             "post": {
-                "summary": "Effettua il login",
-                "operationId": "8dcb70df1020986038d098cc08d05dae",
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Effettua il login dell'utente",
+                "description": "Consente all'utente di effettuare il login con le credenziali (email e password). Se il login è corretto, viene generato un token per l'accesso alle API.",
+                "operationId": "userLogin",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "remember": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Lista utenti recuperata con successo",
+                        "description": "Login effettuato con successo",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/User"
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login effettuato"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "your_api_token_here"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Parametri non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Parametri non validi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Crea un nuovo utente",
+                "description": "Permette la creazione di un nuovo utente. Viene assegnata una password temporanea e inviata un'email all'utente per il settaggio della password.",
+                "operationId": "userRegister",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cf": {
+                                        "type": "string",
+                                        "example": "ABCDEFGHIJKLMNOP"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2001-08-15"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "role_id": {
+                                        "type": "integer",
+                                        "example": 1
                                     }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Utente creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utente creato con successo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione dell'utente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Effettua il logout dell'utente",
+                "description": "Permette di effettuare il logout, invalidando il token di accesso dell'utente e rimuovendo il token di ricordami.",
+                "operationId": "userLogout",
+                "responses": {
+                    "200": {
+                        "description": "Logout effettuato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout effettuato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Utente non autenticato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utente non autenticato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/plants/{id}": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Mostra una pianta specifica",
+                "description": "Recupera una pianta utilizzando il suo ID.",
+                "operationId": "getPlantById",
+                "parameters": [
+                    {
+                        "name": "plant",
+                        "in": "path",
+                        "description": "ID della pianta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pianta trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta trovata"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plant"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pianta non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta non trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Aggiorna una pianta",
+                "description": "Aggiorna i dettagli di una pianta esistente. Se la pianta viene segata, viene creato un nuovo lotto.",
+                "operationId": "updateCuttedPlant",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID della pianta da aggiornare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cutting": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "cutted": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "cutting_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pianta aggiornata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta aggiornata con successo"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        },
+                                        "blockchainResponse": {
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "transactionId": {
+                                                    "type": "string",
+                                                    "example": "abcd1234xyz"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pianta non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta non trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/estimation-models": {
+            "get": {
+                "tags": [
+                    "Estimation Models"
+                ],
+                "summary": "Recupera una lista di modelli di stima",
+                "description": "Recupera tutti i modelli di stima, con supporto per la paginazione.",
+                "operationId": "getEstimationModels",
+                "responses": {
+                    "200": {
+                        "description": "Modelli di stima trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modelli di stima trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/EstimationModel"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modelli di stima non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessun modello di stima trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Estimation Models"
+                ],
+                "summary": "Crea un nuovo modello di stima",
+                "description": "Crea un nuovo modello di stima con i dati forniti.",
+                "operationId": "storeEstimationModel",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.5
+                                    },
+                                    "volume": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5.2
+                                    },
+                                    "double_diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5.2
+                                    },
+                                    "mesure": {
+                                        "type": "string",
+                                        "example": "Esempio"
+                                    },
+                                    "formula": {
+                                        "type": "string",
+                                        "example": "ax^2+bx+c"
+                                    },
+                                    "retrurning_parameter": {
+                                        "type": "string",
+                                        "example": "Parametro di ritorno"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Modello di stima creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/EstimationModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del modello di stima"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/estimation-models/{id}": {
+            "get": {
+                "tags": [
+                    "Estimation Models"
+                ],
+                "summary": "Mostra un modello di stima",
+                "description": "Recupera i dettagli di un modello di stima specificato tramite il suo ID.",
+                "operationId": "showEstimationModel",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del modello di stima",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Modello di stima trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/EstimationModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modello di stima non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Estimation Models"
+                ],
+                "summary": "Aggiorna un modello di stima",
+                "description": "Aggiorna i dettagli di un modello di stima specificato tramite il suo ID.",
+                "operationId": "updateEstimationModel",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del modello di stima da aggiornare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.5
+                                    },
+                                    "volume": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5.2
+                                    },
+                                    "double_diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5.2
+                                    },
+                                    "mesure": {
+                                        "type": "string",
+                                        "example": "Esempio"
+                                    },
+                                    "formula": {
+                                        "type": "string",
+                                        "example": "ax^2+bx+c"
+                                    },
+                                    "retrurning_parameter": {
+                                        "type": "string",
+                                        "example": "Parametro di ritorno"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Modello di stima aggiornato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/EstimationModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modello di stima non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Modello di stima non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/forests": {
+            "get": {
+                "tags": [
+                    "Forests"
+                ],
+                "summary": "Recupera una lista di boschi",
+                "description": "Recupera tutti i boschi disponibili, con paginazione.",
+                "operationId": "getForests",
+                "responses": {
+                    "200": {
+                        "description": "Boschi trovati con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Boschi trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Forest"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Boschi non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Boschi non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Forests"
+                ],
+                "summary": "Crea un nuovo bosco",
+                "description": "Crea un nuovo bosco con i dati forniti.",
+                "operationId": "storeForest",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Foresta di esempio"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Italia"
+                                    },
+                                    "region": {
+                                        "type": "string",
+                                        "example": "Roma"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Bosco creato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bosco creato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Forest"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore nella creazione del bosco"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/forests/{id}": {
+            "get": {
+                "tags": [
+                    "Forests"
+                ],
+                "summary": "Recupera un bosco specifico",
+                "description": "Recupera i dettagli di un bosco specifico tramite il suo ID.",
+                "operationId": "showForest",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del bosco da recuperare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bosco trovato con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bosco trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Forest"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bosco non trovato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bosco non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hammered-plants": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Recupera un elenco di alberi filtrati",
+                "description": "Recupera l'elenco di alberi filtrati per 'hammered' con stati 'cutting' e 'cutted' pari a 0 e paginazione.",
+                "operationId": "getHammeredPlants",
+                "parameters": [
+                    {
+                        "name": "hammered",
+                        "in": "query",
+                        "description": "Filtro per lo stato degli alberi 'hammered'",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alberi trovati con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Alberi trovati"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 13
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Alberi non trovati",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Alberi non trovati"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Crea una nuova pianta",
+                "description": "Crea una nuova pianta associata a una foresta e invia i dati alla blockchain.",
+                "operationId": "storeHammeredPlant",
+                "requestBody": {
+                    "description": "Dati della pianta da creare.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "lat": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 45.123
+                                    },
+                                    "lng": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 9.123
+                                    },
+                                    "particle": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "woody_species": {
+                                        "type": "string",
+                                        "example": "Quercia"
+                                    },
+                                    "diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25.52
+                                    },
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25.52
+                                    },
+                                    "cultivar": {
+                                        "type": "string",
+                                        "example": "Sconosciuta"
+                                    },
+                                    "propagation": {
+                                        "type": "string",
+                                        "example": "Sconosciuta"
+                                    },
+                                    "hammered_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Note per la pianta"
+                                    },
+                                    "hammered": {
+                                        "type": "boolean",
+                                        "example": "false"
+                                    },
+                                    "forest_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pianta creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pianta creata con successo"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Plant"
+                                            }
+                                        },
+                                        "blockchainResponse": {
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "transactionId": {
+                                                    "type": "string",
+                                                    "example": "abcd1234xyz"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati di input non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dati di input non validi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Errore interno del server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore interno del server"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hammered-plants/{id}": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Recupera i dettagli di una pianta",
+                "description": "Recupera i dettagli di una pianta specificata tramite il suo ID.",
+                "operationId": "showHammeredPlant",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID della pianta da recuperare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pianta trovata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Albero trovato"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plant"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pianta non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Albero non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Errore interno del server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore interno del server"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Aggiorna i dettagli di una pianta",
+                "description": "Aggiorna i dettagli di una pianta esistente specificata tramite il suo ID e invia i dati alla blockchain.",
+                "operationId": "updateHammeredPlant",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID della pianta da aggiornare",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dati della pianta da aggiornare.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "hammered_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-03"
+                                    },
+                                    "hammered": {
+                                        "description": "Stato 'hammered' della pianta",
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "diameter": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.5
+                                    },
+                                    "height": {
+                                        "format": "float",
+                                        "example": 12.5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pianta aggiornata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Albero aggiornato con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plant"
+                                        },
+                                        "blockchainResponse": {
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "transactionId": {
+                                                    "type": "string",
+                                                    "example": "abcd1234xyz"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pianta non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Albero non trovato"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati di input non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dati di input non validi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Errore interno del server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errore interno del server"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -657,17 +1925,18 @@
                 "tags": [
                     "Plants"
                 ],
-                "summary": "Mostra una lista di piante",
-                "description": "Recupera tutte le piante che non sono state segate o tagliate, filtrando per stato.",
+                "summary": "Mostra una lista di piante non lavorate",
+                "description": "Recupera tutte le piante che non sono state lavorate (cutting = 0 e cutted = 0) e hanno un determinato stato di 'hammered', con paginazione.",
                 "operationId": "getPlants",
                 "parameters": [
                     {
                         "name": "hammered",
                         "in": "query",
-                        "description": "Filtra per stato delle piante (e.g. se sono state martellate o no).",
+                        "description": "Filtra le piante in base allo stato 'hammered'.",
                         "required": true,
                         "schema": {
-                            "type": "boolean"
+                            "type": "integer",
+                            "example": 0
                         }
                     }
                 ],
@@ -687,6 +1956,27 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/Plant"
                                             }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 30
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 13
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -695,7 +1985,7 @@
                         }
                     },
                     "404": {
-                        "description": "Piante non trovate",
+                        "description": "Nessuna pianta trovata",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -772,7 +2062,7 @@
                                     },
                                     "hammered": {
                                         "type": "boolean",
-                                        "example": "false"
+                                        "example": false
                                     },
                                     "forest_id": {
                                         "type": "integer",
@@ -800,6 +2090,19 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/Plant"
                                             }
+                                        },
+                                        "blockchainResponse": {
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "transactionId": {
+                                                    "type": "string",
+                                                    "example": "abcd1234xyz"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -816,65 +2119,6 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Errore nella creazione della pianta"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/plants/{id}": {
-            "get": {
-                "tags": [
-                    "Plants"
-                ],
-                "summary": "Mostra una pianta specifica",
-                "description": "Recupera una pianta utilizzando il suo ID.",
-                "operationId": "getPlantById",
-                "parameters": [
-                    {
-                        "name": "plant",
-                        "in": "path",
-                        "description": "ID della pianta",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Pianta trovata",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Pianta trovata"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/Plant"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Pianta non trovata",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Pianta non trovata"
                                         }
                                     },
                                     "type": "object"
@@ -1057,6 +2301,221 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Errore nella creazione della segheria"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pre-productions/{name}": {
+            "get": {
+                "tags": [
+                    "Pre-Productions"
+                ],
+                "summary": "Mostra i dettagli di una pre-produzione specifica",
+                "description": "Recupera una pre-produzione in base al nome dell'azienda (company_name).",
+                "operationId": "getPreProductionByName",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Nome dell'azienda per la quale cercare la pre-produzione.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Nome Azienda"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Segheria trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segheria trovata"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PreProduction"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nessuna pre-produzione trovata con quel nome",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nessuna segheria trovata con quel nome"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pre-productions/{id}": {
+            "put": {
+                "tags": [
+                    "Pre-Productions"
+                ],
+                "summary": "Aggiorna una pre-produzione esistente",
+                "description": "Aggiorna i dettagli di una pre-produzione specifica identificata tramite l'ID.",
+                "operationId": "updatePreProduction",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID della pre-produzione da aggiornare.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "I dati da aggiornare per la pre-produzione.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "company_name": {
+                                        "type": "string",
+                                        "example": "Nome Azienda"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Segheria aggiornata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segheria aggiornata con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PreProduction"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Segheria non trovata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Segheria non trovata"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/log-section/create-log-section": {
+            "post": {
+                "tags": [
+                    "Log Sections"
+                ],
+                "summary": "Crea una nuova sezione di toppo",
+                "description": "Crea una nuova sezione di toppo (log section) con i dati forniti.",
+                "operationId": "createLogSection",
+                "requestBody": {
+                    "description": "I dati necessari per creare una nuova sezione di toppo.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "lot_id",
+                                    "log_number",
+                                    "section"
+                                ],
+                                "properties": {
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "log_number": {
+                                        "type": "string",
+                                        "example": "456"
+                                    },
+                                    "section": {
+                                        "type": "string",
+                                        "example": "Sezione 1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sezione di toppo creata con successo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sezione di toppo creata con successo"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/LogSection"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dati di input non validi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dati non validi"
                                         }
                                     },
                                     "type": "object"
@@ -2788,6 +4247,22 @@
     },
     "tags": [
         {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Plants",
+            "description": "Plants"
+        },
+        {
+            "name": "Estimation Models",
+            "description": "Estimation Models"
+        },
+        {
+            "name": "Forests",
+            "description": "Forests"
+        },
+        {
             "name": "Logs",
             "description": "Logs"
         },
@@ -2798,10 +4273,6 @@
         {
             "name": "Lots",
             "description": "Lots"
-        },
-        {
-            "name": "Plants",
-            "description": "Plants"
         },
         {
             "name": "Pre-Productions",
