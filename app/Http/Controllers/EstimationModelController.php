@@ -12,10 +12,33 @@ use Illuminate\Http\Request;
 class EstimationModelController extends Controller
 {
     /**
-     * Display a listing of the estimation models using pagination.
-     *
-     * @throws App\Exceptions\ApiException with an error message if no estimation model is found
-     * @return App\Http\Responses\ApiResponse with the list of estimation models
+     * @OA\Get(
+     *     path="/api/estimation-models",
+     *     tags={"Estimation Models"},
+     *     summary="Recupera una lista di modelli di stima",
+     *     description="Recupera tutti i modelli di stima, con supporto per la paginazione.",
+     *     operationId="getEstimationModels",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Modelli di stima trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Modelli di stima trovati"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/EstimationModel")),
+     *             @OA\Property(property="pagination", type="object",
+     *                 @OA\Property(property="current_page", type="integer", example=1),
+     *                 @OA\Property(property="per_page", type="integer", example=15),
+     *                 @OA\Property(property="total", type="integer", example=50)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Modelli di stima non trovati",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Nessun modello di stima trovato")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -29,10 +52,39 @@ class EstimationModelController extends Controller
     }
 
     /**
-     * Store a newly created estimation model in storage.
-     *
-     * @param App\Http\Requests\EstimationModel\NewEstimationModelRequest $request with the request fields
-     * @return App\Http\Responses\ApiResponse with the created estimation model
+     * @OA\Post(
+     *     path="/api/estimation-models",
+     *     tags={"Estimation Models"},
+     *     summary="Crea un nuovo modello di stima",
+     *     description="Crea un nuovo modello di stima con i dati forniti.",
+     *     operationId="storeEstimationModel",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="height", type="number", format="float", example=12.50),
+     *             @OA\Property(property="volume", type="number", format="float", example=5.20),
+     *             @OA\Property(property="double_diameter",  type="number", format="float", example=5.20),
+     *             @OA\Property(property="mesure", type="string", example="Esempio"),
+     *             @OA\Property(property="formula", type="string", example="ax^2+bx+c"),
+     *             @OA\Property(property="retrurning_parameter", type="string", example="Parametro di ritorno")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Modello di stima creato con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Modello di stima creato con successo"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/EstimationModel")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Dati non validi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Errore nella creazione del modello di stima")
+     *         )
+     *     )
+     * )
      */
     public function store(NewEstimationModelRequest $request)
     {
@@ -44,11 +96,35 @@ class EstimationModelController extends Controller
     }
 
     /**
-     * Display the specified estimation model using the name convenion.
-     *
-     * @param App\Models\EstimationModel $estimationModel containing the id of the model to be found
-     * @throws App\Exceptions\ApiException with an error message if the model is not found
-     * @return App\Http\Responses\ApiResponse with the found estimation model
+     * @OA\Get(
+     *     path="/api/estimation-models/{id}",
+     *     tags={"Estimation Models"},
+     *     summary="Mostra un modello di stima",
+     *     description="Recupera i dettagli di un modello di stima specificato tramite il suo ID.",
+     *     operationId="showEstimationModel",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del modello di stima",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Modello di stima trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Modello di stima trovato"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/EstimationModel")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Modello di stima non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Modello di stima non trovato")
+     *         )
+     *     )
+     * )
      */
     public function show(EstimationModel $estimationModel)
     {
@@ -60,11 +136,46 @@ class EstimationModelController extends Controller
     }
 
     /**
-     * Update the specified estimation model in storage.
-     *
-     * @param App\Http\Requests\EstimationModel\UpdateEstimationModelRequest $request the changes to be made
-     * @throws App\Exceptions\ApiException with an error message if the estimation model is not found
-     * @return App\Http\Responses\ApiResponse with the updated estimation model
+     * @OA\Put(
+     *     path="/api/estimation-models/{id}",
+     *     tags={"Estimation Models"},
+     *     summary="Aggiorna un modello di stima",
+     *     description="Aggiorna i dettagli di un modello di stima specificato tramite il suo ID.",
+     *     operationId="updateEstimationModel",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del modello di stima da aggiornare",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="height", type="number", format="float", example=12.50),
+     *             @OA\Property(property="volume", type="number", format="float", example=5.20),
+     *             @OA\Property(property="double_diameter",  type="number", format="float", example=5.20),
+     *             @OA\Property(property="mesure", type="string", example="Esempio"),
+     *             @OA\Property(property="formula", type="string", example="ax^2+bx+c"),
+     *             @OA\Property(property="retrurning_parameter", type="string", example="Parametro di ritorno")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Modello di stima aggiornato con successo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Modello di stima aggiornato con successo"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/EstimationModel")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Modello di stima non trovato",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Modello di stima non trovato")
+     *         )
+     *     )
+     * )
      */
     public function update(UpdateEstimationModelRequest $request, EstimationModel $estimationModel)
     {
