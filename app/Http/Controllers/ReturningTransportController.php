@@ -30,7 +30,7 @@ class ReturningTransportController extends Controller
      *         description="Trasporti trovati",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Trasporti trovati"),
-     *             @OA\Property(property="data", type="array", ref="#/components/schemas/ReturningTransport")
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/ReturningTransport"))
      *         )
      *     ),
      *     @OA\Response(
