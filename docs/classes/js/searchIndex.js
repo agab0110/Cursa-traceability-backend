@@ -1,21 +1,6 @@
 Search.appendIndex(
     [
                 {
-            "fqsen": "\\App\\Console\\Kernel",
-            "name": "Kernel",
-            "summary": "",
-            "url": "classes/App-Console-Kernel.html"
-        },                {
-            "fqsen": "\\App\\Console\\Kernel\u003A\u003Aschedule\u0028\u0029",
-            "name": "schedule",
-            "summary": "Define\u0020the\u0020application\u0027s\u0020command\u0020schedule.",
-            "url": "classes/App-Console-Kernel.html#method_schedule"
-        },                {
-            "fqsen": "\\App\\Console\\Kernel\u003A\u003Acommands\u0028\u0029",
-            "name": "commands",
-            "summary": "Register\u0020the\u0020commands\u0020for\u0020the\u0020application.",
-            "url": "classes/App-Console-Kernel.html#method_commands"
-        },                {
             "fqsen": "\\App\\Exceptions\\ApiException",
             "name": "ApiException",
             "summary": "A\u0020custom\u0020exception\u0020for\u0020the\u0020API\u0020errors",
@@ -23,12 +8,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Exceptions\\ApiException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Create\u0020the\u0020response",
             "url": "classes/App-Exceptions-ApiException.html#method___construct"
         },                {
             "fqsen": "\\App\\Exceptions\\ApiException\u003A\u003Arender\u0028\u0029",
             "name": "render",
-            "summary": "",
+            "summary": "Render\u0020the\u0020response",
             "url": "classes/App-Exceptions-ApiException.html#method_render"
         },                {
             "fqsen": "\\App\\Exceptions\\ApiException\u003A\u003A\u0024error",
@@ -1156,20 +1141,15 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html"
         },                {
-            "fqsen": "\\App\\Console",
-            "name": "Console",
+            "fqsen": "\\App\\Exceptions",
+            "name": "Exceptions",
             "summary": "",
-            "url": "namespaces/app-console.html"
+            "url": "namespaces/app-exceptions.html"
         },                {
             "fqsen": "\\App",
             "name": "App",
             "summary": "",
             "url": "namespaces/app.html"
-        },                {
-            "fqsen": "\\App\\Exceptions",
-            "name": "Exceptions",
-            "summary": "",
-            "url": "namespaces/app-exceptions.html"
         },                {
             "fqsen": "\\App\\Http",
             "name": "Http",

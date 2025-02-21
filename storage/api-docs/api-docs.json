@@ -53,7 +53,7 @@
                                         },
                                         "token": {
                                             "type": "string",
-                                            "example": "your_api_token_here"
+                                            "example": "Api token"
                                         }
                                     },
                                     "type": "object"
