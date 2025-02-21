@@ -56,7 +56,7 @@
             "@php vendor/bin/phpdoc run -d app/Services/Blockchain -t docs/classes"
         ],
         "generate-docs": [
-            "@php vendor/bin/phpdoc run -d app --ignore app/Http/Controllers -t public/docs/classes"
+            "@php vendor/bin/phpdoc run -d app --ignore app/Http/Controllers -t docs/classes"
         ],
         "generate-swagger-docs": [
             "@php artisan l5-swagger:generate"
