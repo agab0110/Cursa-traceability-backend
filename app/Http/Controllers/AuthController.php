@@ -39,7 +39,7 @@ class AuthController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Login effettuato"),
      *             @OA\Property(property="user", ref="#/components/schemas/User"),
-     *             @OA\Property(property="token", type="string", example="your_api_token_here")
+     *             @OA\Property(property="token", type="string", example="Api token")
      *         )
      *     ),
      *     @OA\Response(
