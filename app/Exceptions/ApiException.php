@@ -13,6 +13,8 @@ class ApiException extends Exception
     protected $statusCode;
 
     /**
+     * Create the response
+     *
      * @param string $message the message shown in the json
      * @param int $statusCode the status code of the response
      */
@@ -23,6 +25,9 @@ class ApiException extends Exception
         $this->statusCode = $statusCode;
     }
 
+    /**
+     * Render the response
+     */
     public function render($request)
     {
         return response()->json([
