@@ -49,7 +49,7 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "generate-docs": [
+        "generate-classes-docs": [
             "@php vendor/bin/phpdoc run -d app --ignore app/Http/Controllers --ignore app/Console -t docs/classes"
         ],
         "generate-swagger-docs": [
