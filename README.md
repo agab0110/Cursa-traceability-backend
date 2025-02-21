@@ -14,7 +14,8 @@
 ## 1 General informations
 This is the backend for the CURSA traceability project for the wood supply chain created in Laravel.
 
-To see Swagger interface start the server and then go to http://127.0.0.1:8000/api/documentation
+To see Swagger UI start the server and then go to http://localhost:8000/api/documentation
+To see class documentation start the server and go to http://localhost:8000/class-docs
 
 ## 2 Technologies
 The technologies used for this project are:
@@ -124,9 +125,13 @@ The foundamental things we need are:
 **NOTICE**: The setup for the emails usually comes from your email host
 
 ## 4 Useful commands
-To create documentation. Make sure to be in root path
+To create class documentation. Make sure to be in root path
 ```
-composer generate-doc
+composer generate-docs
+```
+To create API documentation. Make sure to be in root path
+```
+composer generate-swagger-docs
 ```
 To display the list of the possible creations:
 ```
