@@ -127,7 +127,7 @@ The foundamental things we need are:
 ## 4 Useful commands
 To create class documentation. Make sure to be in root path
 ```
-composer generate-docs
+composer generate-classes-docs
 ```
 To create API documentation. Make sure to be in root path
 ```
