@@ -216,19 +216,18 @@ return [
                 ],
                 */
             ],
+            'JWT' => [
+                'type' => 'apiKey',
+                'in' => 'header',
+                'name' => "Authorization",
+                'desription' => 'Token JWT per l\'autenticazione'
+            ],
             'security' => [
                 /*
                  * Examples of Securities
                  */
                 [
-                    /*
-                    'oauth2_security_example' => [
-                        'read',
-                        'write'
-                    ],
-
-                    'passport' => []
-                    */
+                    'JWT' => []
                 ],
             ],
         ],
