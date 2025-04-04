@@ -77,7 +77,8 @@
                             }
                         }
                     }
-                }
+                },
+                "security": []
             }
         },
         "/api/auth/register": {
@@ -158,7 +159,8 @@
                             }
                         }
                     }
-                }
+                },
+                "security": []
             }
         },
         "/api/logout": {
@@ -4243,6 +4245,14 @@
                 },
                 "type": "object"
             }
+        },
+        "securitySchemes": {
+            "JWT": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization",
+                "description": "Token JWT per l'autenticazione"
+            }
         }
     },
     "tags": [
@@ -4301,6 +4311,11 @@
         {
             "name": "Users",
             "description": "Users"
+        }
+    ],
+    "security": [
+        {
+            "JWT": []
         }
     ]
 }
