@@ -174,6 +174,8 @@ return [
                  * Examples of Security schemes
                  */
                 /*
+
+
                 'api_key_security_example' => [ // Unique name of security
                     'type' => 'apiKey', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'A short description for security scheme',
@@ -215,12 +217,12 @@ return [
                     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
                 ],
                 */
-            ],
-            'JWT' => [
-                'type' => 'apiKey',
-                'in' => 'header',
-                'name' => "Authorization",
-                'desription' => 'Token JWT per l\'autenticazione'
+                'JWT' => [
+                    'type' => 'apiKey',
+                    'in' => 'header',
+                    'name' => "Authorization",
+                    'description' => 'Token JWT per l\'autenticazione'
+                ],
             ],
             'security' => [
                 /*
