@@ -49,7 +49,7 @@ class AuthController extends Controller
      *             @OA\Property(property="message", type="string", example="Parametri non validi")
      *         )
      *     ),
-     *      security = {} //Esclude l'autenticazione JWT
+     *      security = {}
      * )
      */
     public function login(LoginRequest $request) {
@@ -98,7 +98,7 @@ class AuthController extends Controller
      *             @OA\Property(property="message", type="string", example="Errore nella creazione dell'utente")
      *         )
      *     ),
-     *      security = {} //Esclude l'autenticazione JWT
+     *      security = {}
      * )
      */
     public function register(RegisterRequest $request) {
