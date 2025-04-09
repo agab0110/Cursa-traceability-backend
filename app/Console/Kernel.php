@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class Kernel extends ConsoleKernel
 {
     /**
-     * Define the application's command schedule.
+     * Checks the "remember me" token in the password_reset table every 15 minutes, if it is expired it will remove it
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
