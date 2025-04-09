@@ -13,7 +13,7 @@ class BlockchainBridge{
     /**
      * Dependency injection
      *
-     * @param App\Services\Blockchain\BlockchainInterface $blockchain
+     * @param \App\Services\Blockchain\BlockchainInterface $blockchain
      */
     public function __construct(BlockchainInterface $blockchain)
     {
@@ -31,7 +31,7 @@ class BlockchainBridge{
      * Funzione per prendere i dati di una determinata transazione
      *
      * @param string $id l'id della transazione
-     * @return App\Services\Blockchain\BlockchainInterface la funzione getData() dell'interfaccia
+     * @return \App\Services\Blockchain\BlockchainInterface la funzione getData() dell'interfaccia
      */
     public function getData(string $id) {
         return $this->blockchain->getData($id);
@@ -41,7 +41,7 @@ class BlockchainBridge{
      * Funzione per inviare i dati alla blockchain
      *
      * @param array $data i dati da inviare
-     * @return App\Services\Blockchain\BlockchainInterface la funzione sendData() dell'interfaccia
+     * @return \App\Services\Blockchain\BlockchainInterface la funzione sendData() dell'interfaccia
      */
     public function sendData(array $data) {
         return $this->blockchain->sendTransaction($data);
