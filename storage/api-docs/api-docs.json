@@ -54,6 +54,10 @@
                                         "token": {
                                             "type": "string",
                                             "example": "Api token"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
                                         }
                                     },
                                     "type": "object"
