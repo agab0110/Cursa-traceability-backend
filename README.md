@@ -140,17 +140,17 @@ php artisan make -h
 A Model is a PHP class which rappresent a database table.<br>
 To create a Model:
 ```
-php artisan migrate make:model <model name>
+php artisan make:model <model name>
 ```
 A Controller is a PHP class responsable for handling incoming requests, processing data and providing appropriate responses.<br>
 To create a Controller:
 ```
-php artisan migrate make:controller <controller name>
+php artisan make:controller <controller name>
 ```
 A Migration is a PHP class used to manage changes to the structure of a database schema.<br>
 To create a Migration:
 ```
-php artisan migrate make:migration <migration name>
+php artisan make:migration <migration name>
 ```
 To run a Migration:
 ```
